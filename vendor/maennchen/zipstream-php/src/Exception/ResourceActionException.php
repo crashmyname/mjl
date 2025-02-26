@@ -14,13 +14,13 @@ class ResourceActionException extends Exception
     /**
      * @var ?resource
      */
-    public $resource;
+    private $resource;
 
     /**
      * @param resource $resource
      */
     public function __construct(
-        public readonly string $function,
+        private readonly string $function,
         $resource = null,
     ) {
         $this->resource = $resource;

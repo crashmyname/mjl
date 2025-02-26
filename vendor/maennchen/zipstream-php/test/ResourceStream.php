@@ -17,7 +17,8 @@ class ResourceStream implements StreamInterface
          * @var resource
          */
         private $stream
-    ) {}
+    ) {
+    }
 
     public function __toString(): string
     {
@@ -44,7 +45,7 @@ class ResourceStream implements StreamInterface
         return $result;
     }
 
-    public function seek(int $offset, int $whence = SEEK_SET): void
+    public function seek($offset, $whence = SEEK_SET): void
     {
         if (!$this->isSeekable()) {
             throw new RuntimeException();
@@ -58,10 +59,10 @@ class ResourceStream implements StreamInterface
 
     public function isSeekable(): bool
     {
-        return (bool) $this->getMetadata('seekable');
+        return (bool)$this->getMetadata('seekable');
     }
 
-    public function getMetadata(?string $key = null)
+    public function getMetadata($key = null)
     {
         $metadata = stream_get_meta_data($this->stream);
         return $key !== null ? @$metadata[$key] : $metadata;
@@ -94,7 +95,7 @@ class ResourceStream implements StreamInterface
         $this->seek(0);
     }
 
-    public function write(string $string): int
+    public function write($string): int
     {
         if (!$this->isWritable()) {
             throw new RuntimeException();
@@ -118,7 +119,7 @@ class ResourceStream implements StreamInterface
         return preg_match('/[waxc+]/', $mode) === 1;
     }
 
-    public function read(int $length): string
+    public function read($length): string
     {
         if (!$this->isReadable()) {
             throw new RuntimeException();

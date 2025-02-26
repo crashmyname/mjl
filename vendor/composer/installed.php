@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'fadli-dev/treant',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '3a011157f5d52922c5aa89f9c24f2a117f0d3ddb',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -20,9 +20,9 @@
             'dev_requirement' => false,
         ),
         'fadli-dev/treant' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '3a011157f5d52922c5aa89f9c24f2a117f0d3ddb',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -38,9 +38,9 @@
             'dev_requirement' => false,
         ),
         'maennchen/zipstream-php' => array(
-            'pretty_version' => '3.1.2',
-            'version' => '3.1.2.0',
-            'reference' => 'aeadcf5c412332eb426c0f9b4485f6accba2a99f',
+            'pretty_version' => '3.0.0',
+            'version' => '3.0.0.0',
+            'reference' => '046a8aff706e8baeced0ba5261270f1b42dbdc91',
             'type' => 'library',
             'install_path' => __DIR__ . '/../maennchen/zipstream-php',
             'aliases' => array(),
