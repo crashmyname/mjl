@@ -7,7 +7,7 @@ use Support\AuthMiddleware;
 Route::get('/',function(){
     return view('home/home',[],'layout/app');
 });
-Route::get('/login',function(){
+Route::get('/sign-in',function(){
     return view('auth/sign-in');
 });
 Route::get('/users',function(){

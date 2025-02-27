@@ -11,6 +11,8 @@
 
     <link rel="shortcut icon" href="<?= asset('mazer/assets/images/logo/favicon.svg') ?>" type="image/x-icon">
     <link rel="shortcut icon" href="<?= asset('mazer/assets/images/logo/favicon.png') ?>" type="image/png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <style>
         .sidebar-menu .submenu {
@@ -288,9 +290,17 @@
                             let content = $(response).find('#main-content').html();
                             $('#main-content').html(content);
                             bindClickEvent();
+                            if (typeof initDataTable === 'function') {
+                                initDataTable();
+                            }
                         },
-                        error: function() {
-                            $('#main-content').html('<br><br><h2>Error loading content</h2>');
+                        error: function(xhr) {
+                            if(xhr.status === 401){
+                            window.location.href = '<?=base_url()?>/sign-in';
+                            } else {
+                                // Tampilkan pesan error jika bukan 401
+                                $('#main-content').html('<br><br><h2>Coming soon</h2>');
+                            }
                         },
                         complete: function() {
                             hideLoading();
@@ -312,6 +322,9 @@
                             $('#main-content').html(content);
                             setActiveMenu();
                             bindClickEvent();
+                            if (typeof initDataTable === 'function') {
+                                initDataTable();
+                            }
                         },
                         error: function() {
                             $('#main-content').html('<p>Error loading content</p>');
