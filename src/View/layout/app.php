@@ -4,26 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mazer Admin Dashboard</title>
+    <title>Vertical Navbar - Mazer Admin Dashboard</title>
 
-    <link rel="stylesheet" href="<?= asset('mazer/assets/css/main/app.css')?>">
-    <link rel="stylesheet" href="<?= asset('mazer/assets/css/main/app-dark.css')?>">
-    <link rel="shortcut icon" href="<?= asset('mazer/assets/images/logo/favicon.svg')?>" type="image/x-icon">
-    <link rel="shortcut icon" href="<?= asset('mazer/assets/images/logo/favicon.png')?>" type="image/png">
+    <link rel="stylesheet" href="<?= asset('mazer/assets/css/main/app.css') ?>">
+    <link rel="stylesheet" href="<?= asset('mazer/assets/css/main/app-dark.css') ?>">
 
-    <link rel="stylesheet" href="<?= asset('mazer/assets/css/shared/iconly.css')?>">
+    <link rel="shortcut icon" href="<?= asset('mazer/assets/images/logo/favicon.svg') ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= asset('mazer/assets/images/logo/favicon.png') ?>" type="image/png">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <style>
+        .sidebar-menu .submenu {
+            display: none;
+            /* Menyembunyikan submenu secara default */
+        }
 
+        .sidebar-menu .has-sub.active .submenu {
+            display: block;
+            /* Menampilkan submenu jika aktif */
+        }
+    </style>
 </head>
 
 <body>
+    <div id="loading-bar"
+        style="position: fixed; top: 0; left: 0; width: 0; height: 10px; background:rgb(0, 47, 100); z-index: 9999; transition: width 0.3s ease;">
+    </div>
     <div id="app">
         <div id="sidebar" class="active">
             <div class="sidebar-wrapper active">
                 <div class="sidebar-header position-relative">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo">
-                            <a href="index.html"><img src="<?= asset('mazer/assets/images/logo/logo.svg')?>" alt="Logo"
-                                    srcset=""></a>
+                            <a href="index.html"><img src="<?= asset('mazer/assets/images/logo/logo.svg') ?>"
+                                    alt="Logo" srcset=""></a>
                         </div>
                         <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -64,385 +77,268 @@
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
 
-                        <li class="sidebar-item active ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item  ">
+                            <a href="<?= base_url() ?>" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
+                        <li class="sidebar-item has-sub">
+                            <a href="#" class="sidebar-link" id="dropdown">
                                 <i class="bi bi-stack"></i>
-                                <span>Components</span>
+                                <span>Master Data</span>
                             </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="component-alert.html">Alert</a>
+                            <ul class="submenu">
+                                <li class="submenu-item">
+                                    <a href="<?= base_url() ?>/users" class="sidebar-link">Users</a>
                                 </li>
-                                <li class="submenu-item ">
-                                    <a href="component-badge.html">Badge</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-breadcrumb.html">Breadcrumb</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-button.html">Button</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-card.html">Card</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-carousel.html">Carousel</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-collapse.html">Collapse</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-dropdown.html">Dropdown</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-list-group.html">List Group</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-modal.html">Modal</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-navs.html">Navs</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-pagination.html">Pagination</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-progress.html">Progress</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-spinner.html">Spinner</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-tooltip.html">Tooltip</a>
+                                <li class="submenu-item">
+                                    <a href="<?= base_url() ?>/payment" class="sidebar-link">Payment</a>
                                 </li>
                             </ul>
                         </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-collection-fill"></i>
-                                <span>Extra Components</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="extra-component-avatar.html">Avatar</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="extra-component-sweetalert.html">Sweet Alert</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="extra-component-toastify.html">Toastify</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="extra-component-rating.html">Rating</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="extra-component-divider.html">Divider</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>Layouts</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="layout-default.html">Default Layout</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="layout-vertical-1-column.html">1 Column</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="layout-vertical-navbar.html">Vertical Navbar</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="layout-rtl.html">RTL Layout</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="layout-horizontal.html">Horizontal Menu</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-title">Forms &amp; Tables</li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-hexagon-fill"></i>
-                                <span>Form Elements</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="form-element-input.html">Input</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-element-input-group.html">Input Group</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-element-select.html">Select</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-element-radio.html">Radio</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-element-checkbox.html">Checkbox</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-element-textarea.html">Textarea</a>
-                                </li>
-                            </ul>
-                        </li>
-
                         <li class="sidebar-item  ">
-                            <a href="form-layout.html" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-medical-fill"></i>
-                                <span>Form Layout</span>
+                            <a href="<?= base_url() ?>/transporters" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Transporters</span>
                             </a>
                         </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-journal-check"></i>
-                                <span>Form Validation</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="form-validation-parsley.html">Parsley</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-pen-fill"></i>
-                                <span>Form Editor</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="form-editor-quill.html">Quill</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-editor-ckeditor.html">CKEditor</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-editor-summernote.html">Summernote</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-editor-tinymce.html">TinyMCE</a>
-                                </li>
-                            </ul>
-                        </li>
-
                         <li class="sidebar-item  ">
-                            <a href="table.html" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>Table</span>
+                            <a href="<?= base_url() ?>/shippers" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Shippers</span>
                             </a>
                         </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                                <span>Datatables</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="table-datatable.html">Datatable</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="table-datatable-jquery.html">Datatable (jQuery)</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-title">Extra UI</li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-pentagon-fill"></i>
-                                <span>Widgets</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="ui-widgets-chatbox.html">Chatbox</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-widgets-pricing.html">Pricing</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-widgets-todolist.html">To-do List</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-egg-fill"></i>
-                                <span>Icons</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="ui-icons-bootstrap-icons.html">Bootstrap Icons </a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-icons-fontawesome.html">Fontawesome</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-icons-dripicons.html">Dripicons</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-bar-chart-fill"></i>
-                                <span>Charts</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="ui-chart-chartjs.html">ChartJS</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-chart-apexcharts.html">Apexcharts</a>
-                                </li>
-                            </ul>
-                        </li>
-
                         <li class="sidebar-item  ">
-                            <a href="ui-file-uploader.html" class='sidebar-link'>
-                                <i class="bi bi-cloud-arrow-up-fill"></i>
-                                <span>File Uploader</span>
+                            <a href="<?= base_url() ?>/transactions" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Shipment</span>
                             </a>
                         </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-map-fill"></i>
-                                <span>Maps</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="ui-map-google-map.html">Google Map</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-map-jsvectormap.html">JS Vector Map</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-title">Pages</li>
-
                         <li class="sidebar-item  ">
-                            <a href="application-email.html" class='sidebar-link'>
-                                <i class="bi bi-envelope-fill"></i>
-                                <span>Email Application</span>
+                            <a href="<?= base_url() ?>/invoices" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Invoices</span>
                             </a>
                         </li>
-
                         <li class="sidebar-item  ">
-                            <a href="application-chat.html" class='sidebar-link'>
-                                <i class="bi bi-chat-dots-fill"></i>
-                                <span>Chat Application</span>
+                            <a href="<?= base_url() ?>/reports" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Report</span>
                             </a>
                         </li>
-
-                        <li class="sidebar-item  ">
-                            <a href="application-gallery.html" class='sidebar-link'>
-                                <i class="bi bi-image-fill"></i>
-                                <span>Photo Gallery</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item  ">
-                            <a href="application-checkout.html" class='sidebar-link'>
-                                <i class="bi bi-basket-fill"></i>
-                                <span>Checkout Page</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-person-badge-fill"></i>
-                                <span>Authentication</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="auth-login.html">Login</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="auth-register.html">Register</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="auth-forgot-password.html">Forgot Password</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-x-octagon-fill"></i>
-                                <span>Errors</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="error-403.html">403</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="error-404.html">404</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="error-500.html">500</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-title">Raise Support</li>
-
-                        <li class="sidebar-item  ">
-                            <a href="https://zuramai.github.io/mazer/docs" class='sidebar-link'>
-                                <i class="bi bi-life-preserver"></i>
-                                <span>Documentation</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item  ">
-                            <a href="https://github.com/zuramai/mazer/blob/main/CONTRIBUTING.md" class='sidebar-link'>
-                                <i class="bi bi-puzzle"></i>
-                                <span>Contribute</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item  ">
-                            <a href="https://github.com/zuramai/mazer#donation" class='sidebar-link'>
-                                <i class="bi bi-cash"></i>
-                                <span>Donate</span>
-                            </a>
-                        </li>
-
                     </ul>
                 </div>
             </div>
         </div>
-        <div id="main">
-            <?= $content?>
+        <div id="main" class='layout-navbar'>
+            <header class=''>
+                <nav class="navbar navbar-expand navbar-light navbar-top">
+                    <div class="container-fluid">
+                        <a href="#" class="burger-btn d-block">
+                            <i class="bi bi-justify fs-3"></i>
+                        </a>
+
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mb-lg-0">
+                                <li class="nav-item dropdown me-3">
+                                    <a class="nav-link active dropdown-toggle text-gray-600" href="#"
+                                        data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                                        <i class='bi bi-bell bi-sub fs-4'></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end notification-dropdown"
+                                        aria-labelledby="dropdownMenuButton">
+                                        <li class="dropdown-header">
+                                            <h6>Notifications</h6>
+                                        </li>
+                                        <li class="dropdown-item notification-item">
+                                            <a class="d-flex align-items-center" href="#">
+                                                <div class="notification-icon bg-primary">
+                                                    <i class="bi bi-cart-check"></i>
+                                                </div>
+                                                <div class="notification-text ms-4">
+                                                    <p class="notification-title font-bold">Successfully check out</p>
+                                                    <p class="notification-subtitle font-thin text-sm">Order ID #256
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-item notification-item">
+                                            <a class="d-flex align-items-center" href="#">
+                                                <div class="notification-icon bg-success">
+                                                    <i class="bi bi-file-earmark-check"></i>
+                                                </div>
+                                                <div class="notification-text ms-4">
+                                                    <p class="notification-title font-bold">Homework submitted</p>
+                                                    <p class="notification-subtitle font-thin text-sm">Algebra math
+                                                        homework</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <p class="text-center py-2 mb-0"><a href="#">See all
+                                                    notification</a></p>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="dropdown">
+                                <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="user-menu d-flex">
+                                        <div class="user-name text-end me-3">
+                                            <h6 class="mb-0 text-gray-600">John Ducky</h6>
+                                            <p class="mb-0 text-sm text-gray-600">Administrator</p>
+                                        </div>
+                                        <div class="user-img d-flex align-items-center">
+                                            <div class="avatar avatar-md">
+                                                <img src="<?= asset('mazer/assets/images/faces/1.jpg') ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"
+                                    style="min-width: 11rem;">
+                                    <li>
+                                        <h6 class="dropdown-header">Hello, John!</h6>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#"><i
+                                                class="icon-mid bi bi-person me-2"></i> My
+                                            Profile</a></li>
+                                    <li><a class="dropdown-item" href="#"><i
+                                                class="icon-mid bi bi-gear me-2"></i>
+                                            Settings</a></li>
+                                    <li><a class="dropdown-item" href="#"><i
+                                                class="icon-mid bi bi-wallet me-2"></i>
+                                            Wallet</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#"><i
+                                                class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <div id="main-content">
+                <?= $content ?>
+            </div>
         </div>
     </div>
     <script src="<?= asset('mazer/assets/js/bootstrap.js') ?>"></script>
-    <script src="<?= asset('mazer/assets/js/app.js')?>"></script>
+    <script src="<?= asset('mazer/assets/js/app.js') ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            function showLoading() {
+                $('#loading-bar').css('width', '0').show().animate({
+                    width: '100%'
+                }, 800);
+            }
 
-    <!-- Need: Apexcharts -->
-    <script src="<?= asset('mazer/assets/extensions/apexcharts/apexcharts.min.js')?>"></script>
-    <script src="<?= asset('mazer/assets/js/pages/dashboard.js')?>"></script>
+            function hideLoading() {
+                $('#loading-bar').stop().css('width', '100%').fadeOut(300);
+            }
 
+            function setActiveMenu() {
+                let currentPath = window.location.pathname;
+                $('.sidebar-menu li').removeClass('active has-sub');
+                $('.sidebar-menu .sidebar-link').each(function() {
+                    if ($(this).attr('href') === currentPath) {
+                        $(this).closest('li').addClass('active');
+                        if ($(this).closest('.has-sub').length) {
+                            $(this).closest('.has-sub').addClass('active');
+                            $(this).closest('.submenu').slideDown();
+                        }
+                    }
+                });
+            }
+
+            setActiveMenu();
+
+            function bindClickEvent() {
+                $('.sidebar-menu .sidebar-link').off('click').on('click', function(e) {
+                    e.preventDefault();
+                    let url = $(this).attr('href');
+                    if (url === '#' || !url) return;
+
+                    $('.sidebar-menu li').removeClass('active has-sub');
+                    $(this).closest('li').addClass('active');
+
+                    if ($(this).closest('.has-sub').length) {
+                        $(this).closest('.has-sub').addClass('active');
+                        $(this).closest('.submenu').slideDown();
+                    }
+
+                    history.pushState({
+                        path: url
+                    }, '', url);
+                    showLoading();
+
+                    $.ajax({
+                        url: url,
+                        method: 'GET',
+                        success: function(response) {
+                            let content = $(response).find('#main-content').html();
+                            $('#main-content').html(content);
+                            bindClickEvent();
+                        },
+                        error: function() {
+                            $('#main-content').html('<br><br><h2>Error loading content</h2>');
+                        },
+                        complete: function() {
+                            hideLoading();
+                        }
+                    });
+                });
+            }
+
+            bindClickEvent();
+
+            window.onpopstate = function(event) {
+                if (event.state && event.state.path) {
+                    showLoading();
+                    $.ajax({
+                        url: event.state.path,
+                        method: 'GET',
+                        success: function(response) {
+                            let content = $(response).find('#main-content').html();
+                            $('#main-content').html(content);
+                            setActiveMenu();
+                            bindClickEvent();
+                        },
+                        error: function() {
+                            $('#main-content').html('<p>Error loading content</p>');
+                        },
+                        complete: function() {
+                            hideLoading();
+                        }
+                    });
+                }
+            };
+        });
+
+        document.getElementById('logout').addEventListener('click', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Logout!',
+                icon: 'warning',
+                text: 'Apakah yakin ingin Logout?',
+                showCancelButton: true,
+                confirmButtonText: 'Ya Logout!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('formlogout').submit();
+                }
+            })
+        })
+    </script>
 </body>
 
 </html>
