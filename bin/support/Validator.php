@@ -30,26 +30,6 @@ class Validator {
         }
     }
 
-    // public function validate($data, $rules) {
-    //     foreach ($rules as $field => $rule) {
-    //         $ruleSet = explode('|', $rule);
-    //         foreach ($ruleSet as $r) {
-    //             $method = 'validate' . ucfirst($r);
-    //             if (method_exists($this, $method)) {
-    //                 $this->$method($field, $data[$field] ?? null);
-    //             } elseif (strpos($r, ':') !== false) {
-    //                 list($ruleName, $parameter) = explode(':', $r);
-    //                 $method = 'validate' . ucfirst($ruleName);
-    //                 if (method_exists($this, $method)) {
-    //                     $this->$method($field, $data[$field] ?? null, $parameter);
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     return $this->errors;
-    // }
-
     protected function validateRequired($field, $value) {
         if (is_null($value) || $value === '') {
             $this->errors[$field][] = "$field is required.";

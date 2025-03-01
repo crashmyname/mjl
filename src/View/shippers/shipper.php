@@ -2,7 +2,7 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Vertical Layout with Navbar</h3>
+                <h3>User</h3>
                 <p class="text-subtitle text-muted">Navbar will appear on the top of the page.</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
@@ -18,12 +18,29 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Example Content</h4>
+                <button class="btn btn-primary">Add User <i class="bi bi-person-add"></i></button>
+                <button class="btn btn-warning">Update User <i class="bi bi-person-fill-gear"></i></button>
+                <button class="btn btn-danger">Delete User <i class="bi bi-person-x"></i></button>
             </div>
             <div class="card-body">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur quas omnis laudantium tempore
-                exercitationem, expedita aspernatur sed officia asperiores unde tempora maxime odio reprehenderit
-                distinctio incidunt! Vel aspernatur dicta consequatur!
+                <div class="container">
+                    <table class="table table-striped" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Dept</th>
+                                <th>Section</th>
+                                <th>Role</th>
+                                <th>Factory</th>
+                                <th>Profil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </section>
