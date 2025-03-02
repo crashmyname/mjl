@@ -1,1 +1,67 @@
-Connection failed: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+Connection failed: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'role_id' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 517
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(517): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(484): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\UserController.php(57): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\UserController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'role_id' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 517
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(517): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(484): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\UserController.php(57): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\UserController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'role_id' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 517
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(517): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(484): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\UserController.php(57): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\UserController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[HY000]: General error: 1366 Incorrect integer value: 'Administrator' for column 'role_id' at row 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 517
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(517): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(484): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\UserController.php(57): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\UserController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'deleted_at' in 'field list' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 517
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(517): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\UserController.php(87): Support\BaseModel->save()
+#2 [internal function]: App\Controllers\UserController->delete(Object(Support\Request), '0a715571-f967-4...')
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'deleted_at' in 'field list' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 517
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(517): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\UserController.php(87): Support\BaseModel->save()
+#2 [internal function]: App\Controllers\UserController->delete(Object(Support\Request), '0a715571-f967-4...')
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 587
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(587): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\UserController.php(86): Support\BaseModel->delete()
+#2 [internal function]: App\Controllers\UserController->delete(Object(Support\Request), '0a715571-f967-4...')
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 587
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(587): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\UserController.php(86): Support\BaseModel->delete()
+#2 [internal function]: App\Controllers\UserController->delete(Object(Support\Request), '0a715571-f967-4...')
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 587
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(587): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\UserController.php(86): Support\BaseModel->delete()
+#2 [internal function]: App\Controllers\UserController->delete(Object(Support\Request), '0a715571-f967-4...')
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}

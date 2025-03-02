@@ -37,7 +37,7 @@ class UserController extends BaseController
             'username' => 'required|min:5',
             'name' => 'required',
             'password' => 'required',
-            'profile' => 'fileType:image/jpeg,image/jpg,image/png',
+            'profile' => 'mime:jpg,jpeg,png',
             'role_id' => 'required',
         ]);
         if($validator){
@@ -60,7 +60,7 @@ class UserController extends BaseController
                     'name' => $request->name,
                     'password' => password_hash($request->password,PASSWORD_BCRYPT),
                     'profile' => $fileName,
-                    'role_id' => $request->role
+                    'role_id' => $request->role_id
                 ]);
             }
         }
@@ -83,8 +83,7 @@ class UserController extends BaseController
     public function delete(Request $request,$id)
     {
         $user = User::query()->where('uuid','=',$id)->first();
-        $user->deleted_at = Date::Now();
-        $user->save();
+        $user->delete();
         return Response::json(['status'=>200,'message'=>'User Berhasil dihapus']);
     }
 }

@@ -64,7 +64,7 @@
                                                 <label>Role</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="role" id="role" class="form form-control">
+                                                <select name="role_id" id="role_id" class="form form-control">
                                                     <option value="Administrator">Administrator</option>
                                                     <option value="Admin">Admin</option>
                                                 </select>
@@ -90,8 +90,80 @@
                         </form>
                     </div>
                 </div>
-                <button class="btn btn-warning">Update User <i class="bi bi-person-fill-gear"></i></button>
-                <button class="btn btn-danger">Delete User <i class="bi bi-person-x"></i></button>
+                <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdateuser">Update User <i class="bi bi-person-fill-gear"></i></button>
+                <div class="modal fade text-left modal-borderless modal-lg" id="modalEdit" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                        <form action="" id="formupdateuser" class="form form-horizontal" method="POST"
+                            enctype="multipart/form-data">
+                            <?= csrf()?>
+                            <?= method('PUT')?>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Update User</h5>
+                                    <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
+                                        <i data-feather="x"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Username</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="username" id="uusername" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Nama</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="name" id="uname" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Password</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="password" name="password" id="upassword" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Profile</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="file" name="profile" id="uprofile" class="form form-control">
+                                                <br>
+                                                <img src="" id="profile-name" alt="profile-users" width="25%" style="float:right">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Role</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <select name="role_id" id="urole_id" class="form form-control">
+                                                    
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-12 d-flex justify-content-end">
+                                                <button type="reset"
+                                                    class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Close</span>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary ml-1" id="adduser" data-bs-dismiss="modal">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Submit</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <button class="btn btn-danger" id="deleteuser">Delete User <i class="bi bi-person-x"></i></button>
             </div>
             <div class="card-body">
                 <div class="container">
@@ -150,10 +222,18 @@
                     data: 'profile',
                     name: 'profile',
                     render:function(data, type, row){
-                        return '<img src="'+data+'" width="10%">';
+                        var urlImage = '<?= asset('profile-users')?>';
+                        return '<img src="'+urlImage+'/'+data+'" width="10%">';
                     }
                 }
-            ]
+            ],
+            lengthMenu: [10,25,50,100],
+            dom: 'Blftrip',
+            layout: {
+                topStart: {
+                    buttons: ['copy', 'excel', 'pdf', 'colvis']
+                }
+            }
         })
     }
     // function crud user
@@ -208,13 +288,22 @@
             }).data();
             var username = $('#uusername');
             var name = $('#uname');
-            var role = $('#urole');
-            var profile = $('#uprofile');
+            var role_id = $('#urole_id');
+            var profile = $('#profile-name');
             if(selectedData.length > 0){
                 username.val(selectedData[0].username);
                 name.val(selectedData[0].name);
-                role.val(selectedData[0].role);
-                profile.val(selectedData[0].profile);
+                role_id.empty();
+                var userRole = selectedData[0].role_id;
+                if(userRole == 'Administrator'){
+                    $('<option>').val('Administrator').text('Administrator').appendTo(role_id);
+                    $('<option>').val('Admin').text('Admin').appendTo(role_id);
+                } else {
+                    $('<option>').val('Administrator').text('Administrator').appendTo(role_id);
+                    $('<option>').val('Admin').text('Admin').appendTo(role_id);
+                }
+                role_id.val(userRole);
+                profile.attr('src','<?= asset("profile-users/")?>'+selectedData[0].profile);
                 $('#modalEdit').modal('show');
             } else {
                 $('#modalEdit').modal('hide');
