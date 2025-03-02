@@ -4,9 +4,11 @@ namespace App\Controllers;
 
 use App\Models\User;
 use Support\BaseController;
+use Support\DataTables;
 use Support\Date;
 use Support\Request;
 use Support\Response;
+use Support\Session;
 use Support\UUID;
 use Support\Validator;
 use Support\View;
@@ -17,7 +19,16 @@ class UserController extends BaseController
     // Controller logic here
     public function index()
     {
-        return view('users/user');
+        return view('users/user',[],'layout/app');
+    }
+
+    public function getUser(Request $request)
+    {
+        if(Request::isAjax()){
+            $user = User::all();
+            return DataTables::of($user)
+                            ->make(true);
+        }
     }
 
     public function create(Request $request)

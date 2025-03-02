@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vertical Navbar - Mazer Admin Dashboard</title>
+    <title>MJL - Admin System</title>
 
     <link rel="stylesheet" href="<?= asset('mazer/assets/css/main/app.css') ?>">
     <link rel="stylesheet" href="<?= asset('mazer/assets/css/main/app-dark.css') ?>">
@@ -13,6 +13,7 @@
     <link rel="shortcut icon" href="<?= asset('mazer/assets/images/logo/favicon.png') ?>" type="image/png">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <style>
         .sidebar-menu .submenu {
@@ -235,6 +236,7 @@
     </div>
     <script src="<?= asset('mazer/assets/js/bootstrap.js') ?>"></script>
     <script src="<?= asset('mazer/assets/js/app.js') ?>"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
