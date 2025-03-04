@@ -116,7 +116,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item  ">
-                            <a href="<?= base_url() ?>/transactions" class='sidebar-link'>
+                            <a href="<?= base_url() ?>/orders" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Shipment</span>
                             </a>

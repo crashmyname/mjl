@@ -3,13 +3,13 @@
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>User</h3>
-                <p class="text-subtitle text-muted">Navbar will appear on the top of the page.</p>
+                <p class="text-subtitle text-muted">This is page User to Manage User.</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Layout Vertical Navbar</li>
+                        <li class="breadcrumb-item active" aria-current="page">Users</li>
                     </ol>
                 </nav>
             </div>
@@ -154,7 +154,7 @@
                                         <i class="bx bx-x d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Close</span>
                                     </button>
-                                    <button type="submit" class="btn btn-primary ml-1" id="adduser" data-bs-dismiss="modal">
+                                    <button type="submit" class="btn btn-primary ml-1" id="updateuser" data-bs-dismiss="modal">
                                         <i class="bx bx-check d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Submit</span>
                                     </button>
@@ -260,18 +260,17 @@
                         table.ajax.reload();
                     } else {
                         var errorMessage = '';
-                        if(response.status && typeof response.status === 'object'){
-                            for(var field in response.status){
-                                if(response.status.hasOwnProperty(field)){
-                                    response.status[field].forEach(function(message){
+                        if(response.status === 500 && typeof response.message === 'object'){
+                            for(var field in response.message){
+                                if(response.message.hasOwnProperty(field)){
+                                    response.message[field].forEach(function(message){
                                         errorMessage += message + '\n';
-                                    })
+                                    });
                                 }
                             }
                         } else {
-                            errorMessage = 'An Expected error occured.';
+                            errorMessage = 'An unexpected error occurred.';
                         }
-
                         Swal.fire({
                             title: 'error',
                             icon: 'error',

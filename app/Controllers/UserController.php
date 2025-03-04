@@ -34,14 +34,15 @@ class UserController extends BaseController
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'username' => 'required|min:5',
+            'username' => 'required|min:5|unique:users',
             'name' => 'required',
             'password' => 'required',
-            'profile' => 'mime:jpg,jpeg,png',
             'role_id' => 'required',
         ]);
-        if($validator){
-            return Response::json(['status'=>500,'message'=>$validator]);
+        $validateType = $request->getClientMimeType('profile');
+        if($validator || ($validateType != 'image/png' || $validateType != 'image/jpg' || $validateType != 'image/jpeg')){
+            $errors = array_merge($validator,['profile' => ['File must be a valid image']]);
+            return Response::json(['status'=>500,'message'=>$errors]);
         }
         if($request->getClientOriginalName('profile')){
             $path = storage_path('profile-users');
