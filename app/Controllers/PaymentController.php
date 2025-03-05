@@ -23,9 +23,8 @@ class PaymentController extends BaseController
     public function getPayment(Request $request)
     {
         if(Request::isAjax()){
-            $payment = Payment::all();
-            return DataTables::of($payment)
-                                ->make(true);
+            $payment = Payment::query()->select()->where('deleted_at','=',null)->get();
+            return DataTables::of($payment)->make(true);
         }
     }
 

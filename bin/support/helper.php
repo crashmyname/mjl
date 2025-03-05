@@ -7,7 +7,16 @@ use Support\BaseController;
         $baseDir = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
         $baseURL.=$_SERVER['HTTP_HOST'].$baseDir;
 
+        if (strpos($baseDir, 'public') !== false) {
+            return $baseURL . $path;
+        }
+        
         return $baseURL.'public/'.$path;
+    }
+
+    function includeFile($path)
+    {
+        return $_SERVER['DOCUMENT_ROOT'] . '/public/' . $path;
     }
 
     function module($path)

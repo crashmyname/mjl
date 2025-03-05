@@ -283,6 +283,9 @@
         })
         $('#updatepayment').on('click', function(e){
             e.preventDefault();
+            var selectedData = table.rows({
+                selected: true
+            }).data();
             if (selectedData.length == 0) {
                 Swal.fire({
                     title: 'Error',

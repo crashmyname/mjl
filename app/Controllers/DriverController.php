@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Drivers;
+use App\Models\Vehicle;
 use Support\BaseController;
 use Support\DataTables;
 use Support\Date;
@@ -18,15 +19,15 @@ class DriverController extends BaseController
     // Controller logic here
     public function index()
     {
-        return view('transporters/transporter',[],'layout/app');
+        $vehicle = Vehicle::query()->where('deleted_at','=',null)->get();
+        return view('transporters/transporter',['vehicle'=>$vehicle],'layout/app');
     }
 
     public function getDriver(Request $request)
     {
         if(Request::isAjax()){
-            $driver = Drivers::all();
-            return DataTables::of($driver)
-                                ->make(true);
+            $driver = Drivers::query()->where('deleted_at','=',null)->get();
+            return DataTables::of($driver)->make(true);
         }
     }
 

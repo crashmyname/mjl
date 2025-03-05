@@ -40,9 +40,17 @@ class UserController extends BaseController
             'role_id' => 'required',
         ]);
         $validateType = $request->getClientMimeType('profile');
-        if($validator || ($validateType != 'image/png' || $validateType != 'image/jpg' || $validateType != 'image/jpeg')){
-            $errors = array_merge($validator,['profile' => ['File must be a valid image']]);
-            return Response::json(['status'=>500,'message'=>$errors]);
+        $allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+
+        $errors = $validator;
+
+        // Tambahkan validasi gambar jika file diunggah
+        if ($request->file('profile') && !in_array($validateType, $allowedTypes)) {
+            $errors = array_merge($errors, ['profile' => ['File must be a valid image']]);
+        }
+
+        if (!empty($errors)) {
+            return Response::json(['status' => 500, 'message' => $errors]);
         }
         if($request->getClientOriginalName('profile')){
             $path = storage_path('profile-users');
@@ -68,14 +76,29 @@ class UserController extends BaseController
         return Response::json(['status'=>201,'message'=>'User Berhasil dibuat']);
     }
 
-    public function update(Request $request,User $user, $id)
+    public function update(Request $request, $id)
     {
-        $user->query()->where('uuid','=',$id)->first();
+        $user = User::query()->where('uuid','=',$id)->first();
         $user->username = $request->username;
         $user->name = $request->name;
-        $user->password = $request->password;
-        $user->profile = $request->profile;
-        $user->role_id = $request->role;
+        if($request->password){
+            $user->password = password_hash($request->password,PASSWORD_BCRYPT);
+        }
+        if($request->getClientOriginalName('profile')){
+            $path = storage_path('profile-users');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+            $oldFile = $path.'/'.$user->profile;
+            if(file_exists($oldFile)){
+                unlink($oldFile);
+            }
+            $user->profile = $request->getClientOriginalName('profile');
+            $tempPath = $request->getPath('profile');
+            $destination = $path.'/'.$user->profile;
+            move_uploaded_file($tempPath,$destination);
+        }
+        $user->role_id = $request->role_id;
         $user->updated_at = Date::Now();
         $user->save();
         return Response::json(['status'=>201,'message'=>'User berhasil di update']);

@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\Vehicle;
 use Support\BaseController;
+use Support\DataTables;
 use Support\Request;
 use Support\Validator;
 use Support\View;
@@ -14,6 +16,14 @@ class VehicleController extends BaseController
     public function index()
     {
 
+    }
+
+    public function getVehicle(Request $request)
+    {
+        if(Request::isAjax()){
+            $vehicle = Vehicle::query()->where('deleted_at','=',null)->get();
+            return DataTables::of($vehicle)->make(true);
+        }
     }
 
     public function create(Request $request)

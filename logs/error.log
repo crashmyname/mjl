@@ -65,3 +65,11 @@ Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(587): PDOStatement->execu
 #3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
 #4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
 #5 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'role_id' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 547
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(547): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(498): Support\BaseModel->updates()
+#2 C:\laragon\www\mjl\app\Controllers\UserController.php(103): Support\BaseModel->save()
+#3 [internal function]: App\Controllers\UserController->update(Object(Support\Request), 'fbd8db51-e5e5-4...')
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}

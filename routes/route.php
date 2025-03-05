@@ -60,7 +60,7 @@ Route::get('/transporters',function(){
     return view('transporters/transporter',[],'layout/app');
 });
 // Transporter - Driver
-Route::get('/getDriver', [DriverController::class, 'getDriver']);
+Route::get('/getdriver', [DriverController::class, 'getDriver']);
 Route::post('/driver',[DriverController::class, 'create']);
 Route::put('/udriver/{id}', [DriverController::class, 'update']);
 Route::delete('/driver/{id}', [DriverController::class, 'delete']);
