@@ -19,9 +19,6 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Transporter</h5>
-                    </div>
                     <div class="card-body">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -335,6 +332,394 @@
 
     // function crud vehicle
     function crudVehicle(){
+        $('#addvehicle').on('click', function(e){
+            e.preventDefault();
+            var url = '<?= base_url()?>/vehicle';
+            var formdata = new FormData($('#formaddvehicle')[0]);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                processData: false,
+                contentType: false,
+                data: formdata,
+                dataType: 'json',
+                success:function(response){
+                    if(response.status === 201){
+                        $('#formaddvehicle')[0].reset();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            text:response.message,
+                        });
+                        table.ajax.reload();
+                    } else {
+                        var errorMessage = '';
+                        if(response.status === 500 && typeof response.message === 'object'){
+                            for(var field in response.message){
+                                if(response.message.hasOwnProperty(field)){
+                                    response.message[field].forEach(function(message){
+                                        errorMessage += message + '\n';
+                                    });
+                                }
+                            }
+                        } else {
+                            errorMessage = 'An unexpected error occurred.';
+                        }
+                        Swal.fire({
+                            title: 'error',
+                            icon: 'error',
+                            text: errorMessage.trim(),
+                        });
+                    }
+                }
+            })
+        })
+        $('#modalupdatevehicle').on('click', function(e){
+            e.preventDefault();
+            var selectedData = table.rows({
+                selected: true
+            }).data();
+            var no_rek = $('#uno_rek');
+            var nama_rek = $('#unama_rek');
+            var bank_code = $('#ubank_code');
+            var swift_code = $('#uswift_code');
+            if(selectedData.length > 0){
+                no_rek.val(selectedData[0].no_rek);
+                nama_rek.val(selectedData[0].nama_rek);
+                bank_code.val(selectedData[0].bank_code);
+                swift_code.val(selectedData[0].swift_code);
+                $('#modalEdit').modal('show');
+            } else {
+                $('#modalEdit').modal('hide');
+                Swal.fire({
+                    title: 'Info',
+                    icon: 'info',
+                    text: 'No Data Selected',
+                });
+            }
+        })
+        $('#updatevehicle').on('click', function(e){
+            e.preventDefault();
+            var selectedData = table.rows({
+                selected: true
+            }).data();
+            if (selectedData.length == 0) {
+                Swal.fire({
+                    title: 'Error',
+                    icon: 'error',
+                    text: 'Tidak ada data yang dipilih!',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                });
+                return;
+            }
+            var row = selectedData[0];
+            var uID = row.uuid;
+            var updateVehicle = "<?= base_url() . '/uvehicle/' ?>" + uID;
+            var formID = '#formupdatevehicle';
+            $('#modalwarning').modal('hide');
+            if (selectedData.length > 0) {
+                Swal.fire({
+                    title: 'Update',
+                    icon: 'warning',
+                    text: 'Yakin data ingin diubah?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Ubah!!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var formUpVehicle = new FormData($(formID)[0]);
+                        $.ajax({
+                            type: 'POST',
+                            url: updateVehicle,
+                            data: formUpVehicle,
+                            contentType: false,
+                            processData: false,
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.status === 201) {
+                                    Swal.fire({
+                                        title: 'success',
+                                        icon: 'success',
+                                        text: response.message,
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        timerProgressBar: true,
+                                    })
+                                    table.ajax.reload(null, false);
+                                    $('#formupdatepayment')[0].reset();
+                                } else {
+                                    Swal.fire({
+                                        title: 'error',
+                                        icon: 'error',
+                                        text: 'Data gagal diupdate',
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        timerProgressBar: true,
+                                    })
+                                }
+                            }
+                        })
+                    }
+                })
+            }
+        })
+        $('#deletevehicle').on('click', function(e){
+            e.preventDefault();
+            var selectedData = table.rows({
+                selected: true
+            }).data();
+            if(selectedData === 0){
+                Swal.fire({
+                    title: 'info',
+                    icon: 'info',
+                    text: 'No data selected',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                })
+                return
+            }
+            if (selectedData.length > 0) {
+                Swal.fire({
+                    title: 'Delete',
+                    icon: 'warning',
+                    text: 'Yakin ingin dihapus?',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        selectedData.each(function(data) {
+                            const uuid = data.uuid;
+                            $.ajax({
+                                type: 'DELETE',
+                                url: "<?= base_url() . '/vehicle/' ?>" + uuid,
+                                success: function(response) {
+                                    if (response.status === 200) {
+                                        Swal.fire({
+                                            title: 'Success',
+                                            icon: 'success',
+                                            text: response.message,
+                                            timer: 1500,
+                                            timerProgressBar: true,
+                                        });
+                                        table.ajax.reload(null, false);
+                                    } else {
+                                        Swal.fire({
+                                            title: 'Error',
+                                            icon: 'error',
+                                            text: 'Data Error',
+                                            timer: 1500,
+                                            timerProgressBar: true,
+                                        });
+                                    }
+                                }
+                            })
+                        })
+                    }
+                })
+
+            }
+        })
+    }
+    // function crud driver
+    function crudDriver(){
+        $('#addpayment').on('click', function(e){
+            e.preventDefault();
+            var url = '<?= base_url()?>/payment';
+            var formdata = new FormData($('#formaddpayment')[0]);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                processData: false,
+                contentType: false,
+                data: formdata,
+                dataType: 'json',
+                success:function(response){
+                    if(response.status === 201){
+                        $('#formaddpayment')[0].reset();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            text:response.message,
+                        });
+                        table.ajax.reload();
+                    } else {
+                        var errorMessage = '';
+                        if(response.status === 500 && typeof response.message === 'object'){
+                            for(var field in response.message){
+                                if(response.message.hasOwnProperty(field)){
+                                    response.message[field].forEach(function(message){
+                                        errorMessage += message + '\n';
+                                    });
+                                }
+                            }
+                        } else {
+                            errorMessage = 'An unexpected error occurred.';
+                        }
+                        Swal.fire({
+                            title: 'error',
+                            icon: 'error',
+                            text: errorMessage.trim(),
+                        });
+                    }
+                }
+            })
+        })
+        $('#modalupdatepayment').on('click', function(e){
+            e.preventDefault();
+            var selectedData = table.rows({
+                selected: true
+            }).data();
+            var no_rek = $('#uno_rek');
+            var nama_rek = $('#unama_rek');
+            var bank_code = $('#ubank_code');
+            var swift_code = $('#uswift_code');
+            if(selectedData.length > 0){
+                no_rek.val(selectedData[0].no_rek);
+                nama_rek.val(selectedData[0].nama_rek);
+                bank_code.val(selectedData[0].bank_code);
+                swift_code.val(selectedData[0].swift_code);
+                $('#modalEdit').modal('show');
+            } else {
+                $('#modalEdit').modal('hide');
+                Swal.fire({
+                    title: 'Info',
+                    icon: 'info',
+                    text: 'No Data Selected',
+                });
+            }
+        })
+        $('#updatepayment').on('click', function(e){
+            e.preventDefault();
+            var selectedData = table.rows({
+                selected: true
+            }).data();
+            if (selectedData.length == 0) {
+                Swal.fire({
+                    title: 'Error',
+                    icon: 'error',
+                    text: 'Tidak ada data yang dipilih!',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                });
+                return;
+            }
+            var row = selectedData[0];
+            var uID = row.payment_id;
+            var updatePayment = "<?= base_url() . '/upayment/' ?>" + uID;
+            var formID = '#formupdatepayment';
+            $('#modalwarning').modal('hide');
+            if (selectedData.length > 0) {
+                Swal.fire({
+                    title: 'Update',
+                    icon: 'warning',
+                    text: 'Yakin data ingin diubah?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Ubah!!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var formUpPayment = new FormData($(formID)[0]);
+                        $.ajax({
+                            type: 'POST',
+                            url: updatePayment,
+                            data: formUpPayment,
+                            contentType: false,
+                            processData: false,
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.status === 201) {
+                                    Swal.fire({
+                                        title: 'success',
+                                        icon: 'success',
+                                        text: response.message,
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        timerProgressBar: true,
+                                    })
+                                    table.ajax.reload(null, false);
+                                    $('#formupdatepayment')[0].reset();
+                                } else {
+                                    Swal.fire({
+                                        title: 'error',
+                                        icon: 'error',
+                                        text: 'Data gagal diupdate',
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        timerProgressBar: true,
+                                    })
+                                }
+                            }
+                        })
+                    }
+                })
+            }
+        })
+        $('#deletepayment').on('click', function(e){
+            e.preventDefault();
+            var selectedData = table.rows({
+                selected: true
+            }).data();
+            if(selectedData === 0){
+                Swal.fire({
+                    title: 'info',
+                    icon: 'info',
+                    text: 'No data selected',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                })
+                return
+            }
+            if (selectedData.length > 0) {
+                Swal.fire({
+                    title: 'Delete',
+                    icon: 'warning',
+                    text: 'Yakin ingin dihapus?',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        selectedData.each(function(data) {
+                            const uuid = data.payment_id;
+                            $.ajax({
+                                type: 'DELETE',
+                                url: "<?= base_url() . '/payment/' ?>" + uuid,
+                                success: function(response) {
+                                    if (response.status === 200) {
+                                        Swal.fire({
+                                            title: 'Success',
+                                            icon: 'success',
+                                            text: response.message,
+                                            timer: 1500,
+                                            timerProgressBar: true,
+                                        });
+                                        table.ajax.reload(null, false);
+                                    } else {
+                                        Swal.fire({
+                                            title: 'Error',
+                                            icon: 'error',
+                                            text: 'Data Error',
+                                            timer: 1500,
+                                            timerProgressBar: true,
+                                        });
+                                    }
+                                }
+                            })
+                        })
+                    }
+                })
+
+            }
+        })
+    }
+    // function crud price
+    function crudPrice(){
         $('#addpayment').on('click', function(e){
             e.preventDefault();
             var url = '<?= base_url()?>/payment';
@@ -530,5 +915,7 @@
     $(document).ready(function(){
         initDataTable();
         crudVehicle();
+        crudDriver();
+        crudPrice();
     })
 </script>

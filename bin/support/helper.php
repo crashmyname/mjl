@@ -16,7 +16,8 @@ use Support\BaseController;
 
     function includeFile($path)
     {
-        return $_SERVER['DOCUMENT_ROOT'] . '/public/' . $path;
+        $base = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+        return $_SERVER['DOCUMENT_ROOT'] . $base .'/public/' . $path;
     }
 
     function module($path)

@@ -1,8 +1,8 @@
-<!-- Modal Add -->
-<div class="modal fade text-left modal-borderless modal-lg" id="border-less" tabindex="-1" role="dialog"
-                    aria-labelledby="myModalLabel1" aria-hidden="true">
+                <!-- Modal Add -->
+                <div class="modal fade text-left modal-borderless modal-lg" id="border-less" tabindex="-1" role="dialog"
+                                    aria-labelledby="myModalLabel1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable" role="document">
-                        <form action="" id="formaddvehicle" class="form form-horizontal" method="POST"
+                        <form id="formaddvehicle" class="form form-horizontal" method="POST"
                             enctype="multipart/form-data">
                             <?= csrf()?>
                             <div class="modal-content">
@@ -52,6 +52,7 @@
                                                 <input type="text" name="kir" id="kir" class="form form-control">
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
+                                                <button type="submit" id="addvehicle" class="btn btn-primary me-1 mb-1">Simpan</button>
                                                 <button type="reset"
                                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                             </div>
@@ -62,10 +63,6 @@
                                     <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">
                                         <i class="bx bx-x d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Close</span>
-                                    </button>
-                                    <button type="submit" class="btn btn-primary ml-1" id="addvehicle" data-bs-dismiss="modal">
-                                        <i class="bx bx-check d-block d-sm-none"></i>
-                                        <span class="d-none d-sm-block">Submit</span>
                                     </button>
                                 </div>
                             </div>
@@ -127,6 +124,7 @@
                                                 <input type="text" name="kir" id="ukir" class="form form-control">
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
+                                            <button type="submit" id="updatevehicle" class="btn btn-warning me-1 mb-1">Simpan</button>
                                                 <button type="reset"
                                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                             </div>
@@ -137,10 +135,6 @@
                                     <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">
                                         <i class="bx bx-x d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Close</span>
-                                    </button>
-                                    <button type="submit" class="btn btn-primary ml-1" id="updatevehicle" data-bs-dismiss="modal">
-                                        <i class="bx bx-check d-block d-sm-none"></i>
-                                        <span class="d-none d-sm-block">Submit</span>
                                     </button>
                                 </div>
                             </div>
