@@ -7,7 +7,7 @@ class AuthMiddleware
         // Pengecekan login
         if (!$this->checkLogin()) {
             // include __DIR__ . '/../../app/Handle/errors/401.php';
-            View::redirectTo('/login');
+            View::redirectTo('/sign-in');
             exit();
         }
     }
@@ -18,7 +18,7 @@ class AuthMiddleware
                 http_response_code(401); // Unauthorized
                 exit;
             } else {
-                return redirect('/login');
+                return redirect('/sign-in');
             }
         }
 
@@ -32,7 +32,7 @@ class AuthMiddleware
                 http_response_code(401); // Unauthorized
                 exit;
             } else {
-                return redirect('/login');
+                return redirect('/sign-in');
             }
         }
         

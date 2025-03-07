@@ -152,7 +152,7 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mb-lg-0">
-                                <li class="nav-item dropdown me-3">
+                                <!-- <li class="nav-item dropdown me-3">
                                     <a class="nav-link active dropdown-toggle text-gray-600" href="#"
                                         data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                                         <i class='bi bi-bell bi-sub fs-4'></i>
@@ -191,7 +191,7 @@
                                                     notification</a></p>
                                         </li>
                                     </ul>
-                                </li>
+                                </li> -->
                             </ul>
                             <div class="dropdown">
                                 <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
@@ -215,17 +215,14 @@
                                     <li><a class="dropdown-item" href="#"><i
                                                 class="icon-mid bi bi-person me-2"></i> My
                                             Profile</a></li>
-                                    <li><a class="dropdown-item" href="#"><i
-                                                class="icon-mid bi bi-gear me-2"></i>
-                                            Settings</a></li>
-                                    <li><a class="dropdown-item" href="#"><i
-                                                class="icon-mid bi bi-wallet me-2"></i>
-                                            Wallet</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="#"><i
-                                                class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a></li>
+                                    <li>
+                                        <form action="<?= base_url()?>/sign-out" method="post">
+                                            <?= csrf()?>
+                                            <button type="submit" class="dropdown-item"><i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</button></li>
+                                        </form>
                                 </ul>
                             </div>
                         </div>
