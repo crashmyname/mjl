@@ -82,3 +82,15 @@ Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(320): PDOStatement->execu
 #5 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
 #6 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
 #7 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'vehicle_id' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 493
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(493): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(460): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\PriceController.php(36): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\PriceController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] Method App\Controllers\PriceController::delete() does not exist in C:\laragon\www\mjl\bin\support\Route.php at line 180
+Trace: #0 C:\laragon\www\mjl\bin\support\Route.php(180): ReflectionMethod->__construct(Object(App\Controllers\PriceController), 'delete')
+#1 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#2 {main}

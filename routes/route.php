@@ -58,9 +58,7 @@ Route::group([AuthMiddleware::class],function(){
     Route::delete('/orders/{id}', [TransactionController::class, 'delete']);
     
     // Transporter
-    Route::get('/transporters',function(){
-        return view('transporters/transporter',[],'layout/app');
-    });
+    Route::get('/transporters',[DriverController::class, 'index']);
     // Transporter - Driver
     Route::get('/getdriver', [DriverController::class, 'getDriver']);
     Route::post('/driver',[DriverController::class, 'create']);

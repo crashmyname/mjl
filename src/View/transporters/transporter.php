@@ -472,7 +472,7 @@
             var selectedData = tableVehicle.rows({
                 selected: true
             }).data();
-            if(selectedData === 0){
+            if(selectedData.length === 0){
                 Swal.fire({
                     title: 'info',
                     icon: 'info',
@@ -529,10 +529,10 @@
     }
     // function crud driver
     function crudDriver(){
-        $('#addpayment').on('click', function(e){
+        $('#adddriver').on('click', function(e){
             e.preventDefault();
-            var url = '<?= base_url()?>/payment';
-            var formdata = new FormData($('#formaddpayment')[0]);
+            var url = '<?= base_url()?>/driver';
+            var formdata = new FormData($('#formadddriver')[0]);
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -542,13 +542,13 @@
                 dataType: 'json',
                 success:function(response){
                     if(response.status === 201){
-                        $('#formaddpayment')[0].reset();
+                        $('#formadddriver')[0].reset();
                         Swal.fire({
                             title: 'Success',
                             icon: 'success',
                             text:response.message,
                         });
-                        table.ajax.reload();
+                        tableDriver.ajax.reload();
                     } else {
                         var errorMessage = '';
                         if(response.status === 500 && typeof response.message === 'object'){
@@ -571,23 +571,27 @@
                 }
             })
         })
-        $('#modalupdatepayment').on('click', function(e){
+        $('#modalupdatedriver').on('click', function(e){
             e.preventDefault();
-            var selectedData = table.rows({
+            var selectedData = tableDriver.rows({
                 selected: true
             }).data();
-            var no_rek = $('#uno_rek');
-            var nama_rek = $('#unama_rek');
-            var bank_code = $('#ubank_code');
-            var swift_code = $('#uswift_code');
+            var driver_name = $('#udriver_name');
+            var driver_ksuid = $('#udriver_ksuid');
+            var phone_number = $('#uphone_number');
+            var sim_type = $('#usim_type');
+            var ktp = $('#uktp');
+            var sim = $('#usim');
             if(selectedData.length > 0){
-                no_rek.val(selectedData[0].no_rek);
-                nama_rek.val(selectedData[0].nama_rek);
-                bank_code.val(selectedData[0].bank_code);
-                swift_code.val(selectedData[0].swift_code);
-                $('#modalEdit').modal('show');
+                driver_name.val(selectedData[0].driver_name);
+                driver_ksuid.val(selectedData[0].driver_ksuid);
+                phone_number.val(selectedData[0].phone_number);
+                sim_type.val(selectedData[0].sim_type);
+                ktp.val(selectedData[0].ktp);
+                sim.val(selectedData[0].sim);
+                $('#modalEditDriver').modal('show');
             } else {
-                $('#modalEdit').modal('hide');
+                $('#modalEditDriver').modal('hide');
                 Swal.fire({
                     title: 'Info',
                     icon: 'info',
@@ -595,9 +599,9 @@
                 });
             }
         })
-        $('#updatepayment').on('click', function(e){
+        $('#updatedriver').on('click', function(e){
             e.preventDefault();
-            var selectedData = table.rows({
+            var selectedData = tableDriver.rows({
                 selected: true
             }).data();
             if (selectedData.length == 0) {
@@ -612,9 +616,9 @@
                 return;
             }
             var row = selectedData[0];
-            var uID = row.payment_id;
-            var updatePayment = "<?= base_url() . '/upayment/' ?>" + uID;
-            var formID = '#formupdatepayment';
+            var uID = row.uuid;
+            var updateDriver = "<?= base_url() . '/udriver/' ?>" + uID;
+            var formID = '#formupdatedriver';
             $('#modalwarning').modal('hide');
             if (selectedData.length > 0) {
                 Swal.fire({
@@ -625,11 +629,11 @@
                     confirmButtonText: 'Ya, Ubah!!',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var formUpPayment = new FormData($(formID)[0]);
+                        var formUpDriver = new FormData($(formID)[0]);
                         $.ajax({
                             type: 'POST',
-                            url: updatePayment,
-                            data: formUpPayment,
+                            url: updateDriver,
+                            data: formUpDriver,
                             contentType: false,
                             processData: false,
                             dataType: 'json',
@@ -643,8 +647,8 @@
                                         timer: 1500,
                                         timerProgressBar: true,
                                     })
-                                    table.ajax.reload(null, false);
-                                    $('#formupdatepayment')[0].reset();
+                                    tableDriver.ajax.reload(null, false);
+                                    $('#formupdatedriver')[0].reset();
                                 } else {
                                     Swal.fire({
                                         title: 'error',
@@ -661,12 +665,12 @@
                 })
             }
         })
-        $('#deletepayment').on('click', function(e){
+        $('#deletedriver').on('click', function(e){
             e.preventDefault();
-            var selectedData = table.rows({
+            var selectedData = tableDriver.rows({
                 selected: true
             }).data();
-            if(selectedData === 0){
+            if(selectedData.length === 0){
                 Swal.fire({
                     title: 'info',
                     icon: 'info',
@@ -689,10 +693,10 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         selectedData.each(function(data) {
-                            const uuid = data.payment_id;
+                            const uuid = data.uuid;
                             $.ajax({
                                 type: 'DELETE',
-                                url: "<?= base_url() . '/payment/' ?>" + uuid,
+                                url: "<?= base_url() . '/driver/' ?>" + uuid,
                                 success: function(response) {
                                     if (response.status === 200) {
                                         Swal.fire({
@@ -702,7 +706,7 @@
                                             timer: 1500,
                                             timerProgressBar: true,
                                         });
-                                        table.ajax.reload(null, false);
+                                        tableDriver.ajax.reload(null, false);
                                     } else {
                                         Swal.fire({
                                             title: 'Error',
@@ -723,10 +727,10 @@
     }
     // function crud price
     function crudPrice(){
-        $('#addpayment').on('click', function(e){
+        $('#addprice').on('click', function(e){
             e.preventDefault();
-            var url = '<?= base_url()?>/payment';
-            var formdata = new FormData($('#formaddpayment')[0]);
+            var url = '<?= base_url()?>/price';
+            var formdata = new FormData($('#formaddprice')[0]);
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -736,13 +740,13 @@
                 dataType: 'json',
                 success:function(response){
                     if(response.status === 201){
-                        $('#formaddpayment')[0].reset();
+                        $('#formaddprice')[0].reset();
                         Swal.fire({
                             title: 'Success',
                             icon: 'success',
                             text:response.message,
                         });
-                        table.ajax.reload();
+                        tablePrice.ajax.reload();
                     } else {
                         var errorMessage = '';
                         if(response.status === 500 && typeof response.message === 'object'){
@@ -765,23 +769,29 @@
                 }
             })
         })
-        $('#modalupdatepayment').on('click', function(e){
+        $('#modalupdateprice').on('click', function(e){
             e.preventDefault();
-            var selectedData = table.rows({
+            var selectedData = tablePrice.rows({
                 selected: true
             }).data();
-            var no_rek = $('#uno_rek');
-            var nama_rek = $('#unama_rek');
-            var bank_code = $('#ubank_code');
-            var swift_code = $('#uswift_code');
+            var vehicle_id = $('#uvehicle_id');
+            var origin_city = $('#uorigin_city');
+            var destination_city = $('#udestination_city');
+            var min = $('#umin');
+            var max = $('#umax');
+            var status = $('#ustatus');
+            var price = $('#uprice');
             if(selectedData.length > 0){
-                no_rek.val(selectedData[0].no_rek);
-                nama_rek.val(selectedData[0].nama_rek);
-                bank_code.val(selectedData[0].bank_code);
-                swift_code.val(selectedData[0].swift_code);
-                $('#modalEdit').modal('show');
+                vehicle_id.val(selectedData[0].vehicle_id);
+                origin_city.val(selectedData[0].origin_city);
+                destination_city.val(selectedData[0].destination_city);
+                min.val(selectedData[0].min);
+                max.val(selectedData[0].max);
+                status.val(selectedData[0].status);
+                price.val(selectedData[0].price);
+                $('#modalEditPrice').modal('show');
             } else {
-                $('#modalEdit').modal('hide');
+                $('#modalEditPrice').modal('hide');
                 Swal.fire({
                     title: 'Info',
                     icon: 'info',
@@ -789,9 +799,9 @@
                 });
             }
         })
-        $('#updatepayment').on('click', function(e){
+        $('#updateprice').on('click', function(e){
             e.preventDefault();
-            var selectedData = table.rows({
+            var selectedData = tablePrice.rows({
                 selected: true
             }).data();
             if (selectedData.length == 0) {
@@ -806,9 +816,9 @@
                 return;
             }
             var row = selectedData[0];
-            var uID = row.payment_id;
-            var updatePayment = "<?= base_url() . '/upayment/' ?>" + uID;
-            var formID = '#formupdatepayment';
+            var uID = row.uuid;
+            var updatePrice = "<?= base_url() . '/uprice/' ?>" + uID;
+            var formID = '#formupdateprice';
             $('#modalwarning').modal('hide');
             if (selectedData.length > 0) {
                 Swal.fire({
@@ -819,11 +829,11 @@
                     confirmButtonText: 'Ya, Ubah!!',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var formUpPayment = new FormData($(formID)[0]);
+                        var formUpPrice = new FormData($(formID)[0]);
                         $.ajax({
                             type: 'POST',
-                            url: updatePayment,
-                            data: formUpPayment,
+                            url: updatePrice,
+                            data: formUpPrice,
                             contentType: false,
                             processData: false,
                             dataType: 'json',
@@ -837,8 +847,8 @@
                                         timer: 1500,
                                         timerProgressBar: true,
                                     })
-                                    table.ajax.reload(null, false);
-                                    $('#formupdatepayment')[0].reset();
+                                    tablePrice.ajax.reload(null, false);
+                                    $('#formupdateprice')[0].reset();
                                 } else {
                                     Swal.fire({
                                         title: 'error',
@@ -855,12 +865,12 @@
                 })
             }
         })
-        $('#deletepayment').on('click', function(e){
+        $('#deleteprice').on('click', function(e){
             e.preventDefault();
-            var selectedData = table.rows({
+            var selectedData = tablePrice.rows({
                 selected: true
             }).data();
-            if(selectedData === 0){
+            if(selectedData.length === 0){
                 Swal.fire({
                     title: 'info',
                     icon: 'info',
@@ -883,10 +893,10 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         selectedData.each(function(data) {
-                            const uuid = data.payment_id;
+                            const uuid = data.uuid;
                             $.ajax({
                                 type: 'DELETE',
-                                url: "<?= base_url() . '/payment/' ?>" + uuid,
+                                url: "<?= base_url() . '/price/' ?>" + uuid,
                                 success: function(response) {
                                     if (response.status === 200) {
                                         Swal.fire({
@@ -896,7 +906,7 @@
                                             timer: 1500,
                                             timerProgressBar: true,
                                         });
-                                        table.ajax.reload(null, false);
+                                        tablePrice.ajax.reload(null, false);
                                     } else {
                                         Swal.fire({
                                             title: 'Error',
