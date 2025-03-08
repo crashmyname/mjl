@@ -44,7 +44,7 @@
                                                     class="bi bi-plus-square"></i></button>
                                             <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdatevehicle">Update Vehicle <i
                                                     class="bi bi-pencil-square"></i></button>
-                                            <button class="btn btn-danger">Delete Vehicle <i
+                                            <button class="btn btn-danger" id="deletevehicle">Delete Vehicle <i
                                                     class="bi bi-trash"></i></button>
                                             <?php include includeFile('modal/modal-vehicle.php')?>
                                         </div>
@@ -77,9 +77,9 @@
                                         <div class="card-header">
                                             <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-lessDriver">Add Driver <i
                                                     class="bi bi-plus-square"></i></button>
-                                            <button class="btn btn-warning">Update Driver <i
+                                            <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdatedriver">Update Driver <i
                                                     class="bi bi-pencil-square"></i></button>
-                                            <button class="btn btn-danger">Delete Driver <i
+                                            <button class="btn btn-danger" id="deletedriver">Delete Driver <i
                                                     class="bi bi-trash"></i></button>
                                             <?php include includeFile('modal/modal-driver.php')?>
                                         </div>
@@ -112,9 +112,9 @@
                                         <div class="card-header">
                                             <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-lessPrice">Add Price <i
                                                     class="bi bi-plus-square"></i></button>
-                                            <button class="btn btn-warning">Update Price <i
+                                            <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdateprice">Update Price <i
                                                     class="bi bi-pencil-square"></i></button>
-                                            <button class="btn btn-danger">Delete Price <i
+                                            <button class="btn btn-danger" id="deleteprice">Delete Price <i
                                                     class="bi bi-trash"></i></button>
                                             <?php include includeFile('modal/modal-price.php')?>
                                         </div>
@@ -469,7 +469,7 @@
         })
         $('#deletevehicle').on('click', function(e){
             e.preventDefault();
-            var selectedData = table.rows({
+            var selectedData = tableVehicle.rows({
                 selected: true
             }).data();
             if(selectedData === 0){
