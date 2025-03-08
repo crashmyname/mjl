@@ -55,6 +55,7 @@ class VendorController extends BaseController
         $vendor->phone = $request->phone;
         $vendor->npwp = $request->npwp;
         $vendor->updated_at = Date::Now();
+        $vendor->save();
         return Response::json(['status'=>201,'message'=>'Shippers success update']);
     }
 

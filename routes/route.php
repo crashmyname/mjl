@@ -32,12 +32,9 @@ Route::group([AuthMiddleware::class],function(){
     Route::delete('/users/{id}', [UserController::class, 'delete']);
     
     // Invoices
-    Route::get('/invoices',function(){
-        return view('invoices/invoice',[],'layout/app');
-    });
     Route::get('/invoices', [InvoiceController::class, 'index']);
     Route::get('/getinvoices', [InvoiceController::class, 'getInvoices']);
-    Route::post('/invoices',[InvoiceController::class, 'create']);
+    Route::post('/cinvoices',[InvoiceController::class, 'create']);
     Route::put('/uinvoices/{id}', [InvoiceController::class, 'update']);
     Route::delete('/invoices/{id}', [InvoiceController::class, 'delete']);
     
@@ -49,13 +46,12 @@ Route::group([AuthMiddleware::class],function(){
     Route::delete('/shippers/{id}', [VendorController::class, 'delete']);
     
     // Order
-    Route::get('/orders',function(){
-        return view('transactions/transaction',[],'layout/app');
-    });
+    Route::get('/orders',[TransactionController::class, 'index']);
     Route::get('/getorders', [TransactionController::class, 'getOrders']);
     Route::post('/orders',[TransactionController::class, 'create']);
     Route::put('/uorders/{id}', [TransactionController::class, 'update']);
     Route::delete('/orders/{id}', [TransactionController::class, 'delete']);
+    Route::post('/getprice',[TransactionController::class, 'getPrice']);
     
     // Transporter
     Route::get('/transporters',[DriverController::class, 'index']);

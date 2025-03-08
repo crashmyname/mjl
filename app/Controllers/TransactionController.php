@@ -2,7 +2,11 @@
 
 namespace App\Controllers;
 
+use App\Models\Drivers;
+use App\Models\Price;
 use App\Models\Transactions;
+use App\Models\Vehicle;
+use App\Models\Vendors;
 use Support\BaseController;
 use Support\DataTables;
 use Support\Date;
@@ -18,16 +22,29 @@ class TransactionController extends BaseController
     // Controller logic here
     public function index()
     {
-        return view('transactions/transaction',[],'layout/app');
+        $vendor = Vendors::all();
+        $vehicle = Vehicle::all();
+        $driver = Drivers::all();
+        return view('transactions/transaction',['vendor'=>$vendor,'vehicle'=>$vehicle,'driver'=>$driver],'layout/app');
     }
 
     public function getOrders(Request $request)
     {
         if(Request::isAjax()){
-            $orders = Transactions::query()->where('deleted_at','!=',null)->get();
+            $orders = Transactions::query()->selectRaw('orders.uuid')
+                                            ->leftJoin('vendors','vendors.vendor_id','=','orders.vendor_id')
+                                            ->leftJoin('vehicles','vehicles.vehicle_id','=','orders.vehicle_id')
+                                            ->leftJoin('drivers','drivers.driver_id','=','orders.driver_id')->where('orders.deleted_at','=',null)->get();
             return DataTables::of($orders)
                                 ->make(true);
         }
+    }
+
+    public function getPrice(Request $request)
+    {
+        $data =$request->price;
+        $price = Vehicle::query()->leftJoin('prices','prices.vehicle_id','=','vehicles.vehicle_id')->where('vehicles.vehicle_id','=',$data)->first();
+        return Response::json(['status'=>200,'message'=>'success','data'=>$price->toArray()]);
     }
 
     public function create(Request $request)
