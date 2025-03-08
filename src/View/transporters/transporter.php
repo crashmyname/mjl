@@ -42,7 +42,7 @@
                                         <div class="card-header">
                                             <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less">Add Vehicle <i
                                                     class="bi bi-plus-square"></i></button>
-                                            <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdatevehcile">Update Vehicle <i
+                                            <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdatevehicle">Update Vehicle <i
                                                     class="bi bi-pencil-square"></i></button>
                                             <button class="btn btn-danger">Delete Vehicle <i
                                                     class="bi bi-trash"></i></button>
@@ -351,7 +351,7 @@
                             icon: 'success',
                             text:response.message,
                         });
-                        table.ajax.reload();
+                        tableVehicle.ajax.reload();
                     } else {
                         var errorMessage = '';
                         if(response.status === 500 && typeof response.message === 'object'){
@@ -376,21 +376,25 @@
         })
         $('#modalupdatevehicle').on('click', function(e){
             e.preventDefault();
-            var selectedData = table.rows({
+            var selectedData = tableVehicle.rows({
                 selected: true
             }).data();
-            var no_rek = $('#uno_rek');
-            var nama_rek = $('#unama_rek');
-            var bank_code = $('#ubank_code');
-            var swift_code = $('#uswift_code');
+            var plat_number = $('#uplat_number');
+            var truck_type = $('#utruck_type');
+            var truck_sub_type = $('#utruck_sub_type');
+            var plat_color = $('#uplat_color');
+            var stnk = $('#ustnk');
+            var kir = $('#ukir');
             if(selectedData.length > 0){
-                no_rek.val(selectedData[0].no_rek);
-                nama_rek.val(selectedData[0].nama_rek);
-                bank_code.val(selectedData[0].bank_code);
-                swift_code.val(selectedData[0].swift_code);
-                $('#modalEdit').modal('show');
+                plat_number.val(selectedData[0].plat_number);
+                truck_type.val(selectedData[0].truck_type);
+                truck_sub_type.val(selectedData[0].truck_sub_type);
+                plat_color.val(selectedData[0].plat_color);
+                stnk.val(selectedData[0].stnk);
+                kir.val(selectedData[0].kir);
+                $('#modalEditVehicle').modal('show');
             } else {
-                $('#modalEdit').modal('hide');
+                $('#modalEditVehicle').modal('hide');
                 Swal.fire({
                     title: 'Info',
                     icon: 'info',
@@ -400,7 +404,7 @@
         })
         $('#updatevehicle').on('click', function(e){
             e.preventDefault();
-            var selectedData = table.rows({
+            var selectedData = tableVehicle.rows({
                 selected: true
             }).data();
             if (selectedData.length == 0) {
@@ -418,7 +422,6 @@
             var uID = row.uuid;
             var updateVehicle = "<?= base_url() . '/uvehicle/' ?>" + uID;
             var formID = '#formupdatevehicle';
-            $('#modalwarning').modal('hide');
             if (selectedData.length > 0) {
                 Swal.fire({
                     title: 'Update',
@@ -446,8 +449,8 @@
                                         timer: 1500,
                                         timerProgressBar: true,
                                     })
-                                    table.ajax.reload(null, false);
-                                    $('#formupdatepayment')[0].reset();
+                                    tableVehicle.ajax.reload(null, false);
+                                    $('#formupdatevehicle')[0].reset();
                                 } else {
                                     Swal.fire({
                                         title: 'error',
@@ -505,7 +508,7 @@
                                             timer: 1500,
                                             timerProgressBar: true,
                                         });
-                                        table.ajax.reload(null, false);
+                                        tableVehicle.ajax.reload(null, false);
                                     } else {
                                         Swal.fire({
                                             title: 'Error',

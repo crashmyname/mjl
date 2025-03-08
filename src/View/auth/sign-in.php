@@ -87,15 +87,24 @@
                 dataType: 'json',
                 success:function(response){
                     if (response.status == 200) {
-                            Swal.fire({
+                        let timerInterval;
+                        Swal.fire({
                             icon: 'success',
-                            title: 'Login Berhasil',
-                            text: response.message,
-                            timer: 2000, 
+                            title: "Login Berhasil",
+                            timer: 2000,
                             timerProgressBar: true,
-                            showConfirmButton: false
-                        }).then(() => {
-                            window.location.href = "<?= base_url() ?>/users";
+                            didOpen: () => {
+                                Swal.showLoading();
+                                const timer = Swal.getPopup().querySelector("b");
+                                timerInterval = setInterval(() => {
+                                timer.textContent = `${Swal.getTimerLeft()}`;
+                                }, 100);
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval);
+                            }
+                        }).then((result) => {
+                            window.location.href = "<?= base_url() ?>";
                         });
                     } else {
                         Swal.fire({

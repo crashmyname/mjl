@@ -42,9 +42,7 @@ Route::group([AuthMiddleware::class],function(){
     Route::delete('/invoices/{id}', [InvoiceController::class, 'delete']);
     
     // Shippers
-    Route::get('/shippers',function(){
-        return view('shippers/shipper',[],'layout/app');
-    });
+    Route::get('/shippers',[VendorController::class, 'index']);
     Route::get('/getshippers', [VendorController::class, 'getShippers']);
     Route::post('/shippers',[VendorController::class, 'create']);
     Route::put('/ushippers/{id}', [VendorController::class, 'update']);
