@@ -47,8 +47,31 @@ class TransactionController extends BaseController
         return Response::json(['status'=>200,'message'=>'success','data'=>$price->toArray()]);
     }
 
+    public function generatePO(Request $request)
+    {
+        $generatePO = Transactions::query()->orderBy('no_po','DESC')->first();
+        if($generatePO){
+            $code = intval(substr($generatePO->no_po,3));
+            $newcode = 'DO-'.str_pad($code+1,7,'0',STR_PAD_LEFT).'-'.Date::parse(Date::Now())->format('Y');
+        } else {
+            $newcode = 'DO-'.'0000001'.'-'.Date::parse(Date::Now())->format('Y');
+        }
+        return Response::json(['status'=>200,'code'=>$newcode]);
+    }
+
     public function create(Request $request)
     {
+        $validate = Validator::make($request->all(),[
+            'vendor_id' => 'required',
+            'origin_city' => 'required',
+            'destination' => 'required',
+            'vehicle_id' => 'required',
+            'driver_id' => 'required',
+            'price' => 'required',
+        ]);
+        if($validate){
+            return Response::json(['status'=>500,'message'=>$validate]);
+        }
         $orders = Transactions::create([
             'uuid' => UUID::generateUuid(),
             'no_po' => $request->no_po,

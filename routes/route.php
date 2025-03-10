@@ -1,6 +1,7 @@
 <?php
 use App\Controllers\AuthController;
 use App\Controllers\DriverController;
+use App\Controllers\HomeController;
 use App\Controllers\InvoiceController;
 use App\Controllers\PaymentController;
 use App\Controllers\PriceController;
@@ -21,9 +22,7 @@ Route::post('/sign-in',[AuthController::class, 'onLogin']);
 Route::post('/sign-out',[AuthController::class, 'logout']);
 Route::group([AuthMiddleware::class],function(){
 
-    Route::get('/',function(){
-        return view('home/home',[],'layout/app');
-    });
+    Route::get('/',[HomeController::class,'index']);
     // User
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/getusers', [UserController::class, 'getUser']);
@@ -46,6 +45,7 @@ Route::group([AuthMiddleware::class],function(){
     Route::delete('/shippers/{id}', [VendorController::class, 'delete']);
     
     // Order
+    Route::get('/generatepo',[TransactionController::class, 'generatePO']);
     Route::get('/orders',[TransactionController::class, 'index']);
     Route::get('/getorders', [TransactionController::class, 'getOrders']);
     Route::post('/orders',[TransactionController::class, 'create']);

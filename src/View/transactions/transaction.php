@@ -18,7 +18,7 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less">Add Purchase Orders <i
+                <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less" id="addpo">Add Purchase Orders <i
                         class="bi bi-person-add"></i></button>
                 <div class="modal fade text-left modal-borderless modal-lg" id="border-less" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel1" aria-hidden="true">
@@ -40,7 +40,7 @@
                                                 <label>No PO</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="no_po" id="no_po" class="form form-control">
+                                                <input type="text" name="no_po" id="no_po" class="form form-control" readonly>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Vendors</label>
@@ -357,12 +357,14 @@
                 success:function(response){
                     if(response.status === 201){
                         $('#formaddorders')[0].reset();
+                        table.ajax.reload(null, false);
                         Swal.fire({
                             title: 'Success',
                             icon: 'success',
                             text:response.message,
                         });
-                        table.ajax.reload();
+                        DateNow();
+                        formatDate();
                     } else {
                         var errorMessage = '';
                         if(response.status === 500 && typeof response.message === 'object'){
@@ -565,7 +567,6 @@
                     'X-CSRF-TOKEN': '<?= csrfHeader() ?>'
                 },
                 success:function(response){
-                    console.log(response.data);
                     if(response.status === 200){
                         $('#price').val(response.data.price);
                     } else {
@@ -575,9 +576,50 @@
             })
         })
     }
+    function generatePO(){
+        setTimeout(function() {
+            $('#no_po').trigger('change');
+        }, 100);
+        $('#addpo').on('click',function(){
+            $.ajax({
+                type: 'GET',
+                url: '<?= base_url()?>/generatepo',
+                dataType: 'json',
+                success:function(response){
+                    if(response.status === 200){
+                        $('#no_po').val(response.code);
+                    } else {
+                        $('#no_po').val('');
+                    }
+                }
+            })
+        })
+    }
+    // setTimeout(function(){
+    //     DateNow();
+    //     formatDate();
+    // },100);
+    function DateNow(){
+        let tgl = new Date();
+        let formatedDate = formatDate(tgl);
+        var datepo = $('#tgl_pembuatan_po').val(formatedDate);
+        var pickupdate = $('#pickup_date').val(formatedDate);
+    }
+    function formatDate(date) {
+        // setTimeout(function() {
+        //     $('#hidden_date').trigger('change');
+        // }, 100);
+        let year = date.getFullYear();
+        let month = ('0' + (date.getMonth() + 1)).slice(-2); // +1 karena bulan dimulai dari 0
+        let day = ('0' + date.getDate()).slice(-2);
+        return `${year}-${month}-${day}`;
+    }
     $(document).ready(function(){
         initDataTable();
         crudOrders();
         getPrice();
+        generatePO();
+        DateNow();
+        formatDate();
     })
 </script>

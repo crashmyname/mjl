@@ -19,8 +19,8 @@
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
                     <div class="auth-logo mt-0">
-                        <a href="<?= base_url() ?>"><img src="<?= asset('mazer/assets/images/logo/logo.svg') ?>"
-                                alt="Logo"></a>
+                        <a href="<?= base_url() ?>"><img src="<?= asset('documents/mjlwidth.png') ?>"
+                                alt="Logo" width="40%"></a>
                     </div>
                     <h1 class="">Log in.</h1>
                     <p class="auth-subtitle mb-3">Log in with your data that you entered during registration.</p>

@@ -178,3 +178,19 @@ Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(493): PDOStatement->execu
 #4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
 #5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
 #6 {main}
+[Error] SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column 'pickup_date' at row 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 493
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(493): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(460): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\TransactionController.php(76): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\TransactionController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'vehicle_id' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 493
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(493): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(460): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\TransactionController.php(76): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\TransactionController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
