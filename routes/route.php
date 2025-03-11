@@ -41,6 +41,7 @@ Route::group([AuthMiddleware::class],function(){
     Route::post('/cinvoices',[InvoiceController::class, 'create']);
     Route::put('/uinvoices/{id}', [InvoiceController::class, 'update']);
     Route::delete('/invoices/{id}', [InvoiceController::class, 'delete']);
+    Route::get('/template-invoice',[InvoiceController::class, 'generatePDF']);
     
     // Shippers
     Route::get('/shippers',[VendorController::class, 'index']);

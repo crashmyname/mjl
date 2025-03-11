@@ -9,7 +9,17 @@
     <link rel="stylesheet" href="<?= asset('mazer/assets/css/pages/auth.css') ?>">
     <link rel="shortcut icon" href="<?= asset('mazer/assets/images/logo/favicon.svg') ?>" type="image/x-icon">
     <link rel="shortcut icon" href="<?= asset('mazer/assets/images/logo/favicon.png') ?>" type="image/png">
+    <link rel="manifest" href="<?= asset('manifest.json')?>">
+    <meta name="theme-color" content="#007bff">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('<?= asset('service-worker.js')?>')
+        .then((reg) => console.log("Service Worker Registered", reg))
+        .catch((err) => console.error("Service Worker Failed", err));
+    }
+    </script>
+
 </head>
 
 <body>

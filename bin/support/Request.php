@@ -16,13 +16,16 @@ class Request {
         $sanitized = [];
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                $sanitized[$key] = $this->sanitize($value); // Recursive sanitize for arrays
+                // Jika array, tetap simpan sebagai array
+                $sanitized[$key] = array_map(function ($item) {
+                    return is_array($item) ? $this->sanitize($item) : htmlspecialchars($item, ENT_QUOTES, 'UTF-8');
+                }, $value);
             } else {
                 $sanitized[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
             }
         }
         return $sanitized;
-    }
+    }    
 
     private function sanitizeFiles(array $files) {
         $sanitized = [];

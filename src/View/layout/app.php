@@ -11,6 +11,8 @@
 
     <link rel="shortcut icon" href="<?= asset('documents/logomjl.png') ?>" type="image/x-icon">
     <link rel="shortcut icon" href="<?= asset('documents/logomjl.png') ?>" type="image/png">
+    <link rel="manifest" href="<?= asset('manifest.json')?>">
+    <meta name="theme-color" content="#007bff">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
@@ -21,6 +23,13 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('<?= asset('service-worker.js')?>')
+        .then((reg) => console.log("Service Worker Registered", reg))
+        .catch((err) => console.error("Service Worker Failed", err));
+    }
+    </script>
     <style>
         .sidebar-menu .submenu {
             display: none;

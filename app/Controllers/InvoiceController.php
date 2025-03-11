@@ -6,6 +6,8 @@ use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Transactions;
 use App\Models\Vendors;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Support\BaseController;
 use Support\DataTables;
 use Support\Date;
@@ -29,7 +31,7 @@ class InvoiceController extends BaseController
     public function getInvoices(Request $request)
     {
         if(Request::isAjax()){
-            $invoice = Invoice::query()->selectRaw('invoices.uuid')->leftJoin('vendors','vendors.vendor_id','=','invoices.vendor_id')
+            $invoice = Invoice::query()->selectRaw('invoices.uuid')
                                         ->leftJoin('payments','payments.payment_id','=','invoices.payment_id')
                                         ->where('invoices.deleted_at','=',null)
                                         ->get();
@@ -40,7 +42,6 @@ class InvoiceController extends BaseController
 
     public function create(Request $request)
     {
-        // var_dump($request);
         $month = Date::parse($request->tgl_invoice)->format('m');
         $year = Date::parse($request->tgl_invoice)->format('Y');
         switch($month){
@@ -94,7 +95,6 @@ class InvoiceController extends BaseController
             'tgl_invoice' => $request->tgl_invoice,
             'tgl_jatuh_tempo' => $request->tgl_jatuh_tempo,
             'name_pt' => $request->name_pt,
-            'vendor_id' => $request->vendor_id,
             'payment_id' => $request->payment_id,
             'subtotal' => $request->subtotal,
             'pph23' => $request->pph23,
@@ -104,11 +104,11 @@ class InvoiceController extends BaseController
             'sign' => $request->sign,
         ]);
         if ($invoice) {
-            $orderIds = $request->order_id;
+            $orderIds = $request->get('order_id');
             foreach ($orderIds as $orderId) {
-                Transactions::query()->where('order_id','=',$orderId)->update([
-                    'invoice_id' => $invoice->invoice_id
-                ]);
+                $transaction = Transactions::query()->where('order_id','=',$orderId)->first();
+                $transaction->invoice_id = $invoice->invoice_id;
+                $transaction->save();
             }
         }
         return Response::json(['status'=>201,'message'=>'Invoice berhasil dibuat']);
@@ -140,5 +140,21 @@ class InvoiceController extends BaseController
         $invoice->deleted_at = Date::Now();
         $invoice->save();
         return Response::json(['status'=>200,'message'=>'Invoice berhasil dihapus']);
+    }
+
+    public function generatePDF(Request $request)
+    {
+        $inv = Invoice::query()->leftJoin('orders','orders.invoice_id','=','invoices.invoice_id')->where('invoices.invoice_id','=',1)->first();
+        if (!$inv) {
+            die('Invoice tidak ditemukan');
+        }
+        $html = View::render('invoices/template-invoice', ['invoice' => $inv]);
+        $options = new Options();
+        $options->set('defaultFont', 'Helvetica');
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream("invoice_{$inv->invoice_id}.pdf", ["Attachment" => false]);
     }
 }

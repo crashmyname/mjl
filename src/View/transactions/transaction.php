@@ -325,11 +325,14 @@
                 },
                 {
                     data: 'price',
-                    name: 'price'
+                    name: 'price',
+                    render:function(data,type,row){
+                        return '<span class="badge bg-light-success">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
+                    }
                 },
                 {
-                    data: 'created_at',
-                    name: 'created_at'
+                    data: 'status',
+                    name: 'status'
                 },
             ],
             lengthMenu: [10,25,50,100],

@@ -62,6 +62,7 @@
                                                     <div class="row po-item">
                                                         <div class="col-md-10">
                                                             <select name="order_id[0]" class="form-control">
+                                                            <option value="" disabled selected hidden>Select</option>
                                                                 <?php foreach($vendor as $vnd): ?>
                                                                     <option value="<?= $vnd->order_id ?>"><?= $vnd->no_po ?></option>
                                                                 <?php endforeach; ?>
@@ -93,13 +94,13 @@
                                                 <label>PPH 23</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="pph23" id="pph23" class="form form-control">
+                                                <input type="text" name="pph23" id="pph23" class="form form-control" value="4%" readonly>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>PPN</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="ppn" id="ppn" class="form form-control">
+                                                <input type="text" name="ppn" id="ppn" class="form form-control" value="11%" readonly>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Total Pembayaran</label>
@@ -271,7 +272,7 @@
                                 <th>Tanggal Invoice</th>
                                 <th>Tanggal jatuh tempo</th>
                                 <th>Name PT</th>
-                                <th>Vendor</th>
+                                <!-- <th>Vendor</th> -->
                                 <th>Payment</th>
                                 <th>Sub total</th>
                                 <th>PPH23</th>
@@ -290,39 +291,6 @@
         </div>
     </section>
 </div>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const poContainer = document.getElementById("po-container");
-    let selectIndex = 1; // Indeks untuk nama select
-
-    // Event listener untuk tombol Add
-    document.getElementById("addSelect").addEventListener("click", function () {
-        const newPoItem = document.createElement("div");
-        newPoItem.classList.add("row", "po-item");
-        newPoItem.innerHTML = `
-            <div class="col-md-10">
-                <select name="order_id[${selectIndex}]" class="form-control">
-                    <?php foreach($vendor as $vnd): ?>
-                        <option value="<?= $vnd->order_id ?>"><?= $vnd->no_po ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button type="button" class="btn btn-danger w-100 removeSelect">X</button>
-            </div>
-        `;
-        poContainer.appendChild(newPoItem);
-        selectIndex++; // Tambah indeks
-    });
-
-    // Event listener untuk tombol Remove
-    poContainer.addEventListener("click", function (e) {
-        if (e.target.classList.contains("removeSelect")) {
-            e.target.closest(".po-item").remove();
-        }
-    });
-});
-</script>
 <script>
     var table;
     // function tampil datatable user
@@ -360,10 +328,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     data: 'name_pt',
                     name: 'name_pt'
                 },
-                {
-                    data: 'company_name',
-                    name: 'company_name'
-                },
+                // {
+                //     data: 'company_name',
+                //     name: 'company_name'
+                // },
                 {
                     data: 'no_rek',
                     name: 'no_rek',
@@ -610,17 +578,19 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         })
     }
-    function addElement(){
-        let selectIndex = 1; 
-        $('#addSelect').on('click', function(){
+    function addElement() {
+        const poContainer = document.getElementById("po-container");
+        let selectIndex = 1; // Indeks untuk nama select
+
+        // Event listener untuk tombol Add
+        document.getElementById("addSelect").addEventListener("click", function () {
             const newPoItem = document.createElement("div");
             newPoItem.classList.add("row", "po-item");
             newPoItem.innerHTML = `
                 <div class="col-md-10">
                     <select name="order_id[${selectIndex}]" class="form-control">
-                        <?php foreach($vendor as $vnd): ?>
-                            <option value="<?= $vnd->order_id ?>"><?= $vnd->no_po ?></option>
-                        <?php endforeach; ?>
+                        <option disabled selected hidden>Select</option>
+                        ${vendorOptions()}
                     </select>
                 </div>
                 <div class="col-md-2">
@@ -629,12 +599,20 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
             poContainer.appendChild(newPoItem);
             selectIndex++; // Tambah indeks
-        })
+        });
+
+        // Delegasi event untuk tombol Remove (supaya bisa menangani elemen dinamis)
         poContainer.addEventListener("click", function (e) {
-        if (e.target.classList.contains("removeSelect")) {
-            e.target.closest(".po-item").remove();
-        }
-    });
+            if (e.target.classList.contains("removeSelect")) {
+                e.target.closest(".po-item").remove();
+            }
+        });
+    }
+
+    function vendorOptions() {
+        return `<?php foreach($vendor as $vnd): ?>
+                    <option value="<?= $vnd->order_id ?>"><?= $vnd->no_po ?></option>
+                <?php endforeach; ?>`;
     }
     function dateNow()
     {
@@ -651,9 +629,13 @@ document.addEventListener("DOMContentLoaded", function () {
             defaultDate: new Date(),
         })
     }
+    // function getPrice(){
+    //     $('#')
+    // }
     $(document).ready(function(){
         initDataTable();
         crudInvoices();
         dateNow();
+        addElement();
     })
 </script>
