@@ -30,7 +30,11 @@ Route::group([AuthMiddleware::class],function(){
     Route::post('/users', [UserController::class, 'create']);
     Route::put('/uusers/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'delete']);
-    
+
+    // Profile
+    Route::get('/profile/{id}',[UserController::class, 'profile']);
+    Route::post('/profile/{id}',[UserController::class, 'updateProfile']);
+
     // Invoices
     Route::get('/invoices', [InvoiceController::class, 'index']);
     Route::get('/getinvoices', [InvoiceController::class, 'getInvoices']);

@@ -293,3 +293,10 @@ Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(320): PDOStatement->execu
 #3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
 #4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
 #5 {main}
+[Error] View file not found: C:\laragon\www\mjl\bin\support/../../src/View/profile.php in C:\laragon\www\mjl\bin\support\BaseController.php at line 467
+Trace: #0 C:\laragon\www\mjl\bin\support\helper.php(267): Support\BaseController->view('profile', Array, 'layout/app')
+#1 C:\laragon\www\mjl\app\Controllers\UserController.php(117): view('profile', Array, 'layout/app')
+#2 [internal function]: App\Controllers\UserController->profile('fbd8db51-e5e5-4...')
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}

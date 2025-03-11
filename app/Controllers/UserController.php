@@ -110,4 +110,21 @@ class UserController extends BaseController
         $user->delete();
         return Response::json(['status'=>200,'message'=>'User Berhasil dihapus']);
     }
+
+    public function profile($id)
+    {
+        $user = User::query()->where('uuid','=',$id)->first();
+        return view('users/profile',['user'=>$user],'layout/app');
+    }
+
+    public function updateProfile(Request $request,$id)
+    {
+        $user = User::query()->where('uuid','=',$id)->first();
+        $user->name = $request->name;
+        if($request->password){
+            $user->password = password_hash($request->password,PASSWORD_BCRYPT);
+        }
+        $user->save();
+        return Response::json(['status'=>201,'message'=>'Berhasil update profile']);
+    }
 }
