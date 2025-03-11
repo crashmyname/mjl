@@ -595,31 +595,25 @@
             })
         })
     }
-    // setTimeout(function(){
-    //     DateNow();
-    //     formatDate();
-    // },100);
-    function DateNow(){
-        let tgl = new Date();
-        let formatedDate = formatDate(tgl);
-        var datepo = $('#tgl_pembuatan_po').val(formatedDate);
-        var pickupdate = $('#pickup_date').val(formatedDate);
-    }
-    function formatDate(date) {
-        // setTimeout(function() {
-        //     $('#hidden_date').trigger('change');
-        // }, 100);
-        let year = date.getFullYear();
-        let month = ('0' + (date.getMonth() + 1)).slice(-2); // +1 karena bulan dimulai dari 0
-        let day = ('0' + date.getDate()).slice(-2);
-        return `${year}-${month}-${day}`;
+    function flatPicker(){
+        flatpickr('#tgl_pembuatan_po',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
+        flatpickr('#pickup_date',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
     }
     $(document).ready(function(){
         initDataTable();
         crudOrders();
         getPrice();
         generatePO();
-        DateNow();
-        formatDate();
+        flatPicker();
     })
 </script>

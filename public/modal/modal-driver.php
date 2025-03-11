@@ -43,13 +43,13 @@
                                                 <label>KTP</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="ktp" id="ktp" class="form form-control">
+                                                <input type="file" name="ktp" id="ktp" class="form form-control" accept=".jpeg,.jpg,.png">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>SIM</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="sim" id="sim" class="form form-control">
+                                                <input type="file" name="sim" id="sim" class="form form-control" accept=".jpeg,.jpg,.png">
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
                                                 <button type="reset"
@@ -118,13 +118,13 @@
                                                 <label>KTP</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="ktp" id="uktp" class="form form-control">
+                                                <input type="file" name="ktp" id="uktp" class="form form-control" accept=".jpeg,.jpg,.png">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>SIM</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="sim" id="usim" class="form form-control">
+                                                <input type="file" name="sim" id="usim" class="form form-control" accept=".jpeg,.jpg,.png">
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
                                                 <button type="reset"

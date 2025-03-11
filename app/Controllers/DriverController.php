@@ -33,15 +33,50 @@ class DriverController extends BaseController
 
     public function create(Request $request)
     {
-        $driver = Drivers::create([
-            'uuid' => UUID::generateUuid(),
-            'driver_name' => $request->driver_name,
-            'driver_ksuid' => $request->driver_ksuid,
-            'phone_number' => $request->phone_number,
-            'sim_type' => $request->sim_type,
-            'ktp' => $request->ktp,
-            'sim' => $request->sim,
+        $validator = Validator::make($request->all(),[
+            'driver_name' => 'required',
+            'driver_ksuid' => 'required',
+            'phone_number' => 'required',
+            'sim_type' => 'required'
         ]);
+        $errors = $validator;
+        $validateType = $request->getClientMimeType('ktp');
+        $validateType1 = $request->getClientMimeType('sim');
+        $allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+        if($request->file('ktp') && !in_array($validateType,$allowedTypes)){
+            $errors = array_merge($errors, ['ktp' => ['File must be a valid image']]);
+        }
+        if($request->file('sim') && !in_array($validateType1,$allowedTypes)){
+            $errors = array_merge($errors, ['sim' => ['File must be a valid image']]);
+        }
+        if(!empty($errors)){
+            return Response::json(['status'=>500,'message'=>$errors]);
+        }
+        if($request->getClientOriginalName('ktp') && $request->getClientOriginalName('sim')){
+            $path = storage_path('document/data');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+
+            $fileName = $request->getClientOriginalName('ktp');
+            $fileName1 = $request->getClientOriginalName('sim');
+            $tempPath = $request->getPath('ktp');
+            $tempPath1 = $request->getPath('sim');
+            $destination = $path.'/'.$fileName;
+            $destination1 = $path.'/'.$fileName1;
+
+            if(move_uploaded_file($tempPath,$destination) && move_uploaded_file($tempPath1,$destination1)){
+                $driver = Drivers::create([
+                    'uuid' => UUID::generateUuid(),
+                    'driver_name' => $request->driver_name,
+                    'driver_ksuid' => $request->driver_ksuid,
+                    'phone_number' => $request->phone_number,
+                    'sim_type' => $request->sim_type,
+                    'ktp' => $fileName,
+                    'sim' => $fileName1,
+                ]);
+            }
+        }
         return Response::json(['status'=>201,'message'=>'Driver Berhasil dibuat']);
     }
 

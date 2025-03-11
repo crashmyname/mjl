@@ -20,6 +20,7 @@ Route::get('/sign-in',function(){
 });
 Route::post('/sign-in',[AuthController::class, 'onLogin']);
 Route::post('/sign-out',[AuthController::class, 'logout']);
+Route::get('/test',[HomeController::class, 'test']);
 Route::group([AuthMiddleware::class],function(){
 
     Route::get('/',[HomeController::class,'index']);

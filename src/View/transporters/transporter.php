@@ -197,11 +197,17 @@
                 },
                 {
                     data: 'stnk',
-                    name: 'stnk'
+                    name: 'stnk',
+                    render:function(data,type,row){
+                        return '<img src="<?=asset('document/data/')?>'+data+'" width="25%">';
+                    }
                 },
                 {
                     data: 'kir',
-                    name: 'kir'
+                    name: 'kir',
+                    render:function(data,type,row){
+                        return '<img src="<?=asset('document/data/')?>'+data+'" width="25%">';
+                    }
                 },
                 {
                     data: 'created_at',
@@ -249,11 +255,17 @@
                 },
                 {
                     data: 'ktp',
-                    name: 'ktp'
+                    name: 'ktp',
+                    render:function(data,type,row){
+                        return '<img src="<?=asset('document/data/')?>'+data+'" width="25%">';
+                    }
                 },
                 {
                     data: 'sim',
-                    name: 'sim'
+                    name: 'sim',
+                    render:function(data,type,row){
+                        return '<img src="<?=asset('document/data/')?>'+data+'" width="25%">';
+                    }
                 },
                 {
                     data: 'created_at',

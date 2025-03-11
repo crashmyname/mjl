@@ -82,7 +82,7 @@ class BaseController {
         // Fungsi rekursif untuk memformat data
         function format_data($data) {
             $result = '';
-    
+        
             // Cek tipe data sebelum foreach
             if (is_array($data) || is_object($data)) {
                 foreach ($data as $key => $value) {
@@ -90,7 +90,7 @@ class BaseController {
                     if (is_array($value) || is_object($value)) {
                         $result .= '<button class="collapsible">Object/Array</button>';
                         $result .= '<div class="content">';
-                        $result .= format_data((array) $value);
+                        $result .= format_data(is_object($value) ? get_object_vars($value) : $value);
                         $result .= '</div>';
                     } elseif (is_string($value)) {
                         $result .= '<span class="string">"' . htmlspecialchars($value) . '"</span><br>';
@@ -114,9 +114,9 @@ class BaseController {
                     $result .= '<span class="null">null</span><br>';
                 }
             }
-    
+        
             return $result;
-        }
+        }        
     
         // Cek tipe data utama
         if (is_object($data)) {

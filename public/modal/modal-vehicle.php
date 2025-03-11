@@ -43,13 +43,13 @@
                                                 <label>STNK</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="stnk" id="stnk" class="form form-control">
+                                                <input type="file" name="stnk" id="stnk" class="form form-control" accept=".jpeg,.jpg,.png">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>KIR</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="kir" id="kir" class="form form-control">
+                                                <input type="file" name="kir" id="kir" class="form form-control" accept=".jpeg,.jpg,.png">
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
                                                 <button type="submit" id="addvehicle" class="btn btn-primary me-1 mb-1">Simpan</button>

@@ -194,3 +194,102 @@ Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(493): PDOStatement->execu
 #4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
 #5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
 #6 {main}
+[Error] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1 NULL) LIMIT 1' at line 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 320
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(320): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(367): Support\BaseModel->get()
+#2 C:\laragon\www\mjl\bin\support\BaseModel.php(670): Support\BaseModel->first()
+#3 C:\laragon\www\mjl\app\Models\Transactions.php(14): Support\BaseModel->hasOne('App\\Models\\Driv...', 'driver_id', 'driver_id')
+#4 C:\laragon\www\mjl\app\Controllers\HomeController.php(34): App\Models\Transactions->driver()
+#5 [internal function]: App\Controllers\HomeController->test()
+#6 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#7 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#8 {main}
+[Error] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1 NULL) LIMIT 1' at line 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 320
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(320): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(367): Support\BaseModel->get()
+#2 C:\laragon\www\mjl\bin\support\BaseModel.php(670): Support\BaseModel->first()
+#3 C:\laragon\www\mjl\app\Models\Transactions.php(14): Support\BaseModel->hasOne('App\\Models\\Driv...', 'driver_id', 'driver_id')
+#4 C:\laragon\www\mjl\app\Controllers\HomeController.php(34): App\Models\Transactions->driver()
+#5 [internal function]: App\Controllers\HomeController->test()
+#6 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#7 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#8 {main}
+[Error] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1 NULL) LIMIT 1' at line 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 320
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(320): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(367): Support\BaseModel->get()
+#2 C:\laragon\www\mjl\bin\support\BaseModel.php(670): Support\BaseModel->first()
+#3 C:\laragon\www\mjl\app\Models\Transactions.php(14): Support\BaseModel->hasOne('App\\Models\\Driv...', 'driver_id', 'driver_id')
+#4 C:\laragon\www\mjl\app\Controllers\HomeController.php(34): App\Models\Transactions->driver()
+#5 [internal function]: App\Controllers\HomeController->test()
+#6 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#7 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#8 {main}
+[Error] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1 NULL) LIMIT 1' at line 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 320
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(320): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(367): Support\BaseModel->get()
+#2 C:\laragon\www\mjl\bin\support\BaseModel.php(670): Support\BaseModel->first()
+#3 C:\laragon\www\mjl\app\Models\Transactions.php(14): Support\BaseModel->hasOne('App\\Models\\Driv...', 'driver_id', 'driver_id')
+#4 C:\laragon\www\mjl\app\Controllers\HomeController.php(34): App\Models\Transactions->driver()
+#5 [internal function]: App\Controllers\HomeController->test()
+#6 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#7 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#8 {main}
+[Error] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1 NULL) LIMIT 1' at line 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 320
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(320): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(367): Support\BaseModel->get()
+#2 C:\laragon\www\mjl\bin\support\BaseModel.php(670): Support\BaseModel->first()
+#3 C:\laragon\www\mjl\app\Models\Transactions.php(14): Support\BaseModel->hasOne('App\\Models\\Driv...', 'driver_id', 'driver_id')
+#4 C:\laragon\www\mjl\app\Controllers\HomeController.php(34): App\Models\Transactions->driver()
+#5 [internal function]: App\Controllers\HomeController->test()
+#6 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#7 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#8 {main}
+[Error] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1 NULL) LIMIT 1' at line 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 320
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(320): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(367): Support\BaseModel->get()
+#2 C:\laragon\www\mjl\bin\support\BaseModel.php(670): Support\BaseModel->first()
+#3 C:\laragon\www\mjl\app\Models\Transactions.php(14): Support\BaseModel->hasOne('App\\Models\\Driv...', 'driver_id', 'driver_id')
+#4 C:\laragon\www\mjl\app\Controllers\HomeController.php(34): App\Models\Transactions->driver()
+#5 [internal function]: App\Controllers\HomeController->test()
+#6 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#7 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#8 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Array' in 'field list' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 320
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(320): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Models\Transactions.php(18): Support\BaseModel->get()
+#2 C:\laragon\www\mjl\app\Controllers\HomeController.php(34): App\Models\Transactions->getDriverIds()
+#3 [internal function]: App\Controllers\HomeController->test()
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Array' in 'field list' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 320
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(320): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Models\Transactions.php(18): Support\BaseModel->get()
+#2 C:\laragon\www\mjl\app\Controllers\HomeController.php(34): App\Models\Transactions->getDriverIds()
+#3 [internal function]: App\Controllers\HomeController->test()
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Array' in 'field list' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 320
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(320): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Models\Transactions.php(18): Support\BaseModel->get()
+#2 C:\laragon\www\mjl\app\Controllers\HomeController.php(34): App\Models\Transactions->getDriverIds()
+#3 [internal function]: App\Controllers\HomeController->test()
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1 NULL) LIMIT 1' at line 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 320
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(320): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(367): Support\BaseModel->get()
+#2 C:\laragon\www\mjl\app\Controllers\HomeController.php(37): Support\BaseModel->first()
+#3 [internal function]: App\Controllers\HomeController->test()
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'driver_id' in on clause is ambiguous in C:\laragon\www\mjl\bin\support\BaseModel.php at line 320
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(320): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\HomeController.php(37): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\HomeController->test()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}

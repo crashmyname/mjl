@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="<?= asset('mazer/assets/css/main/app.css') ?>">
     <link rel="stylesheet" href="<?= asset('mazer/assets/css/main/app-dark.css') ?>">
 
-    <link rel="shortcut icon" href="<?= asset('mazer/assets/images/logo/favicon.svg') ?>" type="image/x-icon">
-    <link rel="shortcut icon" href="<?= asset('mazer/assets/images/logo/favicon.png') ?>" type="image/png">
+    <link rel="shortcut icon" href="<?= asset('documents/logomjl.png') ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= asset('documents/logomjl.png') ?>" type="image/png">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.bootstrap5.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.bootstrap5.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <style>
         .sidebar-menu .submenu {
             display: none;

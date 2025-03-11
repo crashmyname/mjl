@@ -37,18 +37,44 @@ class VehicleController extends BaseController
             'truck_sub_type' => 'required',
             'plat_color' => 'required'
         ]);
-        if($validator){
-            return Response::json(['status'=>500,'message'=>$validator]);
+        $errors = $validator;
+        $validateType = $request->getClientMimeType('stnk');
+        $validateType1 = $request->getClientMimeType('kir');
+        $allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+        if($request->file('stnk') && !in_array($validateType,$allowedTypes)){
+            $errors = array_merge($errors, ['stnk' => ['File must be a valid image']]);
         }
-        Vehicle::create([
-            'uuid' => UUID::generateUuid(),
-            'plat_number' => $request->plat_number,
-            'truck_type' => $request->truck_type,
-            'truck_sub_type' => $request->truck_sub_type,
-            'plat_color' => $request->plat_color,
-            'stnk' => $request->stnk,
-            'kir' => $request->kir
-        ]);
+        if($request->file('kir') && !in_array($validateType1,$allowedTypes)){
+            $errors = array_merge($errors, ['kir' => ['File must be a valid image']]);
+        }
+        if(!empty($errors)){
+            return Response::json(['status'=>500,'message'=>$errors]);
+        }
+        if($request->getClientOriginalName('stnk') && $request->getClientOriginalName('kir')){
+            $path = storage_path('document/data');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+
+            $fileName = $request->getClientOriginalName('stnk');
+            $fileName1 = $request->getClientOriginalName('kir');
+            $tempPath = $request->getPath('stnk');
+            $tempPath1 = $request->getPath('kir');
+            $destination = $path.'/'.$fileName;
+            $destination1 = $path.'/'.$fileName1;
+
+            if(move_uploaded_file($tempPath,$destination) && move_uploaded_file($tempPath1,$destination1)){
+                Vehicle::create([
+                    'uuid' => UUID::generateUuid(),
+                    'plat_number' => $request->plat_number,
+                    'truck_type' => $request->truck_type,
+                    'truck_sub_type' => $request->truck_sub_type,
+                    'plat_color' => $request->plat_color,
+                    'stnk' => $fileName,
+                    'kir' => $fileName1
+                ]);
+            }
+        }
         return Response::json(['status'=>201,'message'=>'Vehcile berhasil dibuat']);
     }
 

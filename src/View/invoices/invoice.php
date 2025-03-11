@@ -52,7 +52,7 @@
                                                 <label>Name PT</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="name_pt" id="name_pt" class="form form-control">
+                                                <input type="text" name="name_pt" id="name_pt" value="CV Murai Jaya Logistic" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Purchase Orders</label>
@@ -636,8 +636,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     }
+    function dateNow()
+    {
+        flatpickr('#tgl_invoice',{
+            dateFormat: 'Y-m-d',
+            allowInput: false,
+            locale: 'id',
+            defaultDate: new Date(),
+        })
+        flatpickr('#tgl_jatuh_tempo',{
+            dateFormat: 'Y-m-d',
+            allowInput: false,
+            locale: 'id',
+            defaultDate: new Date(),
+        })
+    }
     $(document).ready(function(){
         initDataTable();
         crudInvoices();
+        dateNow();
     })
 </script>
