@@ -119,12 +119,14 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="file" name="ktp" id="uktp" class="form form-control" accept=".jpeg,.jpg,.png">
+                                                <img src="" id="imgktp" alt="" width="20%">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>SIM</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="file" name="sim" id="usim" class="form form-control" accept=".jpeg,.jpg,.png">
+                                                <img src="" id="imgsim" alt="" width="20%">
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
                                                 <button type="reset"

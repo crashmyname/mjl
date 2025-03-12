@@ -592,15 +592,16 @@
             var driver_ksuid = $('#udriver_ksuid');
             var phone_number = $('#uphone_number');
             var sim_type = $('#usim_type');
-            var ktp = $('#uktp');
-            var sim = $('#usim');
+            var ktp = $('#imgktp');
+            var sim = $('#imgsim');
+            var urlimage = '<?= asset('document/data/')?>'
             if(selectedData.length > 0){
                 driver_name.val(selectedData[0].driver_name);
                 driver_ksuid.val(selectedData[0].driver_ksuid);
                 phone_number.val(selectedData[0].phone_number);
                 sim_type.val(selectedData[0].sim_type);
-                ktp.val(selectedData[0].ktp);
-                sim.val(selectedData[0].sim);
+                ktp.attr('src',urlimage+selectedData[0].ktp)
+                sim.attr('src',urlimage+selectedData[0].sim)
                 $('#modalEditDriver').modal('show');
             } else {
                 $('#modalEditDriver').modal('hide');

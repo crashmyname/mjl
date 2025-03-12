@@ -3,6 +3,20 @@
 <head>
     <title>Invoice #<?= $invoice[0]->no_invoice ?></title>
     <style>
+        @media print {
+            @page {
+                size: A4; /* Set ukuran kertas */
+                margin: 10mm; /* Atur margin agar rapi */
+            }
+
+            body {
+                zoom: 60%; /* Set scale menjadi 60% */
+            }
+
+            img {
+                max-width: 100%; /* Pastikan gambar tidak pecah */
+            }
+        }
         body {
             font-family: Arial, sans-serif;
         }
@@ -164,5 +178,11 @@
             </table>
         </tr>
     </table>
+    <script>
+    window.onload = function() {
+        window.print(); // Cetak otomatis saat halaman dimuat
+    };
+</script>
+
 </body>
 </html>

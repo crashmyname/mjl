@@ -53,7 +53,7 @@
                 <div class="sidebar-header position-relative">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo">
-                            <a href="index.html"><img src="<?= asset('documents/logomjl.png') ?>"
+                            <a href="<?= base_url()?>"><img src="<?= asset('documents/logomjl.png') ?>"
                                     alt="Logo" srcset="" width="155%" style="height:60px"></a>
                         </div>
                         <div class="theme-toggle d-flex gap-2  align-items-center mt-2">

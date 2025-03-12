@@ -585,7 +585,7 @@
             }
             selectedData.each(function(data) {
                 const uuid = data.uuid;
-                window.location.href = '<?= base_url()?>/template-invoice/'+uuid;
+                window.open('<?= base_url()?>/template-invoice/'+uuid,'_blank');
             })
         })
     }
