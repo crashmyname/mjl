@@ -173,6 +173,6 @@ class InvoiceController extends BaseController
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
-        $dompdf->stream("invoice_{$inv->invoice_id}.pdf", ["Attachment" => true]);
+        $dompdf->stream("invoice_{$inv[0]->invoice_id}.pdf", ["Attachment" => true]);
     }
 }
