@@ -335,7 +335,10 @@
                 },
                 {
                     data: 'subtotal',
-                    name: 'subtotal'
+                    name: 'subtotal',
+                    render:function(data,type,row){
+                        return '<span class="badge bg-primary">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
+                    }
                 },
                 {
                     data: 'pph23',
@@ -347,7 +350,10 @@
                 },
                 {
                     data: 'total_pembayaran',
-                    name: 'total_pembayaran'
+                    name: 'total_pembayaran',
+                    render:function(data,type,row){
+                        return '<span class="badge bg-success">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
+                    }
                 },
                 {
                     data: 'description',

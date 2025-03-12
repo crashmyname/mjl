@@ -294,6 +294,9 @@
                 {
                     data: 'no_po',
                     name: 'no_po',
+                    render:function(data,type,row){
+                        return '<a href="<?= base_url().'/detailorders/'?>'+data+'">'+data+'</a>';
+                    }
                 },
                 {
                     data: 'company_name',
