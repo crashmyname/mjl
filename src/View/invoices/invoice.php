@@ -69,7 +69,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <button type="button" id="addSelect" class="btn btn-primary w-100">Add</button>
+                                                            <button type="button" id="addSelect" class="btn btn-primary w-100"><i class="bi bi-plus-lg"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -591,22 +591,27 @@
     }
     function addElement() {
         $('#addSelect').click(function () {
-            var newElement = `
-                <div class="row po-item">
-                    <div class="col-md-10">
-                        <select name="order_id[]" class="form-control order-select">
-                            <option value="" disabled selected hidden>Select</option>
-                            <?php foreach($vendor as $vnd): ?>
-                                <option value="<?= $vnd->order_id ?>"><?= $vnd->no_po ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-danger w-100 removeSelect">X</button>
-                    </div>
-                </div>`;
-            $('#po-container').append(newElement);
-        });
+        var newElement = `
+            <div class="row po-item">
+                <div class="col-md-10">
+                    <select name="order_id[]" class="form-control order-select">
+                        <option value="" disabled selected hidden>Select</option>
+                        <?php foreach($vendor as $vnd): ?>
+                            <option value="<?= $vnd->order_id ?>"><?= $vnd->no_po ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-danger w-100 removeSelect">X</button>
+                </div>
+            </div>`;
+        $('#po-container').append(newElement);
+    });
+
+    // Event delegation untuk elemen yang baru ditambahkan
+    $(document).on('click', '.removeSelect', function () {
+        $(this).closest('.po-item').remove();
+    });
     }
     function vendorOptions() {
         return `<?php foreach($vendor as $vnd): ?>
