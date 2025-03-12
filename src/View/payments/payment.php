@@ -37,6 +37,12 @@
                                     <div class="form-body">
                                         <div class="row">
                                             <div class="col-md-4">
+                                                <label>Nama Bank</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="nama_bank" id="nama_bank" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>No Rekening</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -100,6 +106,12 @@
                                     <div class="form-body">
                                         <div class="row">
                                             <div class="col-md-4">
+                                                <label>Nama Bank</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="nama_bank" id="unama_bank" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>No Rekening</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -152,6 +164,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Nama Bank</th>
                                 <th>No Rekening</th>
                                 <th>Nama Rekening</th>
                                 <th>Bank Code</th>
@@ -186,6 +199,10 @@
                     render:function(data, type, row, meta){
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
+                },
+                {
+                    data: 'nama_bank',
+                    name: 'nama_bank',
                 },
                 {
                     data: 'no_rek',
@@ -262,11 +279,13 @@
             var selectedData = table.rows({
                 selected: true
             }).data();
+            var nama_bank = $('#unama_bank');
             var no_rek = $('#uno_rek');
             var nama_rek = $('#unama_rek');
             var bank_code = $('#ubank_code');
             var swift_code = $('#uswift_code');
             if(selectedData.length > 0){
+                nama_bank.val(selectedData[0].nama_bank);
                 no_rek.val(selectedData[0].no_rek);
                 nama_rek.val(selectedData[0].nama_rek);
                 bank_code.val(selectedData[0].bank_code);

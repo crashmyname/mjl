@@ -61,7 +61,7 @@
                                                 <div id="po-container">
                                                     <div class="row po-item">
                                                         <div class="col-md-10">
-                                                            <select name="order_id[0]" class="form-control">
+                                                            <select name="order_id[0]" class="form-control order-select" id="order_id">
                                                             <option value="" disabled selected hidden>Select</option>
                                                                 <?php foreach($vendor as $vnd): ?>
                                                                     <option value="<?= $vnd->order_id ?>"><?= $vnd->no_po ?></option>
@@ -114,12 +114,6 @@
                                             <div class="col-md-8 form-group">
                                                 <input type="text" name="description" id="description" class="form form-control">
                                             </div>
-                                            <div class="col-md-4">
-                                                <label>Sign</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="text" name="sign" id="sign" class="form form-control">
-                                            </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
                                                 <button type="reset"
                                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>
@@ -141,7 +135,7 @@
                         </form>
                     </div>
                 </div>
-                <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdateinvoices">Update Invoices <i class="bi bi-person-fill-gear"></i></button>
+                <!-- <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdateinvoices">Update Invoices <i class="bi bi-person-fill-gear"></i></button>
                 <div class="modal fade text-left modal-borderless modal-lg" id="modalEdit" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -259,8 +253,9 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> -->
                 <button class="btn btn-danger" id="deleteinvoices">Delete Invoices <i class="bi bi-person-x"></i></button>
+                <button id="invoicepdf" class="btn btn-outline-danger">Report Invoice PDF</button>
             </div>
             <div class="card-body">
                 <div class="container">
@@ -272,14 +267,13 @@
                                 <th>Tanggal Invoice</th>
                                 <th>Tanggal jatuh tempo</th>
                                 <th>Name PT</th>
-                                <!-- <th>Vendor</th> -->
+                                <th>Vendor</th>
                                 <th>Payment</th>
                                 <th>Sub total</th>
                                 <th>PPH23</th>
                                 <th>PPN</th>
                                 <th>Total Pembayaran</th>
                                 <th>Description</th>
-                                <th>Sign</th>
                                 <th>Created at</th>
                             </tr>
                         </thead>
@@ -328,10 +322,10 @@
                     data: 'name_pt',
                     name: 'name_pt'
                 },
-                // {
-                //     data: 'company_name',
-                //     name: 'company_name'
-                // },
+                {
+                    data: 'company_name',
+                    name: 'company_name'
+                },
                 {
                     data: 'no_rek',
                     name: 'no_rek',
@@ -358,10 +352,6 @@
                 {
                     data: 'description',
                     name: 'description'
-                },
-                {
-                    data: 'sign',
-                    name: 'sign'
                 },
                 {
                     data: 'created_at',
@@ -577,38 +567,47 @@
 
             }
         })
+        $('#invoicepdf').on('click', function(e){
+            e.preventDefault();
+            var selectedData = table.rows({
+                selected: true
+            }).data();
+            if(selectedData.length === 0){
+                Swal.fire({
+                    title: 'info',
+                    icon: 'info',
+                    text: 'No data selected',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                })
+                return
+            }
+            selectedData.each(function(data) {
+                const uuid = data.uuid;
+                window.location.href = '<?= base_url()?>/template-invoice/'+uuid;
+            })
+        })
     }
     function addElement() {
-        const poContainer = document.getElementById("po-container");
-        let selectIndex = 1; // Indeks untuk nama select
-
-        // Event listener untuk tombol Add
-        document.getElementById("addSelect").addEventListener("click", function () {
-            const newPoItem = document.createElement("div");
-            newPoItem.classList.add("row", "po-item");
-            newPoItem.innerHTML = `
-                <div class="col-md-10">
-                    <select name="order_id[${selectIndex}]" class="form-control">
-                        <option disabled selected hidden>Select</option>
-                        ${vendorOptions()}
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-danger w-100 removeSelect">X</button>
-                </div>
-            `;
-            poContainer.appendChild(newPoItem);
-            selectIndex++; // Tambah indeks
-        });
-
-        // Delegasi event untuk tombol Remove (supaya bisa menangani elemen dinamis)
-        poContainer.addEventListener("click", function (e) {
-            if (e.target.classList.contains("removeSelect")) {
-                e.target.closest(".po-item").remove();
-            }
+        $('#addSelect').click(function () {
+            var newElement = `
+                <div class="row po-item">
+                    <div class="col-md-10">
+                        <select name="order_id[]" class="form-control order-select">
+                            <option value="" disabled selected hidden>Select</option>
+                            <?php foreach($vendor as $vnd): ?>
+                                <option value="<?= $vnd->order_id ?>"><?= $vnd->no_po ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-danger w-100 removeSelect">X</button>
+                    </div>
+                </div>`;
+            $('#po-container').append(newElement);
         });
     }
-
     function vendorOptions() {
         return `<?php foreach($vendor as $vnd): ?>
                     <option value="<?= $vnd->order_id ?>"><?= $vnd->no_po ?></option>
@@ -629,13 +628,55 @@
             defaultDate: new Date(),
         })
     }
-    // function getPrice(){
-    //     $('#')
-    // }
+    function getPricePO(){
+        $('#po-container').on('change', '.order-select', function () {
+            var orderId = $(this).val();
+            var selectElement = $(this);
+            
+            if (orderId) {
+                $.ajax({
+                    type: 'POST',
+                    url: '<?= base_url()?>/getpricepo',
+                    data: { order_id: orderId },
+                    dataType: 'json',
+                    headers: { 'X-CSRF-TOKEN':'<?= csrfHeader()?>' },
+                    success: function (response) {
+                        if (response.status === 200) {
+                            selectElement.attr('data-price', response.data.price);
+                        } else {
+                            selectElement.attr('data-price', '0');
+                        }
+
+                        // Hitung ulang subtotal dan total pembayaran
+                        calculateTotal();
+                    }
+                });
+            }
+        });
+
+        // Panggil untuk elemen pertama saat halaman dimuat
+        $('.order-select').trigger('change');
+    }
+    function calculateTotal() {
+        var total = 0;
+
+        $('.order-select').each(function () {
+            var price = parseFloat($(this).attr('data-price')) || 0;
+            total += price;
+        });
+
+        var pph23 = total * 0.04;
+        var ppn = total * 0.11;
+        var jumlah = total + pph23 + ppn;
+
+        $('#subtotal').val(total);
+        $('#total_pembayaran').val(jumlah);
+    }
     $(document).ready(function(){
         initDataTable();
         crudInvoices();
         dateNow();
         addElement();
+        getPricePO();
     })
 </script>

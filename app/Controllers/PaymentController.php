@@ -31,6 +31,7 @@ class PaymentController extends BaseController
     public function create(Request $request)
     {
         $payment = Payment::create([
+            'nama_bank' => $request->nama_bank,
             'no_rek' => $request->no_rek,
             'nama_rek' => $request->nama_rek,
             'bank_code' => $request->bank_code,
@@ -42,6 +43,7 @@ class PaymentController extends BaseController
     public function update(Request $request, $id)
     {
         $payment = Payment::find($id);
+        $payment->nama_bank = $request->nama_bank;
         $payment->no_rek = $request->no_rek;
         $payment->nama_rek = $request->nama_rek;
         $payment->bank_code = $request->bank_code;

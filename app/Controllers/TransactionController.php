@@ -46,6 +46,13 @@ class TransactionController extends BaseController
         $price = Vehicle::query()->leftJoin('prices','prices.vehicle_id','=','vehicles.vehicle_id')->where('vehicles.vehicle_id','=',$data)->first();
         return Response::json(['status'=>200,'message'=>'success','data'=>$price->toArray()]);
     }
+    
+    public function getPricePO(Request $request)
+    {
+        $data =$request->order_id;
+        $price = Transactions::query()->where('order_id','=',$data)->first();
+        return Response::json(['status'=>200,'message'=>'success','data'=>$price->toArray()]);
+    }
 
     public function generatePO(Request $request)
     {

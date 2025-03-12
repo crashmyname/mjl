@@ -348,3 +348,64 @@ Trace: #0 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(153): Support
 #2 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
 #3 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
 #4 {main}
+[Error] Invalid CSRF token in C:\laragon\www\mjl\bin\support\Route.php at line 170
+Trace: #0 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#1 {main}
+[Error] Invalid CSRF token in C:\laragon\www\mjl\bin\support\Route.php at line 170
+Trace: #0 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#1 {main}
+[Error] Invalid CSRF token in C:\laragon\www\mjl\bin\support\Route.php at line 170
+Trace: #0 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#1 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'order.order_id' in 'on clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(39): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->getInvoices(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'order.order_id' in 'on clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(39): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->getInvoices(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoices.order_id' in 'on clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(39): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->getInvoices(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'vendor_id' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 384
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(384): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(362): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(96): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\InvoiceController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'vendor_id' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 384
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(384): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(362): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(97): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\InvoiceController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'vendor_id' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 384
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(384): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(362): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(97): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\InvoiceController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[22007]: Invalid datetime format: 1292 Truncated incorrect DOUBLE value: 'Array' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 457
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(457): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(152): Support\BaseModel->updateWhere(Array, Array)
+#2 [internal function]: App\Controllers\InvoiceController->delete(Object(Support\Request), '14c1e160-702b-4...')
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}

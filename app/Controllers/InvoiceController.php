@@ -24,7 +24,7 @@ class InvoiceController extends BaseController
     public function index()
     {
         $payment = Payment::all();
-        $vendor = Transactions::all();
+        $vendor = Transactions::query()->where('invoice_id','=',null)->get();
         return view('invoices/invoice',['payment'=>$payment,'vendor'=>$vendor],'layout/app');
     }
 
@@ -33,6 +33,7 @@ class InvoiceController extends BaseController
         if(Request::isAjax()){
             $invoice = Invoice::query()->selectRaw('invoices.uuid')
                                         ->leftJoin('payments','payments.payment_id','=','invoices.payment_id')
+                                        ->leftJoin('vendors','vendors.vendor_id','=','invoices.vendor_id')
                                         ->where('invoices.deleted_at','=',null)
                                         ->get();
             return DataTables::of($invoice)
@@ -89,19 +90,24 @@ class InvoiceController extends BaseController
         } else {
             $newcode = '0001'.'_INV-MJL_'.$month.'_'.$year;
         }
+        foreach($request->get('order_id') as $od){
+            $od_id = $od;
+        }
+        $transaction = Transactions::query()->where('order_id','=',$od_id)->first();
+        $vendor = Vendors::query()->where('vendor_id','=',$transaction->vendor_id)->first();
         $invoice = Invoice::create([
             'uuid' => UUID::generateUuid(),
             'no_invoice' => $newcode,
             'tgl_invoice' => $request->tgl_invoice,
             'tgl_jatuh_tempo' => $request->tgl_jatuh_tempo,
             'name_pt' => $request->name_pt,
+            'vendor_id' => $vendor->vendor_id,
             'payment_id' => $request->payment_id,
             'subtotal' => $request->subtotal,
             'pph23' => $request->pph23,
             'ppn' => $request->ppn,
             'total_pembayaran' => $request->total_pembayaran,
             'description' => $request->description,
-            'sign' => $request->sign,
         ]);
         if ($invoice) {
             $orderIds = $request->get('order_id');
@@ -136,19 +142,31 @@ class InvoiceController extends BaseController
 
     public function delete(Request $request, $id)
     {
-        $invoice = Invoice::query()->where('uuid','=',$id)->first();
+        $invoice = Invoice::query()->where('uuid', '=', $id)->first();
+        if (!$invoice) {
+            return Response::json(['status' => 404, 'message' => 'Invoice tidak ditemukan']);
+        }
         $invoice->deleted_at = Date::Now();
         $invoice->save();
+        (new Transactions())->updateWhere(
+            ['invoice_id' => $invoice->invoice_id], 
+            ['invoice_id' => null]
+        );
         return Response::json(['status'=>200,'message'=>'Invoice berhasil dihapus']);
     }
 
-    public function generatePDF(Request $request)
+    public function generatePDF(Request $request,$id)
     {
-        $inv = Invoice::query()->leftJoin('orders','orders.invoice_id','=','invoices.invoice_id')->where('invoices.invoice_id','=',1)->first();
+        $inv = Invoice::query()->select()->selectRaw('(SELECT SUM(orders.price) FROM orders WHERE orders.invoice_id = invoices.invoice_id) as total')
+                                ->leftJoin('orders','orders.invoice_id','=','invoices.invoice_id')
+                                ->leftJoin('vehicles','vehicles.vehicle_id','=','orders.vehicle_id')
+                                ->leftJoin('vendors','vendors.vendor_id','=','orders.vendor_id')
+                                ->where('invoices.uuid','=',$id)->get();
+        $pay = Payment::query()->first();
         if (!$inv) {
             die('Invoice tidak ditemukan');
         }
-        $html = View::render('invoices/template-invoice', ['invoice' => $inv]);
+        $html = View::render('invoices/template-invoice', ['invoice' => $inv,'payment'=>$pay]);
         $options = new Options();
         $options->set('defaultFont', 'Helvetica');
         $dompdf = new Dompdf($options);

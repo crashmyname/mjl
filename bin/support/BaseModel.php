@@ -426,6 +426,48 @@ class BaseModel
         $stmt->bindValue(':' . $this->primaryKey, $this->attributes[$this->primaryKey]);
         $stmt->execute();
     }
+    public function updateWhere($conditions, $data)
+    {
+        $this->connection = DB::getConnection();
+        
+        $setClause = [];
+        foreach ($data as $key => $value) {
+            $setClause[] = "{$key} = :{$key}";
+        }
+        $setClause = implode(', ', $setClause);
+        
+        $whereClause = [];
+        $bindValues = [];
+        foreach ($conditions as $key => $value) {
+            if (is_array($value)) {
+                $placeholders = [];
+                foreach ($value as $index => $val) {
+                    $param = ":where_{$key}_{$index}";
+                    $placeholders[] = $param;
+                    $bindValues[$param] = $val;
+                }
+                $whereClause[] = "{$key} IN (" . implode(', ', $placeholders) . ")";
+            } else {
+                $whereClause[] = "{$key} = :where_{$key}";
+                $bindValues[":where_{$key}"] = $value;
+            }
+        }
+        $whereClause = implode(' AND ', $whereClause);
+
+        $table = self::$dynamicTable ?? $this->table;
+        $sql = "UPDATE {$table} SET {$setClause} WHERE {$whereClause}";
+
+        $stmt = $this->connection->prepare($sql);
+        
+        foreach ($data as $key => $value) {
+            $stmt->bindValue(':' . $key, $value);
+        }
+        foreach ($bindValues as $param => $val) {
+            $stmt->bindValue($param, $val);
+        }
+
+        $stmt->execute();
+    }
     public function delete()
     {
         try {
