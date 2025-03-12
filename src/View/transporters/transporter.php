@@ -938,10 +938,14 @@
             }
         })
     }
+    function validateNumberInput(input){
+        input.value = input.value.replace(/[^0-9]/g,'');
+    }
     $(document).ready(function(){
         initDataTable();
         crudVehicle();
         crudDriver();
         crudPrice();
+        validateNumberInput();
     })
 </script>

@@ -31,7 +31,7 @@
                                                 <label>Phone</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="phone_number" id="phone_number" class="form form-control">
+                                                <input type="text" name="phone_number" id="phone_number" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Sim Type</label>
@@ -106,7 +106,7 @@
                                                 <label>Phone</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="phone_number" id="uphone_number" class="form form-control">
+                                                <input type="text" name="phone_number" id="uphone_number" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Sim Type</label>

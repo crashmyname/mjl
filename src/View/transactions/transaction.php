@@ -102,7 +102,7 @@
                                                 <label>Price</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="price" id="price" class="form-control">
+                                                <input type="text" name="price" id="price" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>
@@ -210,7 +210,7 @@
                                                 <label>Price</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="price" id="uprice" class="form-control">
+                                                <input type="text" name="price" id="uprice" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>
@@ -612,11 +612,15 @@
             defaultDate: new Date(),
         })
     }
+    function validateNumberInput(input){
+        input.value = input.value.replace(/[^0-9]/g,'');
+    }
     $(document).ready(function(){
         initDataTable();
         crudOrders();
         getPrice();
         generatePO();
         flatPicker();
+        validateNumberInput();
     })
 </script>

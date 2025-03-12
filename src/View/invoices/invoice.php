@@ -88,7 +88,7 @@
                                                 <label>Sub Total</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="subtotal" id="subtotal" class="form form-control">
+                                                <input type="text" name="subtotal" id="subtotal" readonly class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>PPH 23</label>
@@ -106,7 +106,7 @@
                                                 <label>Total Pembayaran</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="total_pembayaran" id="total_pembayaran" class="form form-control">
+                                                <input type="text" name="total_pembayaran" id="total_pembayaran" class="form form-control" readonly>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Description</label>

@@ -70,7 +70,7 @@
                                                 <label>Phone</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="phone" id="phone" class="form form-control">
+                                                <input type="text" name="phone" id="phone" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>NPWP</label>
@@ -151,7 +151,7 @@
                                                 <label>Phone</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="phone" id="uphone" class="form form-control">
+                                                <input type="text" name="phone" id="uphone" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>NPWP</label>
@@ -469,8 +469,12 @@
             }
         })
     }
+    function validateNumberInput(input){
+        input.value = input.value.replace(/[^0-9]/g,'');
+    }
     $(document).ready(function(){
         initDataTable();
         crudShippers();
+        validateNumberInput();
     })
 </script>

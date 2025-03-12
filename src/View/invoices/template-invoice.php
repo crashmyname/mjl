@@ -17,8 +17,33 @@
                 max-width: 100%; /* Pastikan gambar tidak pecah */
             }
         }
+        .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        border-bottom: 2px solid black;
+        padding: 10px 0;
+        }
+
+        /* Tambahkan footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            border-top: 2px solid black;
+            padding: 10px 0;
+        }
         body {
             font-family: Arial, sans-serif;
+            margin-top: 60px; /* Sesuaikan dengan tinggi header */
+            margin-bottom: 60px; /* Sesuaikan dengan tinggi footer */
         }
         table {
                 width: 100%;

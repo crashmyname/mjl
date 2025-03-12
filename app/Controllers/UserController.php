@@ -121,6 +121,20 @@ class UserController extends BaseController
     {
         $user = User::query()->where('uuid','=',$id)->first();
         $user->name = $request->name;
+        if($request->getClientOriginalName('profile')){
+            $path = storage_path('profile-users');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+            $oldFile = $path.'/'.$user->profile;
+            if(file_exists($oldFile)){
+                unlink($oldFile);
+            }
+            $user->profile = $request->getClientOriginalName('profile');
+            $tempPath = $request->getPath('profile');
+            $destination = $path.'/'.$user->profile;
+            move_uploaded_file($tempPath,$destination);
+        }
         if($request->password){
             $user->password = password_hash($request->password,PASSWORD_BCRYPT);
         }

@@ -41,19 +41,25 @@
                                                 <label>MIN</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="min" id="min" class="form form-control">
+                                                <div class="input-group">
+                                                    <input type="text" name="min" id="min" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form form-control">
+                                                    <span class="input-group-text">KG</span>
+                                                </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>MAX</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="max" id="max" class="form form-control">
+                                                <div class="input-group">
+                                                    <input type="text" name="max" id="max" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form-control">
+                                                    <span class="input-group-text">KG</span>
+                                                </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Price</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="price" id="price" class="form form-control">
+                                                <input type="text" name="price" id="price" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>
@@ -129,19 +135,25 @@
                                                 <label>MIN</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="min" id="umin" class="form form-control">
+                                                <div class="input-group">
+                                                    <input type="text" name="min" id="umin" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form form-control">
+                                                    <span class="input-group-text">KG</span>
+                                                </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>MAX</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="max" id="umax" class="form form-control">
+                                                <div class="input-group">
+                                                    <input type="text" name="max" id="umax" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form form-control">
+                                                    <span class="input-group-text">KG</span>
+                                                </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Price</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="price" id="uprice" class="form form-control">
+                                                <input type="text" name="price" id="uprice" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>
