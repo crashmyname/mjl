@@ -59,6 +59,7 @@ Route::group([AuthMiddleware::class],function(){
     Route::delete('/orders/{id}', [TransactionController::class, 'delete']);
     Route::post('/getprice',[TransactionController::class, 'getPrice']);
     Route::post('/getpricepo',[TransactionController::class, 'getPricePO']);
+    Route::get('/detailorders/{nopo}',[TransactionController::class, 'detailOrders']);
     
     // Transporter
     Route::get('/transporters',[DriverController::class, 'index']);

@@ -66,6 +66,16 @@ class TransactionController extends BaseController
         return Response::json(['status'=>200,'code'=>$newcode]);
     }
 
+    public function detailOrders($nopo)
+    {
+        $order = Transactions::query()
+                                ->leftJoin('drivers','drivers.driver_id','=','orders.driver_id')
+                                ->leftJoin('vehicles','vehicles.vehicle_id','=','orders.vehicle_id')
+                                ->leftJoin('vendors','vendors.vendor_id','=','orders.vendor_id')
+                                ->where('no_po','=',$nopo)->first();
+        return view('transactions/detailorders',['order'=>$order],'layout/app');
+    }
+
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(),[

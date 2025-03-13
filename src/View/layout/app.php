@@ -101,6 +101,7 @@
                                 <span>Dashboard</span>
                             </a>
                         </li>
+                        <?php if(\Support\Session::user()->role_id == 'Administrator'):?>
                         <li class="sidebar-item has-sub">
                             <a href="#" class="sidebar-link" id="dropdown">
                                 <i class="bi bi-stack"></i>
@@ -115,18 +116,21 @@
                                 </li>
                             </ul>
                         </li>
+                        <?php endif; ?>
                         <li class="sidebar-item  ">
                             <a href="<?= base_url() ?>/transporters" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Transporters</span>
                             </a>
                         </li>
+                        <?php if(\Support\Session::user()->role_id == 'Administrator'):?>
                         <li class="sidebar-item  ">
                             <a href="<?= base_url() ?>/shippers" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Shippers</span>
                             </a>
                         </li>
+                        <?php endif; ?>
                         <li class="sidebar-item  ">
                             <a href="<?= base_url() ?>/orders" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
