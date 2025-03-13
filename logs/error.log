@@ -409,3 +409,17 @@ Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(457): PDOStatement->execu
 #3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
 #4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
 #5 {main}
+[Error] Layout file not found: C:\laragon\www\mjl\bin\support/../../src/View/Array.php in C:\laragon\www\mjl\bin\support\BaseController.php at line 478
+Trace: #0 C:\laragon\www\mjl\bin\support\helper.php(267): Support\BaseController->view('payments/paymen...', Array, Array)
+#1 C:\laragon\www\mjl\routes\route.php(84): view('payments/paymen...', Array, Array)
+#2 [internal function]: {closure}()
+#3 C:\laragon\www\mjl\bin\support\Route.php(196): call_user_func_array(Object(Closure), Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] Layout file not found: C:\laragon\www\mjl\bin\support/../../src/View/Array.php in C:\laragon\www\mjl\bin\support\BaseController.php at line 478
+Trace: #0 C:\laragon\www\mjl\bin\support\helper.php(267): Support\BaseController->view('payments/paymen...', Array, Array)
+#1 C:\laragon\www\mjl\routes\route.php(84): view('payments/paymen...', Array, Array)
+#2 [internal function]: {closure}()
+#3 C:\laragon\www\mjl\bin\support\Route.php(196): call_user_func_array(Object(Closure), Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}

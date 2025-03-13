@@ -24,7 +24,7 @@ class InvoiceController extends BaseController
     public function index()
     {
         $payment = Payment::all();
-        $vendor = Transactions::query()->where('invoice_id','=',null)->get();
+        $vendor = Transactions::query()->where('invoice_id','=',null)->where('deleted_at','=',null)->get();
         return view('invoices/invoice',['payment'=>$payment,'vendor'=>$vendor],'layout/app');
     }
 
