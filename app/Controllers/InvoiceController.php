@@ -104,8 +104,8 @@ class InvoiceController extends BaseController
             'vendor_id' => $vendor->vendor_id,
             'payment_id' => $request->payment_id,
             'subtotal' => $request->subtotal,
-            'pph23' => $request->pph23,
-            'ppn' => $request->ppn,
+            'pph23' => $request->pph23 ?? 0,
+            'ppn' => $request->ppn ?? 0,
             'total_pembayaran' => $request->total_pembayaran,
             'description' => $request->description,
         ]);

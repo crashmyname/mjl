@@ -94,13 +94,19 @@
                                                 <label>PPH 23</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="pph23" id="pph23" class="form form-control" value="4%" readonly>
+                                                <div class="input-group">
+                                                    <input type="text" name="pph23" id="pph23" class="form form-control" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)">
+                                                    <span class="input-group-text">%</span>
+                                                </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>PPN</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="ppn" id="ppn" class="form form-control" value="11%" readonly>
+                                                <div class="input-group">
+                                                    <input type="text" name="ppn" id="ppn" class="form form-control" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)">
+                                                    <span class="input-group-text">%</span>
+                                                </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Total Pembayaran</label>
@@ -657,31 +663,31 @@
                         } else {
                             selectElement.attr('data-price', '0');
                         }
-
-                        // Hitung ulang subtotal dan total pembayaran
                         calculateTotal();
                     }
                 });
             }
         });
-
-        // Panggil untuk elemen pertama saat halaman dimuat
         $('.order-select').trigger('change');
     }
     function calculateTotal() {
         var total = 0;
-
         $('.order-select').each(function () {
             var price = parseFloat($(this).attr('data-price')) || 0;
             total += price;
         });
-
-        var pph23 = total * 0.04;
-        var ppn = total * 0.11;
-        var jumlah = total + pph23 + ppn;
-
         $('#subtotal').val(total);
-        $('#total_pembayaran').val(jumlah);
+        $('#pph23,#ppn').on('input', function(){
+            var inputpph23 = $('#pph23').val();
+            var inputppn = $('#ppn').val();
+            var pph23 = total * (inputpph23/100);
+            var ppn = total * (inputppn/100);
+            var jumlah = total + pph23 + ppn;
+            $('#total_pembayaran').val(jumlah);
+        })
+    }
+    function validateNumberInput(input){
+        input.value = input.value.replace(/[^0-9]/g,'');
     }
     $(document).ready(function(){
         initDataTable();
@@ -689,5 +695,6 @@
         dateNow();
         addElement();
         getPricePO();
+        validateNumberInput();
     })
 </script>
