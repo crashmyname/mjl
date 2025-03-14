@@ -348,11 +348,21 @@
                 },
                 {
                     data: 'pph23',
-                    name: 'pph23'
+                    name: 'pph23',
+                    render:function(data,type,row){
+                        var pph23 = parseFloat(data/100);
+                        var result = row.subtotal*pph23;
+                        return '<span class="badge bg-warning">'+'('+data+'%)'+' Rp. '+result.toLocaleString('id-ID')+'</span>';
+                    }
                 },
                 {
                     data: 'ppn',
-                    name: 'ppn'
+                    name: 'ppn',
+                    render:function(data,type,row){
+                        var ppn =parseFloat(data/100);
+                        var result= row.subtotal*ppn;
+                        return '<span class="badge bg-danger">'+'('+data+'%)'+' Rp. '+result.toLocaleString('id-ID')+'</span>';
+                    }
                 },
                 {
                     data: 'total_pembayaran',
