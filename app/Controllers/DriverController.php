@@ -87,8 +87,34 @@ class DriverController extends BaseController
         $driver->driver_ksuid = $request->driver_ksuid;
         $driver->phone_number = $request->phone_number;
         $driver->sim_type = $request->sim_type;
-        $driver->ktp = $request->ktp;
-        $driver->sim = $request->sim;
+        if($request->getClientOriginalName('ktp')){
+            $path = storage_path('document/data');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+            $oldFile = $path.'/'.$driver->ktp;
+            if(file_exists($oldFile)){
+                unlink($oldFile);
+            }
+            $driver->ktp = $request->getClientOriginalName('ktp');
+            $tempPath = $request->getPath('ktp');
+            $destination = $path.'/'.$driver->ktp;
+            move_uploaded_file($tempPath,$destination);
+        }
+        if($request->getClientOriginalName('sim')){
+            $path = storage_path('document/data');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+            $oldFile = $path.'/'.$driver->sim;
+            if(file_exists($oldFile)){
+                unlink($oldFile);
+            }
+            $driver->sim = $request->getClientOriginalName('sim');
+            $tempPath = $request->getPath('sim');
+            $destination = $path.'/'.$driver->sim;
+            move_uploaded_file($tempPath,$destination);
+        }
         $driver->updated_at = Date::Now();
         $driver->save();
         return Response::json(['status'=>201,'message'=>'Driver berhasil diupdate']);

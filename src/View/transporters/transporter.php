@@ -395,15 +395,16 @@
             var truck_type = $('#utruck_type');
             var truck_sub_type = $('#utruck_sub_type');
             var plat_color = $('#uplat_color');
-            var stnk = $('#ustnk');
-            var kir = $('#ukir');
+            var stnk = $('#imgstnk');
+            var kir = $('#imgkir');
+            var urlimage = '<?= asset('document/data/')?>'
             if(selectedData.length > 0){
                 plat_number.val(selectedData[0].plat_number);
                 truck_type.val(selectedData[0].truck_type);
                 truck_sub_type.val(selectedData[0].truck_sub_type);
                 plat_color.val(selectedData[0].plat_color);
-                stnk.val(selectedData[0].stnk);
-                kir.val(selectedData[0].kir);
+                stnk.attr('src',urlimage+selectedData[0].stnk)
+                kir.attr('src',urlimage+selectedData[0].kir);
                 $('#modalEditVehicle').modal('show');
             } else {
                 $('#modalEditVehicle').modal('hide');

@@ -85,8 +85,34 @@ class VehicleController extends BaseController
         $vehicle->truck_type = $request->truck_type;
         $vehicle->truck_sub_type = $request->truck_sub_type;
         $vehicle->plat_color = $request->plat_color;
-        $vehicle->stnk = $request->stnk;
-        $vehicle->kir = $request->kir;
+        if($request->getClientOriginalName('stnk')){
+            $path = storage_path('document/data');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+            $oldFile = $path.'/'.$vehicle->stnk;
+            if(file_exists($oldFile)){
+                unlink($oldFile);
+            }
+            $vehicle->stnk = $request->getClientOriginalName('stnk');
+            $tempPath = $request->getPath('stnk');
+            $destination = $path.'/'.$vehicle->stnk;
+            move_uploaded_file($tempPath,$destination);
+        }
+        if($request->getClientOriginalName('kir')){
+            $path = storage_path('document/data');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+            $oldFile = $path.'/'.$vehicle->kir;
+            if(file_exists($oldFile)){
+                unlink($oldFile);
+            }
+            $vehicle->kir = $request->getClientOriginalName('kir');
+            $tempPath = $request->getPath('kir');
+            $destination = $path.'/'.$vehicle->kir;
+            move_uploaded_file($tempPath,$destination);
+        }
         $vehicle->updated_at = Date::Now();
         $vehicle->save();
         return Response::json(['status'=>201,'message'=>'Success update']);

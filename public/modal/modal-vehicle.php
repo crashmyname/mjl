@@ -115,13 +115,15 @@
                                                 <label>STNK</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="stnk" id="ustnk" class="form form-control">
+                                                <input type="file" name="stnk" id="ustnk" class="form form-control" accept=".jpeg,.jpg,.png">
+                                                <img src="" id="imgstnk" alt="" width="20%">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>KIR</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="kir" id="ukir" class="form form-control">
+                                                <input type="file" name="kir" id="ukir" class="form form-control" accept=".jpeg,.jpg,.png">
+                                                <img src="" id="imgkir" alt="" width="20%">
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
                                             <button type="submit" id="updatevehicle" class="btn btn-warning me-1 mb-1">Simpan</button>
