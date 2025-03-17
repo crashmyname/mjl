@@ -117,7 +117,7 @@
                         <td><?= $inv->truck_type?></td>
                         <td><?= $inv->plat_number?></td>
                         <td><?= $inv->plat_color?></td>
-                        <td><?= $inv->origin_city?>><?= $inv->destination?></td>
+                        <td><?= $inv->origin_city?> → <?= $inv->destination?></td>
                         <td>Rp. <?= number_format($inv->price,2,',','.')?></td>
                     </tr>
                     <?php 
