@@ -107,9 +107,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($invoice as $inv):?>
+                    <?php 
+                    $no = 1;
+                    foreach($invoice as $inv):?>
                     <tr>
-                        <td><?= $inv->invoice_id?></td>
+                        <td><?= $no?></td>
                         <td><?= $inv->no_po?></td>
                         <td><?= \Support\Date::parse($inv->pickup_date)->format('d M Y')?></td>
                         <td><?= $inv->truck_type?></td>
@@ -118,7 +120,9 @@
                         <td><?= $inv->origin_city?>><?= $inv->destination?></td>
                         <td>Rp. <?= number_format($inv->price,2,',','.')?></td>
                     </tr>
-                    <?php endforeach; ?>
+                    <?php 
+                    $no++;
+                    endforeach; ?>
                 </tbody>
             </table>
         </tr>
