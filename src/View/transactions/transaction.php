@@ -1,3 +1,16 @@
+<style>
+    .select2-container--bootstrap-5 .select2-selection--single.form-control {
+        height: calc(2.25rem + 2px);
+        /* tinggi standar form-control */
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+    }
+
+    .select2-container--bootstrap-5 .select2-selection__rendered {
+        line-height: 1.5;
+        /* pastikan teks center */
+    }
+</style>
 <div class="page-heading">
     <div class="page-title">
         <div class="row">
@@ -80,7 +93,7 @@
                                                 <label>Vehicle</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="vehicle_id" id="vehicle_id" class="form-control">
+                                                <select name="vehicle_id" id="vehicle_id" class="form-control js-example-basic-single">
                                                     <option value="-" disabled selected value> - </option>
                                                 <?php foreach($vehicle as $vhc):?>
                                                     <option value="<?= $vhc->vehicle_id?>"><?= $vhc->plat_number?> | <?= $vhc->truck_type?> | <?= $vhc->truck_sub_type?></option>
@@ -99,7 +112,7 @@
                                                 <label>Driver</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="driver_id" id="driver_id" class="form-control">
+                                                <select name="driver_id" id="driver_id" class="form-control js-example-basic-single">
                                                     <option value="-" disabled selected value> - </option>
                                                 <?php foreach($driver as $dv): ?>
                                                     <option value="<?= $dv->driver_id?>"><?= $dv->driver_name?></option>
@@ -284,6 +297,15 @@
         </div>
     </section>
 </div>
+<script>
+    $('#border-less').on('shown.bs.modal', function() {
+                $('.js-example-basic-single').select2({
+                    theme: "bootstrap-5",
+                    dropdownParent: $('#border-less')
+                }).next('.select2-container').find('.select2-selection--single').addClass(
+                    'form-control');
+            });
+</script>
 <script>
     var table;
     // function tampil datatable user
