@@ -20,7 +20,6 @@ Route::get('/sign-in',function(){
 });
 Route::post('/sign-in',[AuthController::class, 'onLogin']);
 Route::post('/sign-out',[AuthController::class, 'logout']);
-Route::get('/test',[HomeController::class, 'test']);
 Route::group([AuthMiddleware::class],function(){
 
     Route::get('/',[HomeController::class,'index']);
@@ -56,8 +55,10 @@ Route::group([AuthMiddleware::class],function(){
     Route::get('/getorders', [TransactionController::class, 'getOrders']);
     Route::post('/orders',[TransactionController::class, 'create']);
     Route::put('/uorders/{id}', [TransactionController::class, 'update']);
+    Route::put('/updateorders/{po}',[TransactionController::class, 'updateSuratJalan']);
     Route::delete('/orders/{id}', [TransactionController::class, 'delete']);
     Route::post('/getprice',[TransactionController::class, 'getPrice']);
+    Route::post('/getproject',[TransactionController::class, 'getProject']);
     Route::post('/getpricepo',[TransactionController::class, 'getPricePO']);
     Route::get('/detailorders/{nopo}',[TransactionController::class, 'detailOrders']);
     

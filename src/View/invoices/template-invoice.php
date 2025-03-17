@@ -98,6 +98,7 @@
                     <tr>
                         <th>No</th>
                         <th>Nomor Pengirim</th>
+                        <th>Nomor Surat Jalan</th>
                         <th>Tanggal Muat</th>
                         <th>Jenis Truck</th>
                         <th>No. Polisi</th>
@@ -113,6 +114,7 @@
                     <tr>
                         <td><?= $no?></td>
                         <td><?= $inv->no_po?></td>
+                        <td><?= $inv->no_surat_jalan?></td>
                         <td><?= \Support\Date::parse($inv->pickup_date)->format('d M Y')?></td>
                         <td><?= $inv->truck_type?></td>
                         <td><?= $inv->plat_number?></td>

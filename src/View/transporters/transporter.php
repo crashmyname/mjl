@@ -132,6 +132,7 @@
                                                             <th>Max</th>
                                                             <th>Price</th>
                                                             <th>Status</th>
+                                                            <th>Project</th>
                                                             <th>Created at</th>
                                                         </tr>
                                                     </thead>
@@ -326,6 +327,10 @@
                 {
                     data: 'status',
                     name: 'status'
+                },
+                {
+                    data: 'project',
+                    name: 'project'
                 },
                 {
                     data: 'created_at',
@@ -795,6 +800,7 @@
             var max = $('#umax');
             var status = $('#ustatus');
             var price = $('#uprice');
+            var project = $('#uproject');
             if(selectedData.length > 0){
                 vehicle_id.val(selectedData[0].vehicle_id);
                 origin_city.val(selectedData[0].origin_city);
@@ -803,6 +809,7 @@
                 max.val(selectedData[0].max);
                 status.val(selectedData[0].status);
                 price.val(selectedData[0].price);
+                project.val(selectedData[0].project);
                 $('#modalEditPrice').modal('show');
             } else {
                 $('#modalEditPrice').modal('hide');

@@ -88,6 +88,14 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
+                                                <label>Project</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <select name="project" id="project" class="form-control">
+
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>Driver</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -197,6 +205,12 @@
                                                 <select name="vehicle_id" id="uvehicle_id" class="form-control">
                                                     <option value=""></option>
                                                 </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Project</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="project" id="uproject" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Driver</label>
@@ -408,6 +422,7 @@
             var driver_id = $('#udriver_id');
             var price = $('#uprice');
             var status = $('#ustatus');
+            var project = $('#uproject');
             if(selectedData.length > 0){
                 no_po.val(selectedData[0].no_po);
                 vendor_id.empty();
@@ -422,6 +437,7 @@
                 driver_id.append('<option value="'+selectedData[0].driver_id+'">'+selectedData[0].driver_name+'</option>');
                 price.val(selectedData[0].price);
                 status.val(selectedData[0].status);
+                project.val(selectedData[0].project);
                 $('#modalEdit').modal('show');
             } else {
                 $('#modalEdit').modal('hide');
@@ -558,15 +574,45 @@
             }
         })
     }
-    function getPrice(){
+    function getProject(){
         $('#vehicle_id').on('change', function(){
+            var url = '<?= base_url()?>/getproject';
+            var vehicle = $('#vehicle_id').val();
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {
+                    vehicle: vehicle
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': '<?= csrfHeader() ?>'
+                },
+                success: function(response) {
+                    if (response.status === 200) {
+                        $('#project').empty();
+                        $('#project').append('<option value="" disabled selected hidden>' + '-' + '</option>');
+                        $.each(response.data, function(key, value) {
+                            $('#project').append('<option value="' + value.project + '">' + value.project + '</option>');
+                        })
+                    } else {
+                        $('#project').empty();
+                    }
+                }
+            })
+        })
+    }
+    function getPrice(){
+        $('#project').on('change', function(){
             var url = '<?= base_url()?>/getprice';
             var price = $('#vehicle_id').val();
+            var project = $('#project').val();
             $.ajax({
                 type : 'POST',
                 url:url,
                 data: {
-                    price: price
+                    price: price,
+                    project: project,
                 },
                 dataType: 'json',
                 headers:{
@@ -622,6 +668,7 @@
         initDataTable();
         crudOrders();
         getPrice();
+        getProject();
         generatePO();
         flatPicker();
         validateNumberInput();

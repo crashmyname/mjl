@@ -18,7 +18,7 @@ class PriceController extends BaseController
     public function getPrice(Request $request)
     {
         if(Request::isAjax()){
-            $price = Price::query()->select('prices.uuid','origin_city','destination_city','min','max','status','price','prices.created_at','vehicles.plat_number','vehicles.truck_type')->leftJoin('vehicles','vehicles.vehicle_id','=','prices.vehicle_id')->where('prices.deleted_at','=',null)->get();
+            $price = Price::query()->select('prices.uuid','origin_city','destination_city','min','max','status','price','prices.created_at','vehicles.plat_number','vehicles.truck_type','project')->leftJoin('vehicles','vehicles.vehicle_id','=','prices.vehicle_id')->where('prices.deleted_at','=',null)->get();
             return DataTables::of($price)->make(true);
         }
     }
@@ -34,6 +34,7 @@ class PriceController extends BaseController
             'max' => $request->max,
             'status' => $request->status,
             'price' => $request->price,
+            'project' => $request->project,
         ]);
         return Response::json(['status'=>201,'message'=>'Harga berhasil dibuat']);
     }
@@ -48,6 +49,7 @@ class PriceController extends BaseController
         $price->max = $request->max;
         $price->status = $request->status;
         $price->price = $request->price;
+        $price->project = $request->project;
         $price->updated_at = Date::Now();
         $price->save();
         return Response::json(['status'=>201,'message'=>'Harga berhasil diupdate']);

@@ -30,8 +30,10 @@
                         <div class="card">
                             <div class="card-content">
                                 <div class="card-body">
-                                    <form action="" id="updateprofile" method="POST"
+                                    <form action="" id="updateorders" method="POST"
                                         enctype="multipart/form-data">
+                                        <?= csrf()?>
+                                        <?= method('PUT')?>
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
@@ -135,8 +137,40 @@
                                                         class="form form-control" id="plat_color" disabled>
                                                 </div>
                                             </div>
-                                            <hr>
                                         </div>
+                                        <h4 class="card-title">No Surat Jalan <?= $order->no_surat_jalan ?? 'Belum diinput'?></h4>
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="first-name-column">No Surat Jalan</label>
+                                                    <?php if($order->no_surat_jalan != null): ?>
+                                                        <input type="text" name="no_surat_jalan"
+                                                            value="<?= $order->no_surat_jalan?>"
+                                                            class="form form-control" id="no_surat_jalan" disabled>
+                                                        <?php else: ?>
+                                                        <input type="text" name="no_surat_jalan"
+                                                            value=""
+                                                            class="form form-control" id="no_surat_jalan">
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="last-name-column">Upload Bukti Surat jalan</label>
+                                                    <?php if($order->bukti != null): ?>
+                                                        <img src="<?= asset('document/data/').$order->bukti?>" width="85%" alt="">
+                                                        <?php else: ?>
+                                                            <input type="file" name="bukti"
+                                                            class="form form-control" id="bukti">
+                                                    <?php endif;?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php if($order->no_surat_jalan == null && $order->bukti == null):?>
+                                        <button type="submit" class="btn btn-warning" style="float:right" id="update">Update</button>
+                                        <?php endif; ?>
+                                        <br>
+                                        <hr>
                                         <h1 class="card-title"><?= $order->status?></h1>
                                         <h2 class="card-title" style="float:right">Rp. <?= number_format($order->price,2,',','.')?></h2>
                                     </form>
@@ -149,3 +183,52 @@
         </div>
     </section>
 </div>
+<script type="text/javascript">
+    $('#update').on('click', function(e) {
+        e.preventDefault();
+        var uID = '<?= $order->no_po?>';
+        var url = "<?= base_url()?>/updateorders" + '/' + uID;
+        var formData = new FormData($('#updateorders')[0]);
+        Swal.fire({
+            title: 'Update',
+            icon: 'warning',
+            text: 'Apakah yakin data ingin diubah?',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Update!!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 200) {
+                            Swal.fire({
+                                title: 'Success',
+                                icon: 'success',
+                                text: 'PO berhasil diupdate',
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                icon: 'error',
+                                text: 'Gagal membuat PO',
+                            })
+                        }
+                    },
+                    error: function(error) {
+                        console.error(error);
+                        Swal.fire({
+                            title: 'Error',
+                            icon: 'error',
+                            text: 'Error dalam melakukan fungsi',
+                        })
+                    }
+                })
+            }
+        })
+    })
+</script>

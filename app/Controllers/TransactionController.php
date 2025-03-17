@@ -22,9 +22,9 @@ class TransactionController extends BaseController
     // Controller logic here
     public function index()
     {
-        $vendor = Vendors::all();
-        $vehicle = Vehicle::all();
-        $driver = Drivers::all();
+        $vendor = Vendors::query()->where('deleted_at','=',null)->get();
+        $vehicle = Vehicle::query()->where('deleted_at','=',null)->get();
+        $driver = Drivers::query()->where('deleted_at','=',null)->get();
         return view('transactions/transaction',['vendor'=>$vendor,'vehicle'=>$vehicle,'driver'=>$driver],'layout/app');
     }
 
@@ -43,8 +43,16 @@ class TransactionController extends BaseController
     public function getPrice(Request $request)
     {
         $data =$request->price;
-        $price = Vehicle::query()->leftJoin('prices','prices.vehicle_id','=','vehicles.vehicle_id')->where('vehicles.vehicle_id','=',$data)->first();
+        $project = $request->project;
+        $price = Vehicle::query()->leftJoin('prices','prices.vehicle_id','=','vehicles.vehicle_id')->where('vehicles.vehicle_id','=',$data)->where('project','=',$project)->first();
         return Response::json(['status'=>200,'message'=>'success','data'=>$price->toArray()]);
+    }
+
+    public function getProject(Request $request)
+    {
+        $data =$request->vehicle;
+        $price = Price::query()->where('vehicle_id','=',$data)->get();
+        return Response::json(['status'=>200,'message'=>'success','data'=>$price]);
     }
     
     public function getPricePO(Request $request)
@@ -59,9 +67,9 @@ class TransactionController extends BaseController
         $generatePO = Transactions::query()->orderBy('no_po','DESC')->first();
         if($generatePO){
             $code = intval(substr($generatePO->no_po,3));
-            $newcode = 'DO-'.str_pad($code+1,7,'0',STR_PAD_LEFT).'-'.Date::parse(Date::Now())->format('Y');
+            $newcode = 'DO-'.str_pad($code+1,7,'0',STR_PAD_LEFT).'-'.Date::parse(Date::Now())->format('m').'-'.Date::parse(Date::Now())->format('Y');
         } else {
-            $newcode = 'DO-'.'0000001'.'-'.Date::parse(Date::Now())->format('Y');
+            $newcode = 'DO-'.'0000001'.'-'.Date::parse(Date::Now())->format('m').'-'.Date::parse(Date::Now())->format('Y');
         }
         return Response::json(['status'=>200,'code'=>$newcode]);
     }
@@ -101,6 +109,8 @@ class TransactionController extends BaseController
             'driver_id' => $request->driver_id,
             'price' => $request->price,
             'invoice_id' => null,
+            'no_surat_jalan' => null,
+            'bukti' => null,
             'status' => $request->status,
         ]);
         return Response::json(['status'=>201,'message'=>'Order berhasil dibuat']);
@@ -122,6 +132,36 @@ class TransactionController extends BaseController
         $orders->updated_at = Date::Now();
         $orders->save();
         return Response::json(['status'=>201,'message'=>'Order berhasil diupdate']);
+    }
+
+    public function updateSuratJalan(Request $request,$po)
+    {
+        $orders = Transactions::query()->where('no_po','=',$po)->first();
+        $validateType = $request->getClientMimeType('bukti');
+        $allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+        if($request->file('bukti') && !in_array($validateType,$allowedTypes)){
+            $errors = ['stnk' => ['File must be a valid image']];
+        }
+        if(!empty($errors)){
+            return Response::json(['status'=>500,'message'=>$errors]);
+        }
+        $orders->no_surat_jalan = $request->no_surat_jalan;
+        if($request->getClientOriginalName('bukti')){
+            $path = storage_path('document/data');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+
+            $fileName = $request->getClientOriginalName('bukti');
+            $tempPath = $request->getPath('bukti');
+            $destination = $path.'/'.$fileName;
+
+            if(move_uploaded_file($tempPath,$destination)){
+                $orders->bukti = $fileName;
+            }
+        }
+        $orders->save();
+        return Response::json(['status'=>200,'message'=>'Berhasil update surat jalan']);
     }
 
     public function delete(Request $request, $id)

@@ -62,6 +62,12 @@
                                                 <input type="text" name="price" id="price" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
+                                                <label>Project</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="project" id="project" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>Status</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -154,6 +160,12 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="text" name="price" id="uprice" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Project</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="project" id="uproject" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>
