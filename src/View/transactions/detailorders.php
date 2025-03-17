@@ -211,6 +211,13 @@
                                 icon: 'success',
                                 text: 'PO berhasil diupdate',
                             });
+                            if (response.data.no_surat_jalan) {
+                                $('#no_surat_jalan').val(response.data.no_surat_jalan).prop('disabled', true);
+                            }
+                            if (response.data.bukti) {
+                                $('#bukti').replaceWith('<img src="<?= asset('document/data/') ?>' + response.data.bukti + '" width="85%" alt="">');
+                            }
+                            $('#update').hide();
                         } else {
                             Swal.fire({
                                 title: 'Error',

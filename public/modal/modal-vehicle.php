@@ -53,6 +53,10 @@
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
                                                 <button type="submit" id="addvehicle" class="btn btn-primary me-1 mb-1">Simpan</button>
+                                                <button class="btn btn-primary me-1 mb-1" id="loading" type="button" disabled="" style="display: none;">
+                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                    Processing...
+                                                </button>
                                                 <button type="reset"
                                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                             </div>

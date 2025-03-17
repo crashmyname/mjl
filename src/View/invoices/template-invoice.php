@@ -146,11 +146,11 @@
                         </tr>
                         <tr>
                             <td>PPH23</td>
-                            <td>4%<span style="float:right">Rp. <?= number_format($invoice[0]->subtotal*($invoice[0]->pph23/100),2,',','.')?></span></td>
+                            <td><?= $invoice[0]->pph23?>%<span style="float:right">Rp. <?= number_format($invoice[0]->subtotal*($invoice[0]->pph23/100),2,',','.')?></span></td>
                         </tr>
                         <tr>
                             <td>PPN</td>
-                            <td>11%<span style="float:right">Rp. <?= number_format($invoice[0]->subtotal*($invoice[0]->ppn/100),2,',','.')?></span></td>
+                            <td><?= $invoice[0]->ppn?>%<span style="float:right">Rp. <?= number_format($invoice[0]->subtotal*($invoice[0]->ppn/100),2,',','.')?></span></td>
                         </tr>
                         <tr>
                             <td>Total Tagihan</td>

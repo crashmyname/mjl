@@ -25,6 +25,17 @@ class PriceController extends BaseController
 
     public function create(Request $request)
     {
+        $validate = Validator::make($request->all(),[
+            'origin_city' => 'required',
+            'destination_city' => 'required',
+            'min' => 'required',
+            'max' => 'required',
+            'price' => 'required',
+            'project' => 'required',
+        ]);
+        if($validate){
+            return Response::json(['status'=>500,'message'=>$validate]);
+        }
         $price = Price::create([
             'uuid' => UUID::generateUuid(),
             'vehicle_id' => $request->vehicle_id,

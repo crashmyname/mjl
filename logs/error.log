@@ -423,3 +423,51 @@ Trace: #0 C:\laragon\www\mjl\bin\support\helper.php(267): Support\BaseController
 #3 C:\laragon\www\mjl\bin\support\Route.php(196): call_user_func_array(Object(Closure), Array)
 #4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
 #5 {main}
+Connection failed: SQLSTATE[HY000] [1049] Unknown database 'defaultdb'Connection failed: SQLSTATE[HY000] [1049] Unknown database 'defaultdb'[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'vendor_id' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 384
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(384): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(362): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(110): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\InvoiceController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'vendor_id' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 384
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(384): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(362): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(110): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\InvoiceController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'vendor_id' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 384
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(384): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(362): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(101): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\InvoiceController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[HY000]: General error: 1366 Incorrect integer value: '' for column 'min' at row 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 384
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(384): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(362): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\PriceController.php(28): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\PriceController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[HY000]: General error: 1366 Incorrect integer value: '' for column 'min' at row 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 384
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(384): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(362): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\PriceController.php(28): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\PriceController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[HY000]: General error: 1366 Incorrect integer value: '' for column 'min' at row 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 384
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(384): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(362): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\PriceController.php(28): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\PriceController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}

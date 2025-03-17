@@ -43,6 +43,16 @@ class InvoiceController extends BaseController
 
     public function create(Request $request)
     {
+        $validate = Validator::make($request->all(),[
+            'order_id' => 'required',
+            'subtotal' => 'required',
+            'pph23' => 'required',
+            'ppn' => 'required',
+            'total_pembayaran' => 'required',
+        ]);
+        if($validate){
+            return Response::json(['status'=>500,'message'=>$validate]);
+        }
         $month = Date::parse($request->tgl_invoice)->format('m');
         $year = Date::parse($request->tgl_invoice)->format('Y');
         switch($month){

@@ -88,4 +88,9 @@ Route::group([AuthMiddleware::class],function(){
     Route::post('/payment',[PaymentController::class, 'create']);
     Route::put('/upayment/{id}', [PaymentController::class, 'update']);
     Route::delete('/payment/{id}', [PaymentController::class, 'delete']);
+
+    // Report
+    Route::get('/reports',function(){
+        return view('reports/report',[],'layout/app');
+    });
 });

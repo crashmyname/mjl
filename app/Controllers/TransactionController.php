@@ -161,7 +161,10 @@ class TransactionController extends BaseController
             }
         }
         $orders->save();
-        return Response::json(['status'=>200,'message'=>'Berhasil update surat jalan']);
+        return Response::json(['status'=>200,'message'=>'Berhasil update surat jalan','data'=>[
+            'no_surat_jalan' => $orders->no_surat_jalan,
+            'bukti' => $orders->bukti
+        ]]);
     }
 
     public function delete(Request $request, $id)

@@ -314,15 +314,24 @@
                 },
                 {
                     data: 'min',
-                    name: 'min'
+                    name: 'min',
+                    render:function(data,type,row){
+                        return '<span class="badge bg-light-danger">'+data+' KG</span>';
+                    }
                 },
                 {
                     data: 'max',
-                    name: 'max'
+                    name: 'max',
+                    render: function(data,type,row){
+                        return '<span class="badge bg-light-danger">'+data+' KG</span>';
+                    }
                 },
                 {
                     data: 'price',
-                    name: 'price'
+                    name: 'price',
+                    render:function(data,type,row){
+                        return '<span class="badge bg-light-success">Rp. '+data.toLocaleString('id-ID')+'</span>'
+                    }
                 },
                 {
                     data: 'status',
@@ -351,6 +360,8 @@
     function crudVehicle(){
         $('#addvehicle').on('click', function(e){
             e.preventDefault();
+            $('#loading').show();
+            $('#addvehicle').hide();
             var url = '<?= base_url()?>/vehicle';
             var formdata = new FormData($('#formaddvehicle')[0]);
             $.ajax({
@@ -362,6 +373,8 @@
                 dataType: 'json',
                 success:function(response){
                     if(response.status === 201){
+                        $('#loading').hide();
+                        $('#addvehicle').show();
                         $('#formaddvehicle')[0].reset();
                         Swal.fire({
                             title: 'Success',
@@ -370,6 +383,8 @@
                         });
                         tableVehicle.ajax.reload();
                     } else {
+                        $('#loading').hide();
+                        $('#addvehicle').show();
                         var errorMessage = '';
                         if(response.status === 500 && typeof response.message === 'object'){
                             for(var field in response.message){
