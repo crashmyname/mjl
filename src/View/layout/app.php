@@ -114,41 +114,75 @@
                                     <a href="<?= base_url() ?>/users" class="sidebar-link">Users</a>
                                 </li>
                                 <li class="submenu-item">
-                                    <a href="<?= base_url() ?>/payment" class="sidebar-link">Payment</a>
+                                    <a href="<?= base_url() ?>/payment" class="sidebar-link">Bank</a>
                                 </li>
                             </ul>
                         </li>
                         <?php endif; ?>
                         <li class="sidebar-item  ">
                             <a href="<?= base_url() ?>/transporters" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
+                                <i class="bi bi-truck"></i>
                                 <span>Transporters</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item  ">
+                            <a href="<?= base_url() ?>/transporters" class='sidebar-link'>
+                                <i class="bi bi-gear-wide-connected"></i>
+                                <span>Maintenance</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item  ">
+                            <a href="<?= base_url() ?>/transporters" class='sidebar-link'>
+                                <i class="bi bi-arrow-repeat"></i>
+                                <span>Claim</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item  ">
+                            <a href="<?= base_url() ?>/transporters" class='sidebar-link'>
+                                <i class="bi bi-cash-coin"></i>
+                                <span>Driver Salary</span>
                             </a>
                         </li>
                         <?php if(\Support\Session::user()->role_id == 'Administrator'):?>
                         <li class="sidebar-item  ">
                             <a href="<?= base_url() ?>/shippers" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
+                                <i class="bi bi-building"></i>
                                 <span>Shippers</span>
                             </a>
                         </li>
                         <?php endif; ?>
-                        <li class="sidebar-item  ">
-                            <a href="<?= base_url() ?>/orders" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
-                                <span>Shipment</span>
+                        <li class="sidebar-item has-sub">
+                            <a href="#" class="sidebar-link" id="dropdown">
+                                <i class="bi bi-stack"></i>
+                                <span>Menu AR</span>
                             </a>
+                            <ul class="submenu">
+                                <li class="submenu-item">
+                                    <a href="<?= base_url() ?>/orders" class="sidebar-link">Shipment</a>
+                                </li>
+                                <li class="submenu-item">
+                                    <a href="<?= base_url() ?>/invoices" class="sidebar-link">Invoices</a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="sidebar-item  ">
-                            <a href="<?= base_url() ?>/invoices" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
-                                <span>Invoices</span>
+                        <li class="sidebar-item has-sub">
+                            <a href="#" class="sidebar-link" id="dropdown">
+                                <i class="bi bi-stack"></i>
+                                <span>Menu AP</span>
                             </a>
+                            <ul class="submenu">
+                                <li class="submenu-item">
+                                    <a href="<?= base_url() ?>/orders" class="sidebar-link">Shipment</a>
+                                </li>
+                                <li class="submenu-item">
+                                    <a href="<?= base_url() ?>/invoices" class="sidebar-link">Invoices</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="sidebar-item  ">
                             <a href="<?= base_url() ?>/reports" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
-                                <span>Report</span>
+                                <i class="bi bi-file-earmark-pdf"></i>
+                                <span>Accounting</span>
                             </a>
                         </li>
                     </ul>
