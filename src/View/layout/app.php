@@ -126,7 +126,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item  ">
-                            <a href="<?= base_url() ?>/transporters" class='sidebar-link'>
+                            <a href="<?= base_url() ?>/maintenance" class='sidebar-link'>
                                 <i class="bi bi-gear-wide-connected"></i>
                                 <span>Maintenance</span>
                             </a>

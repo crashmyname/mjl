@@ -1,10 +1,13 @@
 <?php
 use App\Controllers\AuthController;
+use App\Controllers\ClaimController;
 use App\Controllers\DriverController;
 use App\Controllers\HomeController;
 use App\Controllers\InvoiceController;
+use App\Controllers\MaintenanceController;
 use App\Controllers\PaymentController;
 use App\Controllers\PriceController;
+use App\Controllers\SalaryController;
 use App\Controllers\TransactionController;
 use App\Controllers\UserController;
 use App\Controllers\VehicleController;
@@ -93,4 +96,22 @@ Route::group([AuthMiddleware::class],function(){
     Route::get('/reports',function(){
         return view('reports/report',[],'layout/app');
     });
+
+    // Maintenance
+    Route::get('/maintenance',[MaintenanceController::class, 'index']);
+    Route::post('/maintenance',[MaintenanceController::class, 'create']);
+    Route::put('/maintenance/{id}',[MaintenanceController::class, 'update']);
+    Route::delete('/maintenance/{id}',[MaintenanceController::class, 'delete']);
+
+    // Claim
+    Route::get('/claim',[ClaimController::class, 'index']);
+    Route::post('/claim',[ClaimController::class, 'create']);
+    Route::put('/claim/{id}',[ClaimController::class, 'update']);
+    Route::delete('/claim/{id}',[ClaimController::class, 'delete']);
+
+    // Salary
+    Route::get('/salary',[SalaryController::class, 'index']);
+    Route::post('/salary',[SalaryController::class, 'create']);
+    Route::put('/salary/{id}',[SalaryController::class, 'update']);
+    Route::delete('/salary/{id}',[SalaryController::class, 'delete']);
 });
