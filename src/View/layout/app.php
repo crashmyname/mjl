@@ -132,13 +132,13 @@
                             </a>
                         </li>
                         <li class="sidebar-item  ">
-                            <a href="<?= base_url() ?>/transporters" class='sidebar-link'>
+                            <a href="<?= base_url() ?>/claim" class='sidebar-link'>
                                 <i class="bi bi-arrow-repeat"></i>
                                 <span>Claim</span>
                             </a>
                         </li>
                         <li class="sidebar-item  ">
-                            <a href="<?= base_url() ?>/transporters" class='sidebar-link'>
+                            <a href="<?= base_url() ?>/salary" class='sidebar-link'>
                                 <i class="bi bi-cash-coin"></i>
                                 <span>Driver Salary</span>
                             </a>
@@ -172,10 +172,10 @@
                             </a>
                             <ul class="submenu">
                                 <li class="submenu-item">
-                                    <a href="<?= base_url() ?>/orders" class="sidebar-link">Shipment</a>
+                                    <a href="<?= base_url() ?>/orders-ap" class="sidebar-link">Shipment</a>
                                 </li>
                                 <li class="submenu-item">
-                                    <a href="<?= base_url() ?>/invoices" class="sidebar-link">Invoices</a>
+                                    <a href="<?= base_url() ?>/invoices-ap" class="sidebar-link">Invoices</a>
                                 </li>
                             </ul>
                         </li>
