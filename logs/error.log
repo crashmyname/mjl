@@ -1,0 +1,4 @@
+[Error] Method App\Controllers\MaintenanceController::index() does not exist in C:\laragon\www\mjl\bin\support\Route.php at line 180
+Trace: #0 C:\laragon\www\mjl\bin\support\Route.php(180): ReflectionMethod->__construct(Object(App\Controllers\MaintenanceController), 'index')
+#1 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#2 {main}

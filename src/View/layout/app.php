@@ -143,6 +143,12 @@
                                 <span>Driver Salary</span>
                             </a>
                         </li>
+                        <li class="sidebar-item  ">
+                            <a href="<?= base_url() ?>/salary" class='sidebar-link'>
+                                <i class="bi bi-bank"></i>
+                                <span>Laporan Bank</span>
+                            </a>
+                        </li>
                         <?php if(\Support\Session::user()->role_id == 'Administrator'):?>
                         <li class="sidebar-item  ">
                             <a href="<?= base_url() ?>/shippers" class='sidebar-link'>
