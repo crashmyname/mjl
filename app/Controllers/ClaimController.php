@@ -31,6 +31,11 @@ class ClaimController extends BaseController
         }
     }
 
+    public function index()
+    {
+        return view('claims/claim',[],'layout/app');
+    }
+
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(),[

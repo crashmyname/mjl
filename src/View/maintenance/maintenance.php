@@ -31,12 +31,12 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less" id="addpo">Add Maintenance <i
+                <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less" id="">Add Maintenance <i
                         class="bi bi-person-add"></i></button>
                 <div class="modal fade text-left modal-borderless modal-lg" id="border-less" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable" role="document">
-                        <form action="" id="formaddorders" class="form form-horizontal" method="POST"
+                        <form action="" id="formaddmtc" class="form form-horizontal" method="POST"
                             enctype="multipart/form-data">
                             <?= csrf()?>
                             <div class="modal-content">
@@ -50,88 +50,72 @@
                                     <div class="form-body">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label>No PO</label>
+                                                <label>Kendaraan</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="no_po" id="no_po" class="form form-control" readonly>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Vendors</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <select name="vendor_id" id="vendor_id" class="form-control">
-                                                <?php foreach($vendor as $vnd): ?>
-                                                    <option value="<?= $vnd->vendor_id?>"><?= $vnd->company_name?></option>
+                                                <select name="vehicle_id" id="vehicle_id" class="form-control">
+                                                <?php foreach($vehicle as $vhc): ?>
+                                                    <option value="<?= $vhc->vehicle_id?>"><?= $vhc->plat_number.' '.$vhc->truck_type?></option>
                                                 <?php endforeach; ?>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Pickup Date</label>
+                                                <label>Date</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="date" name="pickup_date" id="pickup_date" class="form form-control">
+                                                <input type="date" name="tanggal" id="tanggal" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Tanggal Pembuatan PO</label>
+                                                <label>Description</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="date" name="tgl_pembuatan_po" id="tgl_pembuatan_po" class="form form-control">
+                                                <textarea name="description" id="description" class="form form-control"></textarea>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Origin City</label>
+                                                <label>Spare Part</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="origin_city" id="origin_city" class="form form-control">
+                                                <input type="text" name="sparepart" id="sparepart" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Destination</label>
+                                                <label>Harga</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="destination" id="destination" class="form form-control">
+                                                <input type="number" name="harga" id="harga" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Vehicle</label>
+                                                <label>Jasa</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="vehicle_id" id="vehicle_id" class="form-control js-example-basic-single">
-                                                    <option value="-" disabled selected value> - </option>
-                                                <?php foreach($vehicle as $vhc):?>
-                                                    <option value="<?= $vhc->vehicle_id?>"><?= $vhc->plat_number?> | <?= $vhc->truck_type?> | <?= $vhc->truck_sub_type?></option>
-                                                <?php endforeach; ?>
-                                                </select>
+                                            <input type="number" name="jasa" id="jasa" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Project</label>
+                                                <label>Upload Bon</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="project" id="project" class="form-control">
-
-                                                </select>
+                                                <input type="file" class="form-control" name="bon" id="bon">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Driver</label>
+                                                <label>Upload Bukti TF</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="driver_id" id="driver_id" class="form-control js-example-basic-single">
-                                                    <option value="-" disabled selected value> - </option>
-                                                <?php foreach($driver as $dv): ?>
-                                                    <option value="<?= $dv->driver_id?>"><?= $dv->driver_name?></option>
-                                                <?php endforeach; ?>
-                                                </select>
+                                                <input type="file" name="bukti" id="bukti" class="form-control">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Price</label>
+                                                <label>Total</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="price" id="price" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form-control">
+                                                <input type="text" name="totals" id="total" class="form-control" readonly>
+                                                <input type="hidden" name="total" id="hiddentotal" class="form-control" readonly>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <select name="status" id="status" class="form-control">
-                                                    <option value="Active">Active</option>
-                                                    <option value="Inactive">Inactive</option>
+                                                    <option value="Unpaid">Unpaid</option>
+                                                    <option value="Paid">Paid</option>
+                                                    <option value="Partial">Partial</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
@@ -146,7 +130,7 @@
                                         <i class="bx bx-x d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Close</span>
                                     </button>
-                                    <button type="submit" class="btn btn-primary ml-1" id="addorders" data-bs-dismiss="modal">
+                                    <button type="submit" class="btn btn-primary ml-1" id="addmtc" data-bs-dismiss="modal">
                                         <i class="bx bx-check d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Submit</span>
                                     </button>
@@ -155,11 +139,11 @@
                         </form>
                     </div>
                 </div>
-                <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdateorders">Update Maintenance <i class="bi bi-person-fill-gear"></i></button>
+                <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdatemtc">Update Maintenance <i class="bi bi-person-fill-gear"></i></button>
                 <div class="modal fade text-left modal-borderless modal-lg" id="modalEdit" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable" role="document">
-                        <form action="" id="formupdateorders" class="form form-horizontal" method="POST"
+                        <form action="" id="formupdatemtc" class="form form-horizontal" method="POST"
                             enctype="multipart/form-data">
                             <?= csrf()?>
                             <?= method('PUT')?>
@@ -173,79 +157,72 @@
                                 <div class="modal-body">
                                     <div class="form-body">
                                         <div class="row">
-                                        <div class="col-md-4">
-                                                <label>No PO</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="text" name="no_po" id="uno_po" class="form form-control">
-                                            </div>
                                             <div class="col-md-4">
-                                                <label>Vendors</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <select name="vendor_id" id="uvendor_id" class="form-control">
-                                                    <option value=""></option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Pickup Date</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="date" name="pickup_date" id="upickup_date" class="form form-control">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Tanggal Pembuatan PO</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="date" name="tgl_pembuatan_po" id="utgl_pembuatan_po" class="form form-control">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Origin City</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="text" name="origin_city" id="uorigin_city" class="form form-control">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Destination</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="text" name="destination" id="udestination" class="form form-control">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Vehicle</label>
+                                                <label>Kendaraan</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <select name="vehicle_id" id="uvehicle_id" class="form-control">
-                                                    <option value=""></option>
+                                                <?php foreach($vehicle as $vhc): ?>
+                                                    <option value="<?= $vhc->vehicle_id?>"><?= $vhc->plat_number.' '.$vhc->truck_type?></option>
+                                                <?php endforeach; ?>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Project</label>
+                                                <label>Date</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="project" id="uproject" class="form form-control">
+                                                <input type="date" name="tanggal" id="utanggal" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Driver</label>
+                                                <label>Description</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="driver_id" id="udriver_id" class="form-control">
-                                                    <option value=""></option>
-                                                </select>
+                                                <textarea name="description" id="udescription" class="form form-control"></textarea>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Price</label>
+                                                <label>Spare Part</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="price" id="uprice" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form-control">
+                                                <input type="text" name="sparepart" id="usparepart" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Harga</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="number" name="harga" id="uharga" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Jasa</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                            <input type="number" name="jasa" id="ujasa" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Upload Bon</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="file" class="form-control" name="bon" id="ubon">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Upload Bukti TF</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="file" name="bukti" id="ubukti" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Total</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="number" name="total" id="utotal" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <select name="status" id="ustatus" class="form-control">
-                                                    <option value="Active">Active</option>
-                                                    <option value="Inactive">Inactive</option>
+                                                    <option value="Unpaid">Unpaid</option>
+                                                    <option value="Paid">Paid</option>
+                                                    <option value="Partial">Partial</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
@@ -277,15 +254,16 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Number PO</th>
-                                <th>Vendor</th>
-                                <th>Pickup Date</th>
-                                <th>Tanggal Pembuatan PO</th>
-                                <th>Origin City</th>
-                                <th>Destination</th>
-                                <th>Vehicle</th>
-                                <th>Driver</th>
-                                <th>Price</th>
+                                <th>Tanggal</th>
+                                <th>Plat Number</th>
+                                <th>Truck Type</th>
+                                <th>Description</th>
+                                <th>Sparepart</th>
+                                <th>Harga</th>
+                                <th>Jasa</th>
+                                <th>Bon</th>
+                                <th>Bukti</th>
+                                <th>Total</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -314,7 +292,7 @@
             $('#dataTable').DataTable().clear().destroy();
         }
         table = $('#dataTable').DataTable({
-            ajax: '<?= base_url()?>/getorders',
+            ajax: '<?= base_url()?>/getmaintenance',
             processing:true,
             serverSide:true,
             select:true,
@@ -328,43 +306,55 @@
                     }
                 },
                 {
-                    data: 'no_po',
-                    name: 'no_po',
+                    data: 'tanggal',
+                    name: 'tanggal',
                     render:function(data,type,row){
                         return '<a href="<?= base_url().'/detailorders/'?>'+data+'">'+data+'</a>';
                     }
                 },
                 {
-                    data: 'company_name',
-                    name: 'company_name',
-                },
-                {
-                    data: 'pickup_date',
-                    name: 'pickup_date',
-                },
-                {
-                    data: 'tgl_pembuatan_po',
-                    name: 'tgl_pembuatan_po'
-                },
-                {
-                    data: 'origin_city',
-                    name: 'origin_city'
-                },
-                {
-                    data: 'destination',
-                    name: 'destination'
+                    data: 'plat_number',
+                    name: 'plat_number',
                 },
                 {
                     data: 'truck_type',
-                    name: 'truck_type'
+                    name: 'truck_type',
                 },
                 {
-                    data: 'driver_name',
-                    name: 'driver_name'
+                    data: 'description',
+                    name: 'description'
                 },
                 {
-                    data: 'price',
-                    name: 'price',
+                    data: 'sparepart',
+                    name: 'sparepart'
+                },
+                {
+                    data: 'harga',
+                    name: 'harga'
+                },
+                {
+                    data: 'jasa',
+                    name: 'jasa'
+                },
+                {
+                    data: 'bon',
+                    name: 'bon',
+                    render: function(data,type,row){
+                        var urlAsset = "<?= asset('document/data/transactions')?>";
+                        return '<img src="'+urlAsset+'/'+data+'" width="50%" alt="bon">';
+                    }
+                },
+                {
+                    data: 'bukti',
+                    name: 'bukti',
+                    render: function(data,type,row){
+                        var urlAsset = "<?= asset('document/data/transactions');?>";
+                        return '<img src="'+urlAsset+'/'+data+'" width="50%" alt="bon">';
+                    }
+                },
+                {
+                    data: 'total',
+                    name: 'total',
                     render:function(data,type,row){
                         return '<span class="badge bg-light-success">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
                     }
@@ -384,11 +374,11 @@
         })
     }
     // function crud user
-    function crudOrders(){
-        $('#addorders').on('click', function(e){
+    function crudMaintenance(){
+        $('#addmtc').on('click', function(e){
             e.preventDefault();
-            var url = '<?= base_url()?>/orders';
-            var formdata = new FormData($('#formaddorders')[0]);
+            var url = '<?= base_url()?>/maintenance';
+            var formdata = new FormData($('#formaddmtc')[0]);
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -398,15 +388,13 @@
                 dataType: 'json',
                 success:function(response){
                     if(response.status === 201){
-                        $('#formaddorders')[0].reset();
+                        $('#formaddmtc')[0].reset();
                         table.ajax.reload(null, false);
                         Swal.fire({
                             title: 'Success',
                             icon: 'success',
                             text:response.message,
                         });
-                        DateNow();
-                        formatDate();
                     } else {
                         var errorMessage = '';
                         if(response.status === 500 && typeof response.message === 'object'){
@@ -429,7 +417,7 @@
                 }
             })
         })
-        $('#modalupdateorders').on('click', function(e){
+        $('#modalupdatemtc').on('click', function(e){
             e.preventDefault();
             var selectedData = table.rows({
                 selected: true
@@ -596,87 +584,17 @@
             }
         })
     }
-    function getProject(){
-        $('#vehicle_id').on('change', function(){
-            var url = '<?= base_url()?>/getproject';
-            var vehicle = $('#vehicle_id').val();
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: {
-                    vehicle: vehicle
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': '<?= csrfHeader() ?>'
-                },
-                success: function(response) {
-                    if (response.status === 200) {
-                        $('#project').empty();
-                        $('#project').append('<option value="" disabled selected hidden>' + '-' + '</option>');
-                        $.each(response.data, function(key, value) {
-                            $('#project').append('<option value="' + value.project + '">' + value.project + '</option>');
-                        })
-                    } else {
-                        $('#project').empty();
-                    }
-                }
-            })
-        })
-    }
-    function getPrice(){
-        $('#project').on('change', function(){
-            var url = '<?= base_url()?>/getprice';
-            var price = $('#vehicle_id').val();
-            var project = $('#project').val();
-            $.ajax({
-                type : 'POST',
-                url:url,
-                data: {
-                    price: price,
-                    project: project,
-                },
-                dataType: 'json',
-                headers:{
-                    'X-CSRF-TOKEN': '<?= csrfHeader() ?>'
-                },
-                success:function(response){
-                    if(response.status === 200){
-                        $('#price').val(response.data.price);
-                    } else {
-                        $('#price').val('');
-                    }
-                }
-            })
-        })
-    }
-    function generatePO(){
-        setTimeout(function() {
-            $('#no_po').trigger('change');
-        }, 100);
-        $('#addpo').on('click',function(){
-            $.ajax({
-                type: 'GET',
-                url: '<?= base_url()?>/generatepo',
-                dataType: 'json',
-                success:function(response){
-                    if(response.status === 200){
-                        $('#no_po').val(response.code);
-                    } else {
-                        $('#no_po').val('');
-                    }
-                }
-            })
+    function getTotal(){
+        $('#harga,#jasa').on('input',function(e){
+            e.preventDefault();
+            var harga = $('#harga').val();
+            var jasa = $('#jasa').val();
+            $('#total').val((parseFloat(harga)+parseFloat(jasa)).toLocaleString('id-ID'));
+            $('#hiddentotal').val(parseFloat(harga)+parseFloat(jasa));
         })
     }
     function flatPicker(){
-        flatpickr('#tgl_pembuatan_po',{
-            dateFormat: 'Y-m-d',
-            locale: 'id',
-            allowInput: false,
-            defaultDate: new Date(),
-        })
-        flatpickr('#pickup_date',{
+        flatpickr('#tanggal',{
             dateFormat: 'Y-m-d',
             locale: 'id',
             allowInput: false,
@@ -688,10 +606,8 @@
     }
     $(document).ready(function(){
         initDataTable();
-        crudOrders();
-        getPrice();
-        getProject();
-        generatePO();
+        crudMaintenance();
+        getTotal();
         flatPicker();
         validateNumberInput();
     })

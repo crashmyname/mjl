@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\Drivers;
 use App\Models\Maintenance;
+use App\Models\Vehicle;
 use Support\BaseController;
 use Support\Request;
 use Support\Validator;
@@ -28,6 +30,12 @@ class MaintenanceController extends BaseController
         }
     }
 
+    public function index()
+    {
+        $vehicle = Vehicle::query()->select('plat_number','truck_type','vehicle_id')->get();
+        return view('maintenance/maintenance',['vehicle'=>$vehicle],'layout/app');
+    }
+
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(),[
@@ -37,24 +45,51 @@ class MaintenanceController extends BaseController
             'jasa' => 'required',
             'total' => 'required',
         ]);
-        if($validate){
-            return Response::json(['status'=>500,'message'=>$validate]);
+        $errors = $validate;
+        $validateType = $request->getClientMimeType('bon');
+        $validateType1 = $request->getClientMimeType('bukti');
+        $allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+        if($request->file('bon') && !in_array($validateType,$allowedTypes)){
+            $errors = array_merge($errors, ['bon' => ['File must be a valid image']]);
         }
-        $mtc = Maintenance::create([
-            'uuid' => UUID::generateUuid(),
-            'vehicle_id' => $request->vehicle_id,
-            'tanggal' => $request->tanggal,
-            'description' => $request->description,
-            'sparepart' => $request->sparepart,
-            'harga' => $request->harga,
-            'jasa' => $request->jasa,
-            'bon' => $request->bon,
-            'bukti' => $request->bukti,
-            'total' => $request->total,
-            'status' => $request->status,
-            'created_at' => Date::Now(),
-            'updated_at' => Date::Now(),
-        ]);
+        if($request->file('bukti') && !in_array($validateType1,$allowedTypes)){
+            $errors = array_merge($errors, ['bukti' => ['File must be a valid image']]);
+        }
+        if(!empty($errors)){
+            return Response::json(['status'=>500,'message'=>$errors]);
+        }
+        if($request->getClientOriginalName('bon') && $request->getClientOriginalName('bukti')){
+            $path = storage_path('document/data/transactions');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+
+            $fileName = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('bon'));
+            $fileName1 = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('bukti'));
+            $tempPath = $request->getPath('bon');
+            $tempPath1 = $request->getPath('bukti');
+            $destination = $path.'/'.$fileName;
+            $destination1 = $path.'/'.$fileName1;
+
+            if(move_uploaded_file($tempPath,$destination) && move_uploaded_file($tempPath1,$destination1)){
+                $mtc = Maintenance::create([
+                    'uuid' => UUID::generateUuid(),
+                    'vehicle_id' => $request->vehicle_id,
+                    'tanggal' => $request->tanggal,
+                    'description' => $request->description,
+                    'sparepart' => $request->sparepart,
+                    'harga' => $request->harga,
+                    'jasa' => $request->jasa,
+                    'bon' => $fileName,
+                    'bukti' => $fileName1,
+                    'total' => $request->total,
+                    'status' => $request->status,
+                    'created_at' => Date::Now(),
+                    'updated_at' => Date::Now(),
+                ]);
+            }
+        }
+        
         return Response::json(['status'=>201,'message'=>'Maintenance berhasil dibuat']);
     }
 

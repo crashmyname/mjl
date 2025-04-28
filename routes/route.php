@@ -99,6 +99,7 @@ Route::group([AuthMiddleware::class],function(){
 
     // Maintenance
     Route::get('/maintenance',[MaintenanceController::class, 'index']);
+    Route::get('/getmaintenance', [MaintenanceController::class, 'getMaintenance']);
     Route::post('/maintenance',[MaintenanceController::class, 'create']);
     Route::put('/maintenance/{id}',[MaintenanceController::class, 'update']);
     Route::delete('/maintenance/{id}',[MaintenanceController::class, 'delete']);

@@ -2,3 +2,47 @@
 Trace: #0 C:\laragon\www\mjl\bin\support\Route.php(180): ReflectionMethod->__construct(Object(App\Controllers\MaintenanceController), 'index')
 #1 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
 #2 {main}
+[Error] Method App\Controllers\MaintenanceController::index() does not exist in C:\laragon\www\mjl\bin\support\Route.php at line 180
+Trace: #0 C:\laragon\www\mjl\bin\support\Route.php(180): ReflectionMethod->__construct(Object(App\Controllers\MaintenanceController), 'index')
+#1 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#2 {main}
+[Error] View file not found: C:\laragon\www\mjl\bin\support/../../src/View/salaries/salary.php in C:\laragon\www\mjl\bin\support\BaseController.php at line 467
+Trace: #0 C:\laragon\www\mjl\bin\support\helper.php(267): Support\BaseController->view('salaries/salary', Array, 'layout/app')
+#1 C:\laragon\www\mjl\app\Controllers\SalaryController.php(33): view('salaries/salary', Array, 'layout/app')
+#2 [internal function]: App\Controllers\SalaryController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] View file not found: C:\laragon\www\mjl\bin\support/../../src/View/salaries/salary.php in C:\laragon\www\mjl\bin\support\BaseController.php at line 467
+Trace: #0 C:\laragon\www\mjl\bin\support\helper.php(267): Support\BaseController->view('salaries/salary', Array, 'layout/app')
+#1 C:\laragon\www\mjl\app\Controllers\SalaryController.php(33): view('salaries/salary', Array, 'layout/app')
+#2 [internal function]: App\Controllers\SalaryController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] View file not found: C:\laragon\www\mjl\bin\support/../../src/View/salaries/salary.php in C:\laragon\www\mjl\bin\support\BaseController.php at line 467
+Trace: #0 C:\laragon\www\mjl\bin\support\helper.php(267): Support\BaseController->view('salaries/salary', Array, 'layout/app')
+#1 C:\laragon\www\mjl\app\Controllers\SalaryController.php(33): view('salaries/salary', Array, 'layout/app')
+#2 [internal function]: App\Controllers\SalaryController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] Invalid CSRF token in C:\laragon\www\mjl\bin\support\Route.php at line 170
+Trace: #0 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#1 {main}
+[Error] SQLSTATE[HY000]: General error: 1366 Incorrect integer value: 'Unpaid' for column 'status' at row 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 384
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(384): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(362): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\MaintenanceController.php(75): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\MaintenanceController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[HY000]: General error: 1366 Incorrect integer value: 'Unpaid' for column 'status' at row 1 in C:\laragon\www\mjl\bin\support\BaseModel.php at line 384
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(384): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(362): Support\BaseModel->save()
+#2 C:\laragon\www\mjl\app\Controllers\MaintenanceController.php(75): Support\BaseModel::create(Array)
+#3 [internal function]: App\Controllers\MaintenanceController->create(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}

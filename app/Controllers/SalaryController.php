@@ -28,6 +28,11 @@ class SalaryController extends BaseController
         }
     }
 
+    public function index()
+    {
+        return view('salaries/salary',[],'layout/app');
+    }
+
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(),[
