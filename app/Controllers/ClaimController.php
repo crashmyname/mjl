@@ -3,6 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\Claim;
+use App\Models\Drivers;
+use App\Models\Vehicle;
+use App\Models\Vendors;
 use Support\BaseController;
 use Support\Request;
 use Support\Validator;
@@ -33,7 +36,10 @@ class ClaimController extends BaseController
 
     public function index()
     {
-        return view('claims/claim',[],'layout/app');
+        $vehicle = Vehicle::query()->select('vehicle_id','plat_number','truck_type')->get();
+        $driver = Drivers::query()->select('driver_id','driver_name')->get();
+        $supplier = Vendors::query()->select('vendor_id','company_name')->get();
+        return view('claims/claim',['vehicle'=>$vehicle,'driver'=>$driver,'supplier'=>$supplier],'layout/app');
     }
 
     public function create(Request $request)

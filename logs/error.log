@@ -46,3 +46,43 @@ Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(384): PDOStatement->execu
 #4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
 #5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
 #6 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'tanggal' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 407
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(407): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(374): Support\BaseModel->updates()
+#2 C:\laragon\www\mjl\app\Controllers\MaintenanceController.php(135): Support\BaseModel->save()
+#3 [internal function]: App\Controllers\MaintenanceController->update(Object(Support\Request), 'c2b556c5-c92a-4...')
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'tanggal' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 407
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(407): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(374): Support\BaseModel->updates()
+#2 C:\laragon\www\mjl\app\Controllers\MaintenanceController.php(136): Support\BaseModel->save()
+#3 [internal function]: App\Controllers\MaintenanceController->update(Object(Support\Request), 'c2b556c5-c92a-4...')
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'tanggal' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 407
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(407): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(374): Support\BaseModel->updates()
+#2 C:\laragon\www\mjl\app\Controllers\MaintenanceController.php(136): Support\BaseModel->save()
+#3 [internal function]: App\Controllers\MaintenanceController->update(Object(Support\Request), 'c2b556c5-c92a-4...')
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'tanggal' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 407
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(407): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(374): Support\BaseModel->updates()
+#2 C:\laragon\www\mjl\app\Controllers\MaintenanceController.php(136): Support\BaseModel->save()
+#3 [internal function]: App\Controllers\MaintenanceController->update(Object(Support\Request), 'c2b556c5-c92a-4...')
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}
+[Error] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'tanggal' cannot be null in C:\laragon\www\mjl\bin\support\BaseModel.php at line 407
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(407): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(374): Support\BaseModel->updates()
+#2 C:\laragon\www\mjl\app\Controllers\MaintenanceController.php(136): Support\BaseModel->save()
+#3 [internal function]: App\Controllers\MaintenanceController->update(Object(Support\Request), 'c2b556c5-c92a-4...')
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}

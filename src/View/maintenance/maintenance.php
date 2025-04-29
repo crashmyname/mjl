@@ -161,11 +161,7 @@
                                                 <label>Kendaraan</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="vehicle_id" id="uvehicle_id" class="form-control">
-                                                <?php foreach($vehicle as $vhc): ?>
-                                                    <option value="<?= $vhc->vehicle_id?>"><?= $vhc->plat_number.' '.$vhc->truck_type?></option>
-                                                <?php endforeach; ?>
-                                                </select>
+                                                <input type="text" name="vehicle_id" id="uvehicle_id" class="form form-control" readonly>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Date</label>
@@ -237,7 +233,7 @@
                                         <i class="bx bx-x d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Close</span>
                                     </button>
-                                    <button type="submit" class="btn btn-primary ml-1" id="updateorders" data-bs-dismiss="modal">
+                                    <button type="submit" class="btn btn-primary ml-1" id="updatemtc" data-bs-dismiss="modal">
                                         <i class="bx bx-check d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Submit</span>
                                     </button>
@@ -246,7 +242,7 @@
                         </form>
                     </div>
                 </div>
-                <button class="btn btn-danger" id="deleteorders">Delete Maintenance <i class="bi bi-person-x"></i></button>
+                <button class="btn btn-danger" id="deletemtc">Delete Maintenance <i class="bi bi-person-x"></i></button>
             </div>
             <div class="card-body">
                 <div class="container">
@@ -308,9 +304,6 @@
                 {
                     data: 'tanggal',
                     name: 'tanggal',
-                    render:function(data,type,row){
-                        return '<a href="<?= base_url().'/detailorders/'?>'+data+'">'+data+'</a>';
-                    }
                 },
                 {
                     data: 'plat_number',
@@ -422,32 +415,23 @@
             var selectedData = table.rows({
                 selected: true
             }).data();
-            var no_po = $('#uno_po');
-            var vendor_id = $('#uvendor_id');
-            var pickup_date = $('#upickup_date');
-            var tgl_pembuatan_po = $('#utgl_pembuatan_po');
-            var origin_city = $('#uorigin_city');
-            var destination = $('#udestination');
             var vehicle_id = $('#uvehicle_id');
-            var driver_id = $('#udriver_id');
-            var price = $('#uprice');
+            var tanggal = $('#utanggal');
+            var description = $('#udescription');
+            var sparepart = $('#usparepart');
+            var harga = $('#uharga');
+            var jasa = $('#ujasa');
+            var total = $('#utotal');
             var status = $('#ustatus');
-            var project = $('#uproject');
             if(selectedData.length > 0){
-                no_po.val(selectedData[0].no_po);
-                vendor_id.empty();
-                vendor_id.append('<option value="' + selectedData[0].vendor_id + '">' + selectedData[0].company_name + '</option>');
-                pickup_date.val(selectedData[0].pickup_date);
-                tgl_pembuatan_po.val(selectedData[0].tgl_pembuatan_po);
-                origin_city.val(selectedData[0].origin_city);
-                destination.val(selectedData[0].destination);
-                vehicle_id.empty();
-                vehicle_id.append('<option value="'+selectedData[0].vehicle_id+'">'+selectedData[0].truck_type+'</option>');
-                driver_id.empty();
-                driver_id.append('<option value="'+selectedData[0].driver_id+'">'+selectedData[0].driver_name+'</option>');
-                price.val(selectedData[0].price);
+                vehicle_id.val(selectedData[0].plat_number+' '+selectedData[0].truck_type);
+                tanggal.val(selectedData[0].tanggal);
+                description.val(selectedData[0].description);
+                sparepart.val(selectedData[0].sparepart);
+                harga.val(selectedData[0].harga);
+                jasa.val(selectedData[0].jasa);
+                total.val(selectedData[0].total);
                 status.val(selectedData[0].status);
-                project.val(selectedData[0].project);
                 $('#modalEdit').modal('show');
             } else {
                 $('#modalEdit').modal('hide');
@@ -458,7 +442,7 @@
                 });
             }
         })
-        $('#updateorders').on('click', function(e){
+        $('#updatemtc').on('click', function(e){
             e.preventDefault();
             var selectedData = table.rows({
                 selected: true
@@ -476,8 +460,8 @@
             }
             var row = selectedData[0];
             var uID = row.uuid;
-            var updateOrders = "<?= base_url() . '/uorders/' ?>" + uID;
-            var formID = '#formupdateorders';
+            var updateMtc = "<?= base_url() . '/maintenance/' ?>" + uID;
+            var formID = '#formupdatemtc';
             $('#modalwarning').modal('hide');
             if (selectedData.length > 0) {
                 Swal.fire({
@@ -488,11 +472,11 @@
                     confirmButtonText: 'Ya, Ubah!!',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var formUpOrders = new FormData($(formID)[0]);
+                        var formUpMtc = new FormData($(formID)[0]);
                         $.ajax({
                             type: 'POST',
-                            url: updateOrders,
-                            data: formUpOrders,
+                            url: updateMtc,
+                            data: formUpMtc,
                             contentType: false,
                             processData: false,
                             dataType: 'json',
@@ -507,7 +491,7 @@
                                         timerProgressBar: true,
                                     })
                                     table.ajax.reload(null, false);
-                                    $('#formupdateorders')[0].reset();
+                                    $('#formupdatemtc')[0].reset();
                                 } else {
                                     Swal.fire({
                                         title: 'error',
@@ -524,7 +508,7 @@
                 })
             }
         })
-        $('#deleteorders').on('click', function(e){
+        $('#deletemtc').on('click', function(e){
             e.preventDefault();
             var selectedData = table.rows({
                 selected: true
@@ -555,7 +539,7 @@
                             const uuid = data.uuid;
                             $.ajax({
                                 type: 'DELETE',
-                                url: "<?= base_url() . '/orders/' ?>" + uuid,
+                                url: "<?= base_url() . '/maintenance/' ?>" + uuid,
                                 success: function(response) {
                                     if (response.status === 200) {
                                         Swal.fire({

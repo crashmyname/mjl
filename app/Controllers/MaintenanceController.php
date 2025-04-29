@@ -96,14 +96,39 @@ class MaintenanceController extends BaseController
     public function update(Request $request, $id)
     {
         $mtc = Maintenance::query()->where('uuid','=',$id)->first();
-        $mtc->vehicle_id = $request->vehicle_id;
         $mtc->tanggal = $request->tanggal;
         $mtc->description = $request->description;
         $mtc->sparepart = $request->sparepart;
         $mtc->harga = $request->harga;
         $mtc->jasa = $request->jasa;
-        $mtc->bon = $request->bon;
-        $mtc->bukti = $request->bukti;
+        if($request->getClientOriginalName('bukti')){
+            $path = storage_path('document/data/transactions');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+            $oldFile = $path.'/'.$mtc->bukti;
+            if(file_exists($oldFile)){
+                unlink($oldFile);
+            }
+            $mtc->bukti = $request->getClientOriginalName('bukti');
+            $tempPath = $request->getPath('bukti');
+            $destination = $path.'/'.$mtc->bukti;
+            move_uploaded_file($tempPath,$destination);
+        }
+        if($request->getClientOriginalName('bon')){
+            $path = storage_path('document/data/transactions');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+            $oldFile = $path.'/'.$mtc->bon;
+            if(file_exists($oldFile)){
+                unlink($oldFile);
+            }
+            $mtc->bon = $request->getClientOriginalName('bon');
+            $tempPath = $request->getPath('bon');
+            $destination = $path.'/'.$mtc->bon;
+            move_uploaded_file($tempPath,$destination);
+        }
         $mtc->total = $request->total;
         $mtc->status = $request->status;
         $mtc->updated_at = Date::Now();

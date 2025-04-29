@@ -15,14 +15,14 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Maintenance</h3>
-                <p class="text-subtitle text-muted">This is page Maintenance</p>
+                <h3>Claim</h3>
+                <p class="text-subtitle text-muted">This is page Claim</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Maintenance</li>
+                        <li class="breadcrumb-item active" aria-current="page">Claim</li>
                     </ol>
                 </nav>
             </div>
@@ -31,17 +31,17 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less" id="addpo">Add Maintenance <i
+                <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less" id="addclaim">Add Claim <i
                         class="bi bi-person-add"></i></button>
                 <div class="modal fade text-left modal-borderless modal-lg" id="border-less" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable" role="document">
-                        <form action="" id="formaddorders" class="form form-horizontal" method="POST"
+                        <form action="" id="formaddclaim" class="form form-horizontal" method="POST"
                             enctype="multipart/form-data">
                             <?= csrf()?>
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Add Maintenance</h5>
+                                    <h5 class="modal-title">Add Claim</h5>
                                     <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
                                         <i data-feather="x"></i>
                                     </button>
@@ -50,80 +50,58 @@
                                     <div class="form-body">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label>No PO</label>
+                                                <label>Plat Number</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="no_po" id="no_po" class="form form-control" readonly>
+                                            <select name="vehicle_id" id="vehicle_id" class="form-control">
+                                                <?php foreach($vehicle as $vhc): ?>
+                                                    <option value="<?= $vhc->vehcile_id?>"><?= $vhc->plat_number.' '.$vhc->truck_type?></option>
+                                                <?php endforeach; ?>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Vendors</label>
+                                                <label>Driver Name</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <select name="driver_id" id="driver_id" class="form-control">
+                                                <?php foreach($driver as $dr): ?>
+                                                    <option value="<?= $dr->driver_id?>"><?= $dr->driver_name?></option>
+                                                <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Supplier</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <select name="vendor_id" id="vendor_id" class="form-control">
-                                                <?php foreach($vendor as $vnd): ?>
-                                                    <option value="<?= $vnd->vendor_id?>"><?= $vnd->company_name?></option>
+                                                <?php foreach($supplier as $sp): ?>
+                                                    <option value="<?= $sp->vendor_id?>"><?= $sp->company_name?></option>
                                                 <?php endforeach; ?>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Pickup Date</label>
+                                                <label>Jenis Claim</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="date" name="pickup_date" id="pickup_date" class="form form-control">
+                                                <input type="text" name="jenis_claim" id="jenis_claim" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Tanggal Pembuatan PO</label>
+                                                <label>Biaya</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="date" name="tgl_pembuatan_po" id="tgl_pembuatan_po" class="form form-control">
+                                                <input type="number" name="biaya" id="biaya" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Origin City</label>
+                                                <label>Remark</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="origin_city" id="origin_city" class="form form-control">
+                                                <textarea name="remark" id="remark" class="form form-control"></textarea>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Destination</label>
+                                                <label>Surat Jalan</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="destination" id="destination" class="form form-control">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Vehicle</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <select name="vehicle_id" id="vehicle_id" class="form-control js-example-basic-single">
-                                                    <option value="-" disabled selected value> - </option>
-                                                <?php foreach($vehicle as $vhc):?>
-                                                    <option value="<?= $vhc->vehicle_id?>"><?= $vhc->plat_number?> | <?= $vhc->truck_type?> | <?= $vhc->truck_sub_type?></option>
-                                                <?php endforeach; ?>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Project</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <select name="project" id="project" class="form-control">
-
-                                                </select>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Driver</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <select name="driver_id" id="driver_id" class="form-control js-example-basic-single">
-                                                    <option value="-" disabled selected value> - </option>
-                                                <?php foreach($driver as $dv): ?>
-                                                    <option value="<?= $dv->driver_id?>"><?= $dv->driver_name?></option>
-                                                <?php endforeach; ?>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Price</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="text" name="price" id="price" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form-control">
+                                                <input type="file" name="surat_jalan" id="surat_jalan" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>

@@ -1,2 +1,2 @@
 .env
-error.log
+logs/error.log
