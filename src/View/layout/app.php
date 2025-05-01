@@ -144,7 +144,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item  ">
-                            <a href="<?= base_url() ?>/salary" class='sidebar-link'>
+                            <a href="<?= base_url() ?>/rekening_koran" class='sidebar-link'>
                                 <i class="bi bi-bank"></i>
                                 <span>Laporan Bank</span>
                             </a>

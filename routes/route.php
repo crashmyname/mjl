@@ -5,6 +5,8 @@ use App\Controllers\DriverController;
 use App\Controllers\HomeController;
 use App\Controllers\InvoiceController;
 use App\Controllers\MaintenanceController;
+use App\Controllers\MutasiController;
+use App\Controllers\OrderController;
 use App\Controllers\PaymentController;
 use App\Controllers\PriceController;
 use App\Controllers\SalaryController;
@@ -53,17 +55,33 @@ Route::group([AuthMiddleware::class],function(){
     Route::delete('/shippers/{id}', [VendorController::class, 'delete']);
     
     // Order
-    Route::get('/generatepo',[TransactionController::class, 'generatePO']);
-    Route::get('/orders',[TransactionController::class, 'index']);
-    Route::get('/getorders', [TransactionController::class, 'getOrders']);
-    Route::post('/orders',[TransactionController::class, 'create']);
-    Route::put('/uorders/{id}', [TransactionController::class, 'update']);
-    Route::put('/updateorders/{po}',[TransactionController::class, 'updateSuratJalan']);
-    Route::delete('/orders/{id}', [TransactionController::class, 'delete']);
+    Route::get('/generatepo',[OrderController::class, 'generatePO']);
+    Route::get('/orders',[OrderController::class, 'index']);
+    Route::get('/getorders', [OrderController::class, 'getOrders']);
+    Route::post('/orders',[OrderController::class, 'create']);
+    Route::put('/uorders/{id}', [OrderController::class, 'update']);
+    Route::put('/updateorders/{po}',[OrderController::class, 'updateSuratJalan']);
+    Route::delete('/orders/{id}', [OrderController::class, 'delete']);
+    Route::post('/getprice',[OrderController::class, 'getPrice']);
+    Route::post('/getproject',[OrderController::class, 'getProject']);
+    Route::post('/getpricepo',[OrderController::class, 'getPricePO']);
+    Route::get('/detailorders/{nopo}',[OrderController::class, 'detailOrders']);
+
+    // Transaction
+    Route::get('/transaction',[TransactionController::class, 'index']);
+    Route::get('/gettransaction', [TransactionController::class, 'getTransaction']);
+    Route::post('/transaction',[TransactionController::class, 'create']);
+    Route::put('/utransaction/{id}', [TransactionController::class, 'update']);
+    Route::delete('/transaction/{id}', [TransactionController::class, 'delete']);
     Route::post('/getprice',[TransactionController::class, 'getPrice']);
-    Route::post('/getproject',[TransactionController::class, 'getProject']);
-    Route::post('/getpricepo',[TransactionController::class, 'getPricePO']);
-    Route::get('/detailorders/{nopo}',[TransactionController::class, 'detailOrders']);
+    Route::get('/detailtransaction/{nopo}',[TransactionController::class, 'detailTransaction']);
+
+    // Rekening Koran
+    Route::get('/rekening_koran',[MutasiController::class, 'index']);
+    Route::get('/getrekening_koran', [MutasiController::class, 'getRekening']);
+    Route::post('/rekening_koran',[MutasiController::class, 'create']);
+    Route::put('/urekening_koran/{id}', [MutasiController::class, 'update']);
+    Route::delete('/rekening_koran/{id}', [MutasiController::class, 'delete']);
     
     // Transporter
     Route::get('/transporters',[DriverController::class, 'index']);

@@ -6,6 +6,6 @@ use Support\BaseModel;
 class Transactions extends BaseModel
 {
     // Model logic here
-    protected $table = 'orders';
-    protected $primaryKey = 'order_id';
+    protected $table = 'transaction';
+    protected $primaryKey = 'transaction_id';
 }

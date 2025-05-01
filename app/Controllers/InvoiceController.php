@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Invoice;
+use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Transactions;
 use App\Models\Vendors;
@@ -24,7 +25,7 @@ class InvoiceController extends BaseController
     public function index()
     {
         $payment = Payment::all();
-        $vendor = Transactions::query()
+        $vendor = Order::query()
                                 ->where('invoice_id','=',null)
                                 ->where('deleted_at','=',null)
                                 ->where('no_surat_jalan','!=',null)
@@ -107,7 +108,7 @@ class InvoiceController extends BaseController
         foreach($request->get('order_id') as $od){
             $od_id = $od;
         }
-        $transaction = Transactions::query()->where('order_id','=',$od_id)->first();
+        $transaction = Order::query()->where('order_id','=',$od_id)->first();
         $vendor = Vendors::query()->where('vendor_id','=',$transaction->vendor_id)->first();
         $invoice = Invoice::create([
             'uuid' => UUID::generateUuid(),
@@ -126,7 +127,7 @@ class InvoiceController extends BaseController
         if ($invoice) {
             $orderIds = $request->get('order_id');
             foreach ($orderIds as $orderId) {
-                $transaction = Transactions::query()->where('order_id','=',$orderId)->first();
+                $transaction = Order::query()->where('order_id','=',$orderId)->first();
                 $transaction->invoice_id = $invoice->invoice_id;
                 $transaction->save();
             }
@@ -162,7 +163,7 @@ class InvoiceController extends BaseController
         }
         $invoice->deleted_at = Date::Now();
         $invoice->save();
-        (new Transactions())->updateWhere(
+        (new Order())->updateWhere(
             ['invoice_id' => $invoice->invoice_id], 
             ['invoice_id' => null]
         );

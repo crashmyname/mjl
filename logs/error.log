@@ -172,3 +172,164 @@ Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(384): PDOStatement->execu
 #4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
 #5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
 #6 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tgl_pembuatan_po' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 344
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(344): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\HomeController.php(28): Support\BaseModel->count()
+#2 [internal function]: App\Controllers\HomeController->index(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tgl_pembuatan_po' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 344
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(344): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\HomeController.php(28): Support\BaseModel->count()
+#2 [internal function]: App\Controllers\HomeController->index(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tgl_pembuatan_po' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 344
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(344): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\HomeController.php(28): Support\BaseModel->count()
+#2 [internal function]: App\Controllers\HomeController->index(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tgl_pembuatan_po' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 344
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(344): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\HomeController.php(28): Support\BaseModel->count()
+#2 [internal function]: App\Controllers\HomeController->index(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tgl_pembuatan_po' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 344
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(344): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\HomeController.php(28): Support\BaseModel->count()
+#2 [internal function]: App\Controllers\HomeController->index(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tgl_pembuatan_po' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 344
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(344): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\HomeController.php(28): Support\BaseModel->count()
+#2 [internal function]: App\Controllers\HomeController->index(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tgl_pembuatan_po' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 344
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(344): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\HomeController.php(28): Support\BaseModel->count()
+#2 [internal function]: App\Controllers\HomeController->index(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'invoice_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\InvoiceController.php(31): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\InvoiceController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tgl_pembuatan_po' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 344
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(344): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\HomeController.php(28): Support\BaseModel->count()
+#2 [internal function]: App\Controllers\HomeController->index(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
