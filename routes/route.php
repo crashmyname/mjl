@@ -106,13 +106,15 @@ Route::group([AuthMiddleware::class],function(){
 
     // Claim
     Route::get('/claim',[ClaimController::class, 'index']);
+    Route::get('/getclaim',[ClaimController::class, 'getClaim']);
     Route::post('/claim',[ClaimController::class, 'create']);
-    Route::put('/claim/{id}',[ClaimController::class, 'update']);
+    Route::put('/uclaim/{id}',[ClaimController::class, 'update']);
     Route::delete('/claim/{id}',[ClaimController::class, 'delete']);
 
     // Salary
     Route::get('/salary',[SalaryController::class, 'index']);
+    Route::get('/getsalary',[SalaryController::class, 'getSalary']);
     Route::post('/salary',[SalaryController::class, 'create']);
-    Route::put('/salary/{id}',[SalaryController::class, 'update']);
+    Route::put('/usalary/{id}',[SalaryController::class, 'update']);
     Route::delete('/salary/{id}',[SalaryController::class, 'delete']);
 });

@@ -59,7 +59,7 @@ class MaintenanceController extends BaseController
             return Response::json(['status'=>500,'message'=>$errors]);
         }
         if($request->getClientOriginalName('bon') && $request->getClientOriginalName('bukti')){
-            $path = storage_path('document/data/transactions');
+            $path = storage_path('document/data/maintenance');
             if(!file_exists($path)){
                 mkdir($path,0777,true);
             }
@@ -102,7 +102,7 @@ class MaintenanceController extends BaseController
         $mtc->harga = $request->harga;
         $mtc->jasa = $request->jasa;
         if($request->getClientOriginalName('bukti')){
-            $path = storage_path('document/data/transactions');
+            $path = storage_path('document/data/maintenance');
             if(!file_exists($path)){
                 mkdir($path,0777,true);
             }
@@ -116,7 +116,7 @@ class MaintenanceController extends BaseController
             move_uploaded_file($tempPath,$destination);
         }
         if($request->getClientOriginalName('bon')){
-            $path = storage_path('document/data/transactions');
+            $path = storage_path('document/data/maintenance');
             if(!file_exists($path)){
                 mkdir($path,0777,true);
             }

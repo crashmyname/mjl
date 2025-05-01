@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Drivers;
 use App\Models\Salary;
 use Support\BaseController;
 use Support\Request;
@@ -30,7 +31,8 @@ class SalaryController extends BaseController
 
     public function index()
     {
-        return view('salaries/salary',[],'layout/app');
+        $driver = Drivers::query()->select('driver_id','driver_name')->get();
+        return view('salaries/driver-salary',['driver'=>$driver],'layout/app');
     }
 
     public function create(Request $request)
@@ -39,20 +41,39 @@ class SalaryController extends BaseController
             'driver_id' => 'required',
             'salary' => 'required',
             'tanggal' => 'required',
-            'bukti' => 'required',
         ]);
-        if($validate){
-            return Response::json(['status'=>500,'message'=>$validate]);
+        $errors = $validate;
+        $validateType = $request->getClientMimeType('bukti');
+        $allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+        if($request->file('bukti') && !in_array($validateType,$allowedTypes)){
+            $errors = array_merge($errors, ['bukti' => ['File must be a valid image']]);
         }
-        Salary::create([
-            'uuid' => UUID::generateUuid(),
-            'driver_id' => $request->driver_id,
-            'tanggal' => $request->tanggal,
-            'bukti' => $request->bukti,
-            'status' => $request->status,
-            'created_at' => Date::Now(),
-            'updated_at' => Date::Now(),
-        ]);
+        if(!empty($errors)){
+            return Response::json(['status'=>500,'message'=>$errors]);
+        }
+        if($request->getClientOriginalName('bukti')){
+            $path = storage_path('document/data/gaji');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+
+            $fileName = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('bukti'));
+            $tempPath = $request->getPath('bukti');
+            $destination = $path.'/'.$fileName;
+
+            if(move_uploaded_file($tempPath,$destination)){
+                Salary::create([
+                    'uuid' => UUID::generateUuid(),
+                    'driver_id' => $request->driver_id,
+                    'tanggal' => $request->tanggal,
+                    'salary' => $request->salary,
+                    'bukti' => $fileName,
+                    'status' => $request->status,
+                    'created_at' => Date::Now(),
+                    'updated_at' => Date::Now(),
+                ]);
+            }
+        }
         return Response::json(['status'=>201,'message'=>'Gaji berhasil dibuat']);
     }
 
@@ -61,7 +82,21 @@ class SalaryController extends BaseController
         $salary = Salary::query()->where('uuid','=',$id)->first();
         $salary->driver_id = $request->driver_id;
         $salary->tanggal = $request->tanggal;
-        $salary->bukti = $request->bukti;
+        $salary->salary = $request->salary;
+        if($request->getClientOriginalName('bukti')){
+            $path = storage_path('document/data/gaji');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+            $oldFile = $path.'/'.$salary->bukti;
+            if(file_exists($oldFile)){
+                unlink($oldFile);
+            }
+            $salary->bukti = $request->getClientOriginalName('bukti');
+            $tempPath = $request->getPath('bukti');
+            $destination = $path.'/'.$salary->bukti;
+            move_uploaded_file($tempPath,$destination);
+        }
         $salary->status = $request->status;
         $salary->updated_at = Date::Now();
         $salary->save();

@@ -243,6 +243,7 @@
                     </div>
                 </div>
                 <button class="btn btn-danger" id="deletemtc">Delete Maintenance <i class="bi bi-person-x"></i></button>
+                <button class="btn btn-success" id="payment">Payment <i class="bi bi-person-x"></i></button>
             </div>
             <div class="card-body">
                 <div class="container">

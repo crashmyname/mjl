@@ -31,7 +31,7 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less" id="addclaim">Add Claim <i
+                <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less" id="">Add Claim <i
                         class="bi bi-person-add"></i></button>
                 <div class="modal fade text-left modal-borderless modal-lg" id="border-less" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel1" aria-hidden="true">
@@ -55,7 +55,7 @@
                                             <div class="col-md-8 form-group">
                                             <select name="vehicle_id" id="vehicle_id" class="form-control">
                                                 <?php foreach($vehicle as $vhc): ?>
-                                                    <option value="<?= $vhc->vehcile_id?>"><?= $vhc->plat_number.' '.$vhc->truck_type?></option>
+                                                    <option value="<?= $vhc->vehicle_id?>"><?= $vhc->plat_number.' '.$vhc->truck_type?></option>
                                                 <?php endforeach; ?>
                                                 </select>
                                             </div>
@@ -108,8 +108,9 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <select name="status" id="status" class="form-control">
-                                                    <option value="Active">Active</option>
-                                                    <option value="Inactive">Inactive</option>
+                                                    <option value="Unpaid">Unpaid</option>
+                                                    <option value="Paid">Paid</option>
+                                                    <option value="Partial">Partial</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
@@ -124,7 +125,7 @@
                                         <i class="bx bx-x d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Close</span>
                                     </button>
-                                    <button type="submit" class="btn btn-primary ml-1" id="addorders" data-bs-dismiss="modal">
+                                    <button type="submit" class="btn btn-primary ml-1" id="addclaim" data-bs-dismiss="modal">
                                         <i class="bx bx-check d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Submit</span>
                                     </button>
@@ -133,17 +134,17 @@
                         </form>
                     </div>
                 </div>
-                <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdateorders">Update Maintenance <i class="bi bi-person-fill-gear"></i></button>
+                <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdateclaim">Update Claim <i class="bi bi-person-fill-gear"></i></button>
                 <div class="modal fade text-left modal-borderless modal-lg" id="modalEdit" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable" role="document">
-                        <form action="" id="formupdateorders" class="form form-horizontal" method="POST"
+                        <form action="" id="formupdateclaim" class="form form-horizontal" method="POST"
                             enctype="multipart/form-data">
                             <?= csrf()?>
                             <?= method('PUT')?>
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Update Maintenance</h5>
+                                    <h5 class="modal-title">Update Claim</h5>
                                     <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
                                         <i data-feather="x"></i>
                                     </button>
@@ -151,79 +152,68 @@
                                 <div class="modal-body">
                                     <div class="form-body">
                                         <div class="row">
-                                        <div class="col-md-4">
-                                                <label>No PO</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="text" name="no_po" id="uno_po" class="form form-control">
-                                            </div>
                                             <div class="col-md-4">
-                                                <label>Vendors</label>
+                                                <label>Plat Number</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="vendor_id" id="uvendor_id" class="form-control">
-                                                    <option value=""></option>
+                                            <select name="vehicle_id" id="uvehicle_id" class="form-control">
+                                                <?php foreach($vehicle as $vhc): ?>
+                                                    <option value="<?= $vhc->vehicle_id?>"><?= $vhc->plat_number.' '.$vhc->truck_type?></option>
+                                                <?php endforeach; ?>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Pickup Date</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="date" name="pickup_date" id="upickup_date" class="form form-control">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Tanggal Pembuatan PO</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="date" name="tgl_pembuatan_po" id="utgl_pembuatan_po" class="form form-control">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Origin City</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="text" name="origin_city" id="uorigin_city" class="form form-control">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Destination</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="text" name="destination" id="udestination" class="form form-control">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Vehicle</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <select name="vehicle_id" id="uvehicle_id" class="form-control">
-                                                    <option value=""></option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Project</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="text" name="project" id="uproject" class="form form-control">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Driver</label>
+                                                <label>Driver Name</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <select name="driver_id" id="udriver_id" class="form-control">
-                                                    <option value=""></option>
+                                                <?php foreach($driver as $dr): ?>
+                                                    <option value="<?= $dr->driver_id?>"><?= $dr->driver_name?></option>
+                                                <?php endforeach; ?>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Price</label>
+                                                <label>Supplier</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="price" id="uprice" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form-control">
+                                                <select name="vendor_id" id="uvendor_id" class="form-control">
+                                                <?php foreach($supplier as $sp): ?>
+                                                    <option value="<?= $sp->vendor_id?>"><?= $sp->company_name?></option>
+                                                <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Jenis Claim</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="jenis_claim" id="ujenis_claim" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Biaya</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="number" name="biaya" id="ubiaya" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Remark</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <textarea name="remark" id="uremark" class="form form-control"></textarea>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Surat Jalan</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="file" name="surat_jalan" id="usurat_jalan" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <select name="status" id="ustatus" class="form-control">
-                                                    <option value="Active">Active</option>
-                                                    <option value="Inactive">Inactive</option>
+                                                    <option value="Unpaid">Unpaid</option>
+                                                    <option value="Paid">Paid</option>
+                                                    <option value="Partial">Partial</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
@@ -238,7 +228,7 @@
                                         <i class="bx bx-x d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Close</span>
                                     </button>
-                                    <button type="submit" class="btn btn-primary ml-1" id="updateorders" data-bs-dismiss="modal">
+                                    <button type="submit" class="btn btn-primary ml-1" id="updateclaim" data-bs-dismiss="modal">
                                         <i class="bx bx-check d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Submit</span>
                                     </button>
@@ -247,7 +237,8 @@
                         </form>
                     </div>
                 </div>
-                <button class="btn btn-danger" id="deleteorders">Delete Maintenance <i class="bi bi-person-x"></i></button>
+                <button class="btn btn-danger" id="deleteclaim">Delete Claim <i class="bi bi-person-x"></i></button>
+                <button class="btn btn-success" id="payment">Payment <i class="bi bi-person-x"></i></button>
             </div>
             <div class="card-body">
                 <div class="container">
@@ -255,15 +246,13 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Number PO</th>
-                                <th>Vendor</th>
-                                <th>Pickup Date</th>
-                                <th>Tanggal Pembuatan PO</th>
-                                <th>Origin City</th>
-                                <th>Destination</th>
-                                <th>Vehicle</th>
-                                <th>Driver</th>
-                                <th>Price</th>
+                                <th>Plat Number</th>
+                                <th>Driver Name</th>
+                                <th>Supplier</th>
+                                <th>Jenis Claim</th>
+                                <th>Biaya</th>
+                                <th>Remark</th>
+                                <th>Surat Jalan</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -292,7 +281,7 @@
             $('#dataTable').DataTable().clear().destroy();
         }
         table = $('#dataTable').DataTable({
-            ajax: '<?= base_url()?>/getorders',
+            ajax: '<?= base_url()?>/getclaim',
             processing:true,
             serverSide:true,
             select:true,
@@ -306,46 +295,32 @@
                     }
                 },
                 {
-                    data: 'no_po',
-                    name: 'no_po',
-                    render:function(data,type,row){
-                        return '<a href="<?= base_url().'/detailorders/'?>'+data+'">'+data+'</a>';
-                    }
+                    data: 'plat_number',
+                    name: 'plat_number',
+                },
+                {
+                    data: 'driver_name',
+                    name: 'driver_name',
                 },
                 {
                     data: 'company_name',
                     name: 'company_name',
                 },
                 {
-                    data: 'pickup_date',
-                    name: 'pickup_date',
+                    data: 'jenis_claim',
+                    name: 'jenis_claim'
                 },
                 {
-                    data: 'tgl_pembuatan_po',
-                    name: 'tgl_pembuatan_po'
+                    data: 'biaya',
+                    name: 'biaya'
                 },
                 {
-                    data: 'origin_city',
-                    name: 'origin_city'
+                    data: 'remark',
+                    name: 'remark'
                 },
                 {
-                    data: 'destination',
-                    name: 'destination'
-                },
-                {
-                    data: 'truck_type',
-                    name: 'truck_type'
-                },
-                {
-                    data: 'driver_name',
-                    name: 'driver_name'
-                },
-                {
-                    data: 'price',
-                    name: 'price',
-                    render:function(data,type,row){
-                        return '<span class="badge bg-light-success">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
-                    }
+                    data: 'sj',
+                    name: 'sj'
                 },
                 {
                     data: 'status',
@@ -362,11 +337,11 @@
         })
     }
     // function crud user
-    function crudOrders(){
-        $('#addorders').on('click', function(e){
+    function crudClaim(){
+        $('#addclaim').on('click', function(e){
             e.preventDefault();
-            var url = '<?= base_url()?>/orders';
-            var formdata = new FormData($('#formaddorders')[0]);
+            var url = '<?= base_url()?>/claim';
+            var formdata = new FormData($('#formaddclaim')[0]);
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -376,7 +351,7 @@
                 dataType: 'json',
                 success:function(response){
                     if(response.status === 201){
-                        $('#formaddorders')[0].reset();
+                        $('#formaddclaim')[0].reset();
                         table.ajax.reload(null, false);
                         Swal.fire({
                             title: 'Success',
@@ -407,37 +382,26 @@
                 }
             })
         })
-        $('#modalupdateorders').on('click', function(e){
+        $('#modalupdateclaim').on('click', function(e){
             e.preventDefault();
             var selectedData = table.rows({
                 selected: true
             }).data();
-            var no_po = $('#uno_po');
-            var vendor_id = $('#uvendor_id');
-            var pickup_date = $('#upickup_date');
-            var tgl_pembuatan_po = $('#utgl_pembuatan_po');
-            var origin_city = $('#uorigin_city');
-            var destination = $('#udestination');
-            var vehicle_id = $('#uvehicle_id');
-            var driver_id = $('#udriver_id');
-            var price = $('#uprice');
+            var plat_number = $('#uplat_number');
+            var driver_name = $('#udriver_name');
+            var company_name = $('#ucompany_name');
+            var jenis_claim = $('#ujenis_claim');
+            var biaya = $('#ubiaya');
+            var remark = $('#uremark');
             var status = $('#ustatus');
-            var project = $('#uproject');
             if(selectedData.length > 0){
-                no_po.val(selectedData[0].no_po);
-                vendor_id.empty();
-                vendor_id.append('<option value="' + selectedData[0].vendor_id + '">' + selectedData[0].company_name + '</option>');
-                pickup_date.val(selectedData[0].pickup_date);
-                tgl_pembuatan_po.val(selectedData[0].tgl_pembuatan_po);
-                origin_city.val(selectedData[0].origin_city);
-                destination.val(selectedData[0].destination);
-                vehicle_id.empty();
-                vehicle_id.append('<option value="'+selectedData[0].vehicle_id+'">'+selectedData[0].truck_type+'</option>');
-                driver_id.empty();
-                driver_id.append('<option value="'+selectedData[0].driver_id+'">'+selectedData[0].driver_name+'</option>');
-                price.val(selectedData[0].price);
+                plat_number.val(selectedData[0].plat_number);
+                driver_name.val(selectedData[0].driver_name);
+                company_name.val(selectedData[0].company_name);
+                jenis_claim.val(selectedData[0].jenis_claim);
+                biaya.val(selectedData[0].biaya);
+                remark.val(selectedData[0].remark);
                 status.val(selectedData[0].status);
-                project.val(selectedData[0].project);
                 $('#modalEdit').modal('show');
             } else {
                 $('#modalEdit').modal('hide');
@@ -448,7 +412,7 @@
                 });
             }
         })
-        $('#updateorders').on('click', function(e){
+        $('#updateclaim').on('click', function(e){
             e.preventDefault();
             var selectedData = table.rows({
                 selected: true
@@ -466,8 +430,8 @@
             }
             var row = selectedData[0];
             var uID = row.uuid;
-            var updateOrders = "<?= base_url() . '/uorders/' ?>" + uID;
-            var formID = '#formupdateorders';
+            var updateClaim = "<?= base_url() . '/uclaim/' ?>" + uID;
+            var formID = '#formupdateclaim';
             $('#modalwarning').modal('hide');
             if (selectedData.length > 0) {
                 Swal.fire({
@@ -478,11 +442,11 @@
                     confirmButtonText: 'Ya, Ubah!!',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var formUpOrders = new FormData($(formID)[0]);
+                        var formUpClaim = new FormData($(formID)[0]);
                         $.ajax({
                             type: 'POST',
-                            url: updateOrders,
-                            data: formUpOrders,
+                            url: updateClaim,
+                            data: formUpClaim,
                             contentType: false,
                             processData: false,
                             dataType: 'json',
@@ -497,7 +461,7 @@
                                         timerProgressBar: true,
                                     })
                                     table.ajax.reload(null, false);
-                                    $('#formupdateorders')[0].reset();
+                                    $('#formupdateclaim')[0].reset();
                                 } else {
                                     Swal.fire({
                                         title: 'error',
@@ -514,7 +478,7 @@
                 })
             }
         })
-        $('#deleteorders').on('click', function(e){
+        $('#deleteclaim').on('click', function(e){
             e.preventDefault();
             var selectedData = table.rows({
                 selected: true
@@ -545,7 +509,7 @@
                             const uuid = data.uuid;
                             $.ajax({
                                 type: 'DELETE',
-                                url: "<?= base_url() . '/orders/' ?>" + uuid,
+                                url: "<?= base_url() . '/claim/' ?>" + uuid,
                                 success: function(response) {
                                     if (response.status === 200) {
                                         Swal.fire({
@@ -574,79 +538,6 @@
             }
         })
     }
-    function getProject(){
-        $('#vehicle_id').on('change', function(){
-            var url = '<?= base_url()?>/getproject';
-            var vehicle = $('#vehicle_id').val();
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: {
-                    vehicle: vehicle
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': '<?= csrfHeader() ?>'
-                },
-                success: function(response) {
-                    if (response.status === 200) {
-                        $('#project').empty();
-                        $('#project').append('<option value="" disabled selected hidden>' + '-' + '</option>');
-                        $.each(response.data, function(key, value) {
-                            $('#project').append('<option value="' + value.project + '">' + value.project + '</option>');
-                        })
-                    } else {
-                        $('#project').empty();
-                    }
-                }
-            })
-        })
-    }
-    function getPrice(){
-        $('#project').on('change', function(){
-            var url = '<?= base_url()?>/getprice';
-            var price = $('#vehicle_id').val();
-            var project = $('#project').val();
-            $.ajax({
-                type : 'POST',
-                url:url,
-                data: {
-                    price: price,
-                    project: project,
-                },
-                dataType: 'json',
-                headers:{
-                    'X-CSRF-TOKEN': '<?= csrfHeader() ?>'
-                },
-                success:function(response){
-                    if(response.status === 200){
-                        $('#price').val(response.data.price);
-                    } else {
-                        $('#price').val('');
-                    }
-                }
-            })
-        })
-    }
-    function generatePO(){
-        setTimeout(function() {
-            $('#no_po').trigger('change');
-        }, 100);
-        $('#addpo').on('click',function(){
-            $.ajax({
-                type: 'GET',
-                url: '<?= base_url()?>/generatepo',
-                dataType: 'json',
-                success:function(response){
-                    if(response.status === 200){
-                        $('#no_po').val(response.code);
-                    } else {
-                        $('#no_po').val('');
-                    }
-                }
-            })
-        })
-    }
     function flatPicker(){
         flatpickr('#tgl_pembuatan_po',{
             dateFormat: 'Y-m-d',
@@ -666,10 +557,7 @@
     }
     $(document).ready(function(){
         initDataTable();
-        crudOrders();
-        getPrice();
-        getProject();
-        generatePO();
+        crudClaim();
         flatPicker();
         validateNumberInput();
     })

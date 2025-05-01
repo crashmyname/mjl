@@ -19,17 +19,17 @@ use Support\UUID;
 class ClaimController extends BaseController
 {
     // Controller logic here
-    public function getSalary(Request $request)
+    public function getClaim(Request $request)
     {
         if(Request::isAjax()){
-            $salary = Claim::query()
+            $claim = Claim::query()
                                 ->select('claim_id','claims.uuid','vehicles.plat_number','drivers.driver_name','vendors.company_name','jenis_claim','biaya','remark','sj','claims.status')
-                                ->leftJoin('drivers','drivers.driver_id','=','salaries.driver_id')
+                                ->leftJoin('drivers','drivers.driver_id','=','claims.driver_id')
                                 ->leftJoin('vehicles','vehicles.vehicle_id','=','claims.vehicle_id')
                                 ->leftJoin('vendors','vendors.vendor_id','=','claims.vendor_id')
                                 ->where('claims.deleted_at','=',null)
                                 ->get();
-            return DataTables::of($salary)->make(true);
+            return DataTables::of($claim)->make(true);
             // Baru code sampe sini belum crud nya
         }
     }
@@ -45,36 +45,75 @@ class ClaimController extends BaseController
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(),[
+            'vehicle_id' => 'required',
             'driver_id' => 'required',
-            'salary' => 'required',
-            'tanggal' => 'required',
-            'bukti' => 'required',
+            'vendor_id' => 'required',
+            'jenis_claim' => 'required',
+            'biaya' => 'required',
+            'remark' => 'required',
         ]);
-        if($validate){
-            return Response::json(['status'=>500,'message'=>$validate]);
+        $errors = $validate;
+        $validateType = $request->getClientMimeType('surat_jalan');
+        $allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+        if($request->file('surat_jalan') && !in_array($validateType,$allowedTypes)){
+            $errors = array_merge($errors, ['surat_jalan' => ['File must be a valid image']]);
         }
-        Claim::create([
-            'uuid' => UUID::generateUuid(),
-            'driver_id' => $request->driver_id,
-            'tanggal' => $request->tanggal,
-            'bukti' => $request->bukti,
-            'status' => $request->status,
-            'created_at' => Date::Now(),
-            'updated_at' => Date::Now(),
-        ]);
-        return Response::json(['status'=>201,'message'=>'Gaji berhasil dibuat']);
+        if(!empty($errors)){
+            return Response::json(['status'=>500,'message'=>$errors]);
+        }
+        if($request->getClientOriginalName('surat_jalan')){
+            $path = storage_path('document/data/claim');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+
+            $fileName = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('surat_jalan'));
+            $tempPath = $request->getPath('surat_jalan');
+            $destination = $path.'/'.$fileName;
+
+            if(move_uploaded_file($tempPath,$destination)){
+                Claim::create([
+                    'uuid' => UUID::generateUuid(),
+                    'vehicle_id' => $request->vehicle_id,
+                    'driver_id' => $request->driver_id,
+                    'vendor_id' => $request->vendor_id,
+                    'jenis_claim' => $request->jenis_claim,
+                    'biaya' => $request->biaya,
+                    'remark' => $request->remark,
+                    'sj' => $fileName,
+                    'status' => $request->status,
+                    'created_at' => Date::Now(),
+                    'updated_at' => Date::Now(),
+                ]);
+            }
+        }
+        return Response::json(['status'=>201,'message'=>'Claim berhasil dibuat']);
     }
 
     public function update(Request $request, $id)
     {
         $claim = Claim::query()->where('uuid','=',$id)->first();
-        $claim->driver_id = $request->driver_id;
-        $claim->tanggal = $request->tanggal;
-        $claim->bukti = $request->bukti;
+        $claim->jenis_claim = $request->jenis_claim;
+        $claim->biaya = $request->biaya;
+        $claim->remark = $request->remark;
         $claim->status = $request->status;
+        if($request->getClientOriginalName('surat_jalan')){
+            $path = storage_path('document/data/claim');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+            $oldFile = $path.'/'.$claim->sj;
+            if(file_exists($oldFile)){
+                unlink($oldFile);
+            }
+            $claim->sj = $request->getClientOriginalName('surat_jalan');
+            $tempPath = $request->getPath('surat_jalan');
+            $destination = $path.'/'.$claim->sj;
+            move_uploaded_file($tempPath,$destination);
+        }
         $claim->updated_at = Date::Now();
         $claim->save();
-        return Response::json(['status'=>201,'message'=>'Gaji berhasil diupdate']);
+        return Response::json(['status'=>201,'message'=>'Claim berhasil diupdate']);
     }
 
     public function delete($id)
@@ -82,6 +121,6 @@ class ClaimController extends BaseController
         $claim = Claim::query()->where('uuid','=',$id)->first();
         $claim->deleted_at = Date::Now();
         $claim->save();
-        return Response::json(['status'=>200,'message'=>'Gaji berhasil dihapus']);
+        return Response::json(['status'=>200,'message'=>'Claim berhasil dihapus']);
     }
 }
