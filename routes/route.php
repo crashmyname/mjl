@@ -70,7 +70,9 @@ Route::group([AuthMiddleware::class],function(){
     // Transaction
     Route::get('/transaction',[TransactionController::class, 'index']);
     Route::get('/gettransaction', [TransactionController::class, 'getTransaction']);
-    Route::post('/transaction',[TransactionController::class, 'create']);
+    Route::post('/transaction',[TransactionController::class, 'createMaintenance']);
+    Route::post('/transactionclaim',[TransactionController::class, 'createClaim']);
+    Route::post('/transactionsalary',[TransactionController::class, 'createSalary']);
     Route::put('/utransaction/{id}', [TransactionController::class, 'update']);
     Route::delete('/transaction/{id}', [TransactionController::class, 'delete']);
     Route::post('/getprice',[TransactionController::class, 'getPrice']);

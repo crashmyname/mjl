@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\RekeningKoran;
 use Support\BaseController;
 use Support\Request;
 use Support\Validator;
@@ -16,14 +17,23 @@ class MutasiController extends BaseController
     public function getRekening(Request $request)
     {
         if(Request::isAjax()){
-            $claim = Claim::query()
-                                ->select('claim_id','claims.uuid','vehicles.plat_number','drivers.driver_name','vendors.company_name','jenis_claim','biaya','remark','sj','claims.status')
-                                ->leftJoin('drivers','drivers.driver_id','=','claims.driver_id')
-                                ->leftJoin('vehicles','vehicles.vehicle_id','=','claims.vehicle_id')
-                                ->leftJoin('vendors','vendors.vendor_id','=','claims.vendor_id')
-                                ->where('claims.deleted_at','=',null)
+            $rekkoran = RekeningKoran::query()
+                                ->select('rek_koran_id',
+                                        'rekening_koran.uuid',
+                                        'reference_data',
+                                        'reference_id',
+                                        'payments.nama_bank',
+                                        'payments.no_rek',
+                                        'payments.nama_rek',
+                                        'tanggal',
+                                        'jenis_transaksi',
+                                        'jumlah',
+                                        'no_document',
+                                        'deskripsi')
+                                ->leftJoin('payments','payments.payment_id','=','rekening_koran.payment_id')
+                                ->where('rekening_koran.deleted_at','=',null)
                                 ->get();
-            return DataTables::of($claim)->make(true);
+            return DataTables::of($rekkoran)->make(true);
             // Baru code sampe sini belum crud nya
         }
     }

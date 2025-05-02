@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Drivers;
+use App\Models\Maintenance;
 use App\Models\Price;
 use App\Models\Transactions;
 use App\Models\Vehicle;
@@ -84,36 +85,28 @@ class TransactionController extends BaseController
         return view('transactions/detailorders',['order'=>$order],'layout/app');
     }
 
-    public function create(Request $request)
+    public function createMaintenance(Request $request)
     {
-        $validate = Validator::make($request->all(),[
-            'vendor_id' => 'required',
-            'origin_city' => 'required',
-            'destination' => 'required',
-            'vehicle_id' => 'required',
-            'driver_id' => 'required',
-            'price' => 'required',
-        ]);
-        if($validate){
-            return Response::json(['status'=>500,'message'=>$validate]);
+        $cekdata = Maintenance::query()->where('maintenance_id','=',$request->maintenance)->first();
+        if($cekdata){
+            $transaction = Transactions::create([
+                'uuid' => UUID::generateUuid(),
+                'reference_table' => 'maintenance',
+                'reference_id' => $cekdata->maintenance_id,
+                'jenis_transaction' => 'Repair',
+                'type_transaction' => 'OUT',
+                'tanggal' => $request->tanggal,
+                'total' => $request->total,
+                'status' => $request->status,
+                'created_at' => Date::Now(),
+                'updated_at' => Date::Now(),
+            ]);
+            $cekdata->update([
+                'status' => $request->status,
+                'updated_at' => Date::Now(),
+            ]);
         }
-        $orders = Transactions::create([
-            'uuid' => UUID::generateUuid(),
-            'no_po' => $request->no_po,
-            'vendor_id' => $request->vendor_id,
-            'pickup_date' => $request->pickup_date,
-            'tgl_pembuatan_po' => $request->tgl_pembuatan_po,
-            'origin_city' => $request->origin_city,
-            'destination' => $request->destination,
-            'vehicle_id' => $request->vehicle_id,
-            'driver_id' => $request->driver_id,
-            'price' => $request->price,
-            'invoice_id' => null,
-            'no_surat_jalan' => null,
-            'bukti' => null,
-            'status' => $request->status,
-        ]);
-        return Response::json(['status'=>201,'message'=>'Order berhasil dibuat']);
+        return Response::json(['status'=>201,'message'=>'Payment berhasil dibuat']);
     }
 
     public function update(Request $request, $id)
