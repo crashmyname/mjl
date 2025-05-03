@@ -2,9 +2,11 @@
 
 namespace App\Controllers;
 
+use App\Models\Claim;
 use App\Models\Drivers;
 use App\Models\Maintenance;
 use App\Models\Price;
+use App\Models\RekeningKoran;
 use App\Models\Transactions;
 use App\Models\Vehicle;
 use App\Models\Vendors;
@@ -86,6 +88,65 @@ class TransactionController extends BaseController
     }
 
     public function createMaintenance(Request $request)
+    {
+        $cekdata = Maintenance::query()->where('maintenance_id','=',$request->maintenance)->first();
+        $cektransaksi = Transactions::query()->where('reference_table','=','maintenance')->where('reference_id','=',$cekdata->maintenance_id)->first();
+        if(!$cektransaksi){
+            if($cekdata){
+                $transaction = Transactions::create([
+                    'uuid' => UUID::generateUuid(),
+                    'reference_table' => 'maintenance',
+                    'reference_id' => $cekdata->maintenance_id,
+                    'jenis_transaction' => 'Repair',
+                    'type_transaction' => 'outcome',
+                    'transaction_date' => $request->tanggal,
+                    'amount' => $request->total,
+                    'status' => $request->status,
+                    'created_at' => Date::Now(),
+                    'updated_at' => Date::Now(),
+                ]);
+                $cekdata->update([
+                    'status' => $request->status,
+                    'updated_at' => Date::Now(),
+                ]);
+            }
+            return Response::json(['status'=>201,'message'=>'Payment berhasil dibuat']);
+        } else {
+            return Response::json(['status'=>500,'message'=>'Sudah melakukan payment maintenance']);
+        }
+    }
+
+    public function createClaim(Request $request)
+    {
+        $cekdata = Claim::query()->where('claim_id','=',$request->claim)->first();
+        $cektransaksi = Transactions::query()->where('reference_table','=','claim')
+                        ->where('reference_id','=',$cekdata->claim_id)->first();
+        if(!$cektransaksi){
+            if($cekdata){
+                $transaction = Transactions::create([
+                    'uuid' => UUID::generateUuid(),
+                    'reference_table' => 'claim',
+                    'reference_id' => $cekdata->claim_id,
+                    'jenis_transaction' => 'Claim',
+                    'type_transaction' => 'outcome',
+                    'transaction_date' => $request->tanggal,
+                    'amount' => $request->biaya,
+                    'status' => $request->status,
+                    'created_at' => Date::Now(),
+                    'updated_at' => Date::Now(),
+                ]);
+                $cekdata->update([
+                    'status' => $request->status,
+                    'updated_at' => Date::Now(),
+                ]);
+            }
+            return Response::json(['status'=>201,'message'=>'Payment berhasil dibuat']);
+        } else {
+            return Response::json(['status'=>500,'message'=>'Sudah melakukan payment claim']);
+        }
+    }
+
+    public function createSalary(Request $request)
     {
         $cekdata = Maintenance::query()->where('maintenance_id','=',$request->maintenance)->first();
         if($cekdata){

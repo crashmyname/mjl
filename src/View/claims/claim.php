@@ -238,7 +238,73 @@
                     </div>
                 </div>
                 <button class="btn btn-danger" id="deleteclaim">Delete Claim <i class="bi bi-person-x"></i></button>
-                <button class="btn btn-success" id="payment">Payment <i class="bi bi-person-x"></i></button>
+                <button class="btn btn-success" data-bs-toggle="modal" id="payment">Payment <i class="bi bi-person-x"></i></button>
+                <div class="modal fade text-left modal-borderless modal-lg" id="modalPayment" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                        <form action="" id="formpayment" class="form form-horizontal" method="POST"
+                            enctype="multipart/form-data">
+                            <?= csrf()?>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Update Maintenance</h5>
+                                    <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
+                                        <i data-feather="x"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Kendaraan</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="vehicle_id" id="pvehicle_id" class="form form-control" readonly>
+                                                <input type="hidden" name="claim" id="pclaim" class="form form-control" readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Date</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="date" name="tanggal" id="ptanggal" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Total</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="number" name="biaya" id="pbiaya" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Status</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <select name="status" id="ustatus" class="form-control">
+                                                    <option value="Unpaid">Unpaid</option>
+                                                    <option value="Paid">Paid</option>
+                                                    <option value="Partial">Partial</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-12 d-flex justify-content-end">
+                                                <button type="reset"
+                                                    class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Close</span>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary ml-1" id="addpayment" data-bs-dismiss="modal">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Submit</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
                 <div class="container">
@@ -467,6 +533,97 @@
                                         title: 'error',
                                         icon: 'error',
                                         text: 'Data gagal diupdate',
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        timerProgressBar: true,
+                                    })
+                                }
+                            }
+                        })
+                    }
+                })
+            }
+        })
+        $('#payment').on('click', function(e){
+            e.preventDefault();
+            var selectedData = table.rows({
+                selected: true
+            }).data();
+            var vehicle_id = $('#pvehicle_id');
+            var tanggal = $('#ptanggal');
+            var biaya = $('#pbiaya');
+            var status = $('#pstatus');
+            var claim = $('#pclaim');
+            if(selectedData.length > 0){
+                vehicle_id.val(selectedData[0].plat_number+' '+selectedData[0].truck_type);
+                claim.val(selectedData[0].claim_id);
+                tanggal.val(selectedData[0].tanggal);
+                biaya.val(selectedData[0].biaya);
+                status.val(selectedData[0].status);
+                $('#modalPayment').modal('show');
+            } else {
+                $('#modalPayment').modal('hide');
+                Swal.fire({
+                    title: 'Info',
+                    icon: 'info',
+                    text: 'No Data Selected',
+                });
+            }
+        })
+        $('#addpayment').on('click', function(e){
+            e.preventDefault();
+            var selectedData = table.rows({
+                selected: true
+            }).data();
+            if (selectedData.length == 0) {
+                Swal.fire({
+                    title: 'Error',
+                    icon: 'error',
+                    text: 'Tidak ada data yang dipilih!',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                });
+                return;
+            }
+            var row = selectedData[0];
+            var updatePayment = "<?= base_url() . '/transactionclaim' ?>";
+            var formID = '#formpayment';
+            $('#modalwarning').modal('hide');
+            if (selectedData.length > 0) {
+                Swal.fire({
+                    title: 'Update',
+                    icon: 'warning',
+                    text: 'Yakin data ingin diubah?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Ubah!!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var formUpPayment = new FormData($(formID)[0]);
+                        $.ajax({
+                            type: 'POST',
+                            url: updatePayment,
+                            data: formUpPayment,
+                            contentType: false,
+                            processData: false,
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.status === 201) {
+                                    Swal.fire({
+                                        title: 'success',
+                                        icon: 'success',
+                                        text: response.message,
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        timerProgressBar: true,
+                                    })
+                                    table.ajax.reload(null, false);
+                                    $('#formpayment')[0].reset();
+                                } else {
+                                    Swal.fire({
+                                        title: 'error',
+                                        icon: 'error',
+                                        text: response.message,
                                         showConfirmButton: false,
                                         timer: 1500,
                                         timerProgressBar: true,

@@ -488,7 +488,6 @@
             var status = $('#pstatus');
             var maintenance = $('#pmaintenance');
             if(selectedData.length > 0){
-                console.log(selectedData[0]);
                 vehicle_id.val(selectedData[0].plat_number+' '+selectedData[0].truck_type);
                 maintenance.val(selectedData[0].maintenance_id);
                 tanggal.val(selectedData[0].tanggal);
@@ -557,7 +556,7 @@
                                     Swal.fire({
                                         title: 'error',
                                         icon: 'error',
-                                        text: 'Data gagal diupdate',
+                                        text: response.message,
                                         showConfirmButton: false,
                                         timer: 1500,
                                         timerProgressBar: true,
