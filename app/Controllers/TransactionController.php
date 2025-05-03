@@ -7,6 +7,7 @@ use App\Models\Drivers;
 use App\Models\Maintenance;
 use App\Models\Price;
 use App\Models\RekeningKoran;
+use App\Models\Salary;
 use App\Models\Transactions;
 use App\Models\Vehicle;
 use App\Models\Vendors;
@@ -95,6 +96,7 @@ class TransactionController extends BaseController
             if($cekdata){
                 $transaction = Transactions::create([
                     'uuid' => UUID::generateUuid(),
+                    'payment_id' => 1,
                     'reference_table' => 'maintenance',
                     'reference_id' => $cekdata->maintenance_id,
                     'jenis_transaction' => 'Repair',
@@ -125,6 +127,7 @@ class TransactionController extends BaseController
             if($cekdata){
                 $transaction = Transactions::create([
                     'uuid' => UUID::generateUuid(),
+                    'payment_id' => 1,
                     'reference_table' => 'claim',
                     'reference_id' => $cekdata->claim_id,
                     'jenis_transaction' => 'Claim',
@@ -148,16 +151,17 @@ class TransactionController extends BaseController
 
     public function createSalary(Request $request)
     {
-        $cekdata = Maintenance::query()->where('maintenance_id','=',$request->maintenance)->first();
+        $cekdata = Salary::query()->where('salary_id','=',$request->salary)->first();
         if($cekdata){
             $transaction = Transactions::create([
                 'uuid' => UUID::generateUuid(),
-                'reference_table' => 'maintenance',
-                'reference_id' => $cekdata->maintenance_id,
-                'jenis_transaction' => 'Repair',
-                'type_transaction' => 'OUT',
-                'tanggal' => $request->tanggal,
-                'total' => $request->total,
+                'payment_id' => 1,
+                'reference_table' => 'salaries',
+                'reference_id' => $cekdata->salary_id,
+                'jenis_transaction' => 'Payment',
+                'type_transaction' => 'outcome',
+                'transaction_date' => $request->tanggal,
+                'amount' => $request->total,
                 'status' => $request->status,
                 'created_at' => Date::Now(),
                 'updated_at' => Date::Now(),
