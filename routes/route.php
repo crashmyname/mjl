@@ -79,11 +79,11 @@ Route::group([AuthMiddleware::class],function(){
     Route::get('/detailtransaction/{nopo}',[TransactionController::class, 'detailTransaction']);
 
     // Rekening Koran
-    Route::get('/rekening_koran',[MutasiController::class, 'index']);
-    Route::get('/getrekening_koran', [MutasiController::class, 'getRekening']);
-    Route::post('/rekening_koran',[MutasiController::class, 'create']);
-    Route::put('/urekening_koran/{id}', [MutasiController::class, 'update']);
-    Route::delete('/rekening_koran/{id}', [MutasiController::class, 'delete']);
+    Route::get('/mutation',[MutasiController::class, 'index']);
+    Route::get('/getmutation', [MutasiController::class, 'getRekening']);
+    Route::post('/mutation',[MutasiController::class, 'create']);
+    Route::put('/umutation/{id}', [MutasiController::class, 'update']);
+    Route::delete('/mutation/{id}', [MutasiController::class, 'delete']);
     
     // Transporter
     Route::get('/transporters',[DriverController::class, 'index']);

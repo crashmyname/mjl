@@ -340,3 +340,66 @@ Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(344): PDOStatement->execu
 #3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
 #4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
 #5 {main}
+[Error] View file not found: C:\laragon\www\mjl\bin\support/../../src/View/payment/mutation.php in C:\laragon\www\mjl\bin\support\BaseController.php at line 467
+Trace: #0 C:\laragon\www\mjl\bin\support\helper.php(267): Support\BaseController->view('payment/mutatio...', Array, 'layout/app')
+#1 C:\laragon\www\mjl\app\Controllers\MutasiController.php(43): view('payment/mutatio...', Array, 'layout/app')
+#2 [internal function]: App\Controllers\MutasiController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] View file not found: C:\laragon\www\mjl\bin\support/../../src/View/payment/mutation.php in C:\laragon\www\mjl\bin\support\BaseController.php at line 467
+Trace: #0 C:\laragon\www\mjl\bin\support\helper.php(267): Support\BaseController->view('payment/mutatio...', Array, 'layout/app')
+#1 C:\laragon\www\mjl\app\Controllers\MutasiController.php(43): view('payment/mutatio...', Array, 'layout/app')
+#2 [internal function]: App\Controllers\MutasiController->index()
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'transactiond_date' in 'field list' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\MutasiController.php(36): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\MutasiController->getRekening(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'transactiond_date' in 'field list' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\MutasiController.php(36): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\MutasiController->getRekening(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'transactiond_date' in 'field list' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\MutasiController.php(36): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\MutasiController->getRekening(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'transactions.deleted_at' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\MutasiController.php(37): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\MutasiController->getRekening(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'transactions.deleted_at' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\MutasiController.php(37): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\MutasiController->getRekening(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'transactions.payment_id' in 'on clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\MutasiController.php(37): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\MutasiController->getRekening(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tanggal' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\app\Controllers\MutasiController.php(38): Support\BaseModel->get()
+#2 [internal function]: App\Controllers\MutasiController->getRekening(Object(Support\Request))
+#3 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#4 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#5 {main}
