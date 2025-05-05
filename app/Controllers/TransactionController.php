@@ -152,26 +152,32 @@ class TransactionController extends BaseController
     public function createSalary(Request $request)
     {
         $cekdata = Salary::query()->where('salary_id','=',$request->salary)->first();
-        if($cekdata){
-            $transaction = Transactions::create([
-                'uuid' => UUID::generateUuid(),
-                'payment_id' => 1,
-                'reference_table' => 'salaries',
-                'reference_id' => $cekdata->salary_id,
-                'jenis_transaction' => 'Payment',
-                'type_transaction' => 'outcome',
-                'transaction_date' => $request->tanggal,
-                'amount' => $request->total,
-                'status' => $request->status,
-                'created_at' => Date::Now(),
-                'updated_at' => Date::Now(),
-            ]);
-            $cekdata->update([
-                'status' => $request->status,
-                'updated_at' => Date::Now(),
-            ]);
+        $cektransaksi = Transactions::query()->where('reference_table','=','salaries')
+                        ->where('reference_id','=',$cekdata->salary_id)->first();
+        if(!$cektransaksi){
+            if($cekdata){
+                $transaction = Transactions::create([
+                    'uuid' => UUID::generateUuid(),
+                    'payment_id' => 1,
+                    'reference_table' => 'salaries',
+                    'reference_id' => $cekdata->salary_id,
+                    'jenis_transaction' => 'Payment',
+                    'type_transaction' => 'outcome',
+                    'transaction_date' => $request->tanggal,
+                    'amount' => $request->total,
+                    'status' => $request->status,
+                    'created_at' => Date::Now(),
+                    'updated_at' => Date::Now(),
+                ]);
+                $cekdata->update([
+                    'status' => $request->status,
+                    'updated_at' => Date::Now(),
+                ]);
+            }
+            return Response::json(['status'=>201,'message'=>'Salary berhasil dibuat']);
+        } else {
+            return Response::json(['status'=>500,'message'=>'Sudah melakukan payment salary']);
         }
-        return Response::json(['status'=>201,'message'=>'Payment berhasil dibuat']);
     }
 
     public function update(Request $request, $id)

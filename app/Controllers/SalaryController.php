@@ -31,7 +31,7 @@ class SalaryController extends BaseController
 
     public function index()
     {
-        $driver = Drivers::query()->select('driver_id','driver_name')->get();
+        $driver = Drivers::query()->select('driver_id','driver_name')->where('deleted_at','=',null)->get();
         return view('salaries/driver-salary',['driver'=>$driver],'layout/app');
     }
 

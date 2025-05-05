@@ -32,7 +32,7 @@ class MaintenanceController extends BaseController
 
     public function index()
     {
-        $vehicle = Vehicle::query()->select('plat_number','truck_type','vehicle_id')->get();
+        $vehicle = Vehicle::query()->select('plat_number','truck_type','vehicle_id')->where('deleted_at','=',null)->get();
         return view('maintenance/maintenance',['vehicle'=>$vehicle],'layout/app');
     }
 

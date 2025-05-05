@@ -204,11 +204,11 @@
                                     <div class="form-body">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label>Kendaraan</label>
+                                                <label>Driver Name</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="vehicle_id" id="pvehicle_id" class="form form-control" readonly>
-                                                <input type="hidden" name="maintenance" id="pmaintenance" class="form form-control" readonly>
+                                                <input type="text" name="driver_id" id="pdriver_id" class="form form-control" readonly>
+                                                <input type="hidden" name="salary" id="psalary" class="form form-control" readonly>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Date</label>
@@ -477,14 +477,14 @@
             var selectedData = table.rows({
                 selected: true
             }).data();
-            var vehicle_id = $('#pvehicle_id');
+            var driver_id = $('#pdriver_id');
             var tanggal = $('#ptanggal');
             var total = $('#ptotal');
             var status = $('#pstatus');
-            var maintenance = $('#pmaintenance');
+            var salary = $('#psalary');
             if(selectedData.length > 0){
-                vehicle_id.val(selectedData[0].plat_number+' '+selectedData[0].truck_type);
-                maintenance.val(selectedData[0].maintenance_id);
+                driver_id.val(selectedData[0].driver_name);
+                salary.val(selectedData[0].salary_id);
                 tanggal.val(selectedData[0].tanggal);
                 total.val(selectedData[0].total);
                 status.val(selectedData[0].status);

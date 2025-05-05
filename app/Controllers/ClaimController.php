@@ -36,9 +36,9 @@ class ClaimController extends BaseController
 
     public function index()
     {
-        $vehicle = Vehicle::query()->select('vehicle_id','plat_number','truck_type')->get();
-        $driver = Drivers::query()->select('driver_id','driver_name')->get();
-        $supplier = Vendors::query()->select('vendor_id','company_name')->get();
+        $vehicle = Vehicle::query()->select('vehicle_id','plat_number','truck_type')->where('deleted_at','=',null)->get();
+        $driver = Drivers::query()->select('driver_id','driver_name')->where('deleted_at','=',null)->get();
+        $supplier = Vendors::query()->select('vendor_id','company_name')->where('deleted_at','=',null)->get();
         return view('claims/claim',['vehicle'=>$vehicle,'driver'=>$driver,'supplier'=>$supplier],'layout/app');
     }
 
