@@ -67,6 +67,12 @@ Route::group([AuthMiddleware::class],function(){
     Route::post('/getpricepo',[OrderController::class, 'getPricePO']);
     Route::get('/detailorders/{nopo}',[OrderController::class, 'detailOrders']);
 
+    // Pembayaran
+    Route::get('/detailtransaction/{noinv}',[OrderController::class, 'detailTransaction']);
+    Route::get('/getdetailtransaction/{noinv}',[OrderController::class, 'getDetailTransaksi']);
+    Route::post('/pembayaran',[OrderController::class, 'addPembayaran']);
+    Route::delete('/pembayaran/{id}',[OrderController::class, 'deletePembayaran']);
+
     // Transaction
     Route::get('/transaction',[TransactionController::class, 'index']);
     Route::get('/gettransaction', [TransactionController::class, 'getTransaction']);
@@ -75,8 +81,6 @@ Route::group([AuthMiddleware::class],function(){
     Route::post('/transactionsalary',[TransactionController::class, 'createSalary']);
     Route::put('/utransaction/{id}', [TransactionController::class, 'update']);
     Route::delete('/transaction/{id}', [TransactionController::class, 'delete']);
-    Route::post('/getprice',[TransactionController::class, 'getPrice']);
-    Route::get('/detailtransaction/{nopo}',[TransactionController::class, 'detailTransaction']);
 
     // Rekening Koran
     Route::get('/mutation',[MutasiController::class, 'index']);

@@ -315,6 +315,9 @@
                 {
                     data: 'no_invoice',
                     name: 'no_invoice',
+                    render: function(data,type,row){
+                        return '<a href="<?= base_url().'/detailtransaction/'?>'+data+'">'+data+'</a>'
+                    }
                 },
                 {
                     data: 'tgl_invoice',

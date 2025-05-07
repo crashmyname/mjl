@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\Drivers;
+use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Price;
+use App\Models\StatusPembayaran;
 use App\Models\Vehicle;
 use App\Models\Vendors;
 use Support\BaseController;
@@ -173,5 +175,23 @@ class OrderController extends BaseController
         $orders->deleted_at = Date::Now();
         $orders->save();
         return Response::json(['status'=>200,'message'=>'Order berhasil dihapus']);
+    }
+
+    public function detailTransaction(Request $request, $noinv)
+    {
+        $inv = Invoice::query()->where('no_invoice','=',$noinv)->first();
+        return view('transactions/detailtransaction',['inv'=>$inv],'layout/app');
+    }
+
+    public function getDetailTransaksi(Request $request,$noinv)
+    {
+        if(Request::isAjax()){
+            $detailTransaksi = StatusPembayaran::query()
+                                ->leftJoin('invoices','invoices.invoice_id','=','status_pembayaran.invoice_id')
+                                ->select('status_pembayaran.uuid','invoices.no_invoice','tanggal_pembayaran','status_pembayaran.jumlah','status_pembayaran.total_bayar','bukti_data','status_pembayaran.status')
+                                ->where('invoices.no_invoice','=',$noinv)
+                                ->get();
+            return DataTables::of($detailTransaksi)->make(true);
+        }
     }
 }
