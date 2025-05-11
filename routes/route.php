@@ -54,13 +54,25 @@ Route::group([AuthMiddleware::class],function(){
     Route::put('/ushippers/{id}', [VendorController::class, 'update']);
     Route::delete('/shippers/{id}', [VendorController::class, 'delete']);
     
-    // Order
+    // Order AR
     Route::get('/generatepo',[OrderController::class, 'generatePO']);
     Route::get('/orders',[OrderController::class, 'index']);
     Route::get('/getorders', [OrderController::class, 'getOrders']);
     Route::post('/orders',[OrderController::class, 'create']);
     Route::put('/uorders/{id}', [OrderController::class, 'update']);
     Route::put('/updateorders/{po}',[OrderController::class, 'updateSuratJalan']);
+    Route::delete('/orders/{id}', [OrderController::class, 'delete']);
+    Route::post('/getprice',[OrderController::class, 'getPrice']);
+    Route::post('/getproject',[OrderController::class, 'getProject']);
+    Route::post('/getpricepo',[OrderController::class, 'getPricePO']);
+    Route::get('/detailorders/{nopo}',[OrderController::class, 'detailOrders']);
+
+    // Order AP
+    Route::get('/orders-ap',[OrderController::class, 'indexAP']);
+    Route::get('/getorders-ap', [OrderController::class, 'getOrdersAP']);
+    Route::post('/orders-ap',[OrderController::class, 'createAP']);
+    Route::put('/uorders-ap/{id}', [OrderController::class, 'updateAP']);
+    Route::put('/updateorders-ap/{po}',[OrderController::class, 'updateSuratJalan']);
     Route::delete('/orders/{id}', [OrderController::class, 'delete']);
     Route::post('/getprice',[OrderController::class, 'getPrice']);
     Route::post('/getproject',[OrderController::class, 'getProject']);

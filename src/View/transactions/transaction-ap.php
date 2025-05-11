@@ -53,17 +53,13 @@
                                                 <label>No PO</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="no_po" id="no_po" class="form form-control" readonly>
+                                                <input type="text" name="no_po" id="no_po" class="form form-control" >
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Vendors</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="vendor_id" id="vendor_id" class="form-control">
-                                                <?php foreach($vendor as $vnd): ?>
-                                                    <option value="<?= $vnd->vendor_id?>"><?= $vnd->company_name?></option>
-                                                <?php endforeach; ?>
-                                                </select>
+                                                <input type="text" name="vendor" id="vendor" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Pickup Date</label>
@@ -93,31 +89,19 @@
                                                 <label>Vehicle</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="vehicle_id" id="vehicle_id" class="form-control js-example-basic-single">
-                                                    <option value="-" disabled selected value> - </option>
-                                                <?php foreach($vehicle as $vhc):?>
-                                                    <option value="<?= $vhc->vehicle_id?>"><?= $vhc->plat_number?> | <?= $vhc->truck_type?> | <?= $vhc->truck_sub_type?></option>
-                                                <?php endforeach; ?>
-                                                </select>
+                                                <input type="text" name="vehicle" id="vehicle" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Project</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="project" id="project" class="form-control">
-
-                                                </select>
+                                                <input type="text" name="project" id="project" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Driver</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="driver_id" id="driver_id" class="form-control js-example-basic-single">
-                                                    <option value="-" disabled selected value> - </option>
-                                                <?php foreach($driver as $dv): ?>
-                                                    <option value="<?= $dv->driver_id?>"><?= $dv->driver_name?></option>
-                                                <?php endforeach; ?>
-                                                </select>
+                                                <input type="text" name="driver" id="driver" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Price</label>
@@ -314,7 +298,7 @@
             $('#dataTable').DataTable().clear().destroy();
         }
         table = $('#dataTable').DataTable({
-            ajax: '<?= base_url()?>/getorders',
+            ajax: '<?= base_url()?>/getorders-ap',
             processing:true,
             serverSide:true,
             select:true,
@@ -596,79 +580,6 @@
             }
         })
     }
-    function getProject(){
-        $('#vehicle_id').on('change', function(){
-            var url = '<?= base_url()?>/getproject';
-            var vehicle = $('#vehicle_id').val();
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: {
-                    vehicle: vehicle
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': '<?= csrfHeader() ?>'
-                },
-                success: function(response) {
-                    if (response.status === 200) {
-                        $('#project').empty();
-                        $('#project').append('<option value="" disabled selected hidden>' + '-' + '</option>');
-                        $.each(response.data, function(key, value) {
-                            $('#project').append('<option value="' + value.project + '">' + value.project + '</option>');
-                        })
-                    } else {
-                        $('#project').empty();
-                    }
-                }
-            })
-        })
-    }
-    function getPrice(){
-        $('#project').on('change', function(){
-            var url = '<?= base_url()?>/getprice';
-            var price = $('#vehicle_id').val();
-            var project = $('#project').val();
-            $.ajax({
-                type : 'POST',
-                url:url,
-                data: {
-                    price: price,
-                    project: project,
-                },
-                dataType: 'json',
-                headers:{
-                    'X-CSRF-TOKEN': '<?= csrfHeader() ?>'
-                },
-                success:function(response){
-                    if(response.status === 200){
-                        $('#price').val(response.data.price);
-                    } else {
-                        $('#price').val('');
-                    }
-                }
-            })
-        })
-    }
-    function generatePO(){
-        setTimeout(function() {
-            $('#no_po').trigger('change');
-        }, 100);
-        $('#addpo').on('click',function(){
-            $.ajax({
-                type: 'GET',
-                url: '<?= base_url()?>/generatepo',
-                dataType: 'json',
-                success:function(response){
-                    if(response.status === 200){
-                        $('#no_po').val(response.code);
-                    } else {
-                        $('#no_po').val('');
-                    }
-                }
-            })
-        })
-    }
     function flatPicker(){
         flatpickr('#tgl_pembuatan_po',{
             dateFormat: 'Y-m-d',
@@ -689,9 +600,6 @@
     $(document).ready(function(){
         initDataTable();
         crudOrders();
-        getPrice();
-        getProject();
-        generatePO();
         flatPicker();
         validateNumberInput();
     })

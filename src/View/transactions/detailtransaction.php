@@ -62,6 +62,12 @@
                                                 <input type="date" name="tanggal_pembayaran" id="tanggal_pembayaran" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
+                                                <label>Bukti Bayar</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="file" name="bukti_bayar" id="bukti_bayar" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>Jumlah</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -71,7 +77,7 @@
                                                 <label>Total Bayar</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="total_bayar" id="total_bayar" class="form form-control" value="">
+                                                <input type="text" name="total_bayar" id="total_bayar" class="form form-control" value="<?= $inv->total_pembayaran?>" readonly>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>
@@ -114,6 +120,7 @@
                                 <th>No Invoice</th>
                                 <th>Tanggal Pembayaran</th>
                                 <th>Jumlah</th>
+                                <th>Sisa Bayar</th>
                                 <th>Total Bayar</th>
                                 <th>Bukti</th>
                                 <th>Status</th>
@@ -170,6 +177,10 @@
                     name: 'jumlah',
                 },
                 {
+                    data: 'sisa_bayar',
+                    name: 'sisa_bayar',
+                },
+                {
                     data: 'total_bayar',
                     name: 'total_bayar'
                 },
@@ -195,8 +206,8 @@
     function crudTransaksi(){
         $('#addpembayaran').on('click', function(e){
             e.preventDefault();
-            var url = '<?= base_url()?>/orders';
-            var formdata = new FormData($('#formaddorders')[0]);
+            var url = '<?= base_url()?>/pembayaran';
+            var formdata = new FormData($('#formaddpembayaran')[0]);
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -206,7 +217,7 @@
                 dataType: 'json',
                 success:function(response){
                     if(response.status === 201){
-                        $('#formaddorders')[0].reset();
+                        $('#formaddpembayaran')[0].reset();
                         table.ajax.reload(null, false);
                         Swal.fire({
                             title: 'Success',
@@ -268,7 +279,7 @@
                             const uuid = data.uuid;
                             $.ajax({
                                 type: 'DELETE',
-                                url: "<?= base_url() . '/orders/' ?>" + uuid,
+                                url: "<?= base_url() . '/pembayaran/' ?>" + uuid,
                                 success: function(response) {
                                     if (response.status === 200) {
                                         Swal.fire({
