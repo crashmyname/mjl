@@ -46,6 +46,14 @@ Route::group([AuthMiddleware::class],function(){
     Route::put('/uinvoices/{id}', [InvoiceController::class, 'update']);
     Route::delete('/invoices/{id}', [InvoiceController::class, 'delete']);
     Route::get('/template-invoice/{id}',[InvoiceController::class, 'generatePDF']);
+
+    // Invoices AP
+    Route::get('/invoices-ap', [InvoiceController::class, 'indexAP']);
+    Route::get('/getinvoices-ap', [InvoiceController::class, 'getInvoicesAP']);
+    Route::post('/cinvoices-ap',[InvoiceController::class, 'createAP']);
+    Route::put('/uinvoices-ap/{id}', [InvoiceController::class, 'updateAP']);
+    Route::delete('/invoices-ap/{id}', [InvoiceController::class, 'deleteAP']);
+    Route::get('/template-invoice-ap/{id}',[InvoiceController::class, 'generatePDFAP']);
     
     // Shippers
     Route::get('/shippers',[VendorController::class, 'index']);
@@ -72,18 +80,20 @@ Route::group([AuthMiddleware::class],function(){
     Route::get('/getorders-ap', [OrderController::class, 'getOrdersAP']);
     Route::post('/orders-ap',[OrderController::class, 'createAP']);
     Route::put('/uorders-ap/{id}', [OrderController::class, 'updateAP']);
-    Route::put('/updateorders-ap/{po}',[OrderController::class, 'updateSuratJalan']);
-    Route::delete('/orders/{id}', [OrderController::class, 'delete']);
-    Route::post('/getprice',[OrderController::class, 'getPrice']);
-    Route::post('/getproject',[OrderController::class, 'getProject']);
-    Route::post('/getpricepo',[OrderController::class, 'getPricePO']);
-    Route::get('/detailorders/{nopo}',[OrderController::class, 'detailOrders']);
+    Route::delete('/orders-ap/{id}', [OrderController::class, 'deleteAP']);
+    Route::post('/getpricepo-ap',[OrderController::class, 'getPricePOAP']);
+    Route::get('/detailorders-ap/{nopo}',[OrderController::class, 'detailOrdersAP']);
+    Route::put('/updateorders-ap/{po}',[OrderController::class, 'updateQuotation']);
 
     // Pembayaran
     Route::get('/detailtransaction/{noinv}',[OrderController::class, 'detailTransaction']);
     Route::get('/getdetailtransaction/{noinv}',[OrderController::class, 'getDetailTransaksi']);
     Route::post('/pembayaran',[OrderController::class, 'addPembayaran']);
     Route::delete('/pembayaran/{id}',[OrderController::class, 'deletePembayaran']);
+    Route::get('/detailtransaction-ap/{noinv}',[OrderController::class, 'detailTransactionAP']);
+    Route::get('/getdetailtransaction-ap/{noinv}',[OrderController::class, 'getDetailTransaksiAP']);
+    Route::post('/pembayaran-ap',[OrderController::class, 'addPembayaranAP']);
+    Route::delete('/pembayaran-ap/{id}',[OrderController::class, 'deletePembayaranAP']);
 
     // Transaction
     Route::get('/transaction',[TransactionController::class, 'index']);

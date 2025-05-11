@@ -110,6 +110,12 @@
                                                 <input type="text" name="price" id="price" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form-control">
                                             </div>
                                             <div class="col-md-4">
+                                                <label>Pajak</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="pajak" id="pajak" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>Status</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -167,9 +173,7 @@
                                                 <label>Vendors</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="vendor_id" id="uvendor_id" class="form-control">
-                                                    <option value=""></option>
-                                                </select>
+                                                <input type="text" name="vendor" id="uvendor" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Pickup Date</label>
@@ -199,9 +203,7 @@
                                                 <label>Vehicle</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="vehicle_id" id="uvehicle_id" class="form-control">
-                                                    <option value=""></option>
-                                                </select>
+                                                <input type="text" name="vehicle" id="uvehicle" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Project</label>
@@ -213,15 +215,19 @@
                                                 <label>Driver</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <select name="driver_id" id="udriver_id" class="form-control">
-                                                    <option value=""></option>
-                                                </select>
+                                                <input type="text" name="driver" id="udriver" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Price</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="text" name="price" id="uprice" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Pajak</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="pajak" id="upajak" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>
@@ -269,7 +275,10 @@
                                 <th>Destination</th>
                                 <th>Vehicle</th>
                                 <th>Driver</th>
+                                <th>Project</th>
                                 <th>Price</th>
+                                <th>Pajak</th>
+                                <th>Total</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -315,12 +324,12 @@
                     data: 'no_po',
                     name: 'no_po',
                     render:function(data,type,row){
-                        return '<a href="<?= base_url().'/detailorders/'?>'+data+'">'+data+'</a>';
+                        return '<a href="<?= base_url().'/detailorders-ap/'?>'+data+'">'+data+'</a>';
                     }
                 },
                 {
-                    data: 'company_name',
-                    name: 'company_name',
+                    data: 'vendor',
+                    name: 'vendor',
                 },
                 {
                     data: 'pickup_date',
@@ -339,18 +348,36 @@
                     name: 'destination'
                 },
                 {
-                    data: 'truck_type',
-                    name: 'truck_type'
+                    data: 'vehicle',
+                    name: 'vehicle'
                 },
                 {
-                    data: 'driver_name',
-                    name: 'driver_name'
+                    data: 'driver',
+                    name: 'driver'
+                },
+                {
+                    data: 'project',
+                    name: 'project'
                 },
                 {
                     data: 'price',
                     name: 'price',
                     render:function(data,type,row){
                         return '<span class="badge bg-light-success">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
+                    }
+                },
+                {
+                    data: 'pajak',
+                    name: 'pajak',
+                    render:function(data,type,row){
+                        return '<span class="badge bg-light-danger">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
+                    }
+                },
+                {
+                    data: 'total',
+                    name: 'total',
+                    render:function(data,type,row){
+                        return '<span class="badge bg-light-primary">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
                     }
                 },
                 {
@@ -371,7 +398,7 @@
     function crudOrders(){
         $('#addorders').on('click', function(e){
             e.preventDefault();
-            var url = '<?= base_url()?>/orders';
+            var url = '<?= base_url()?>/orders-ap';
             var formdata = new FormData($('#formaddorders')[0]);
             $.ajax({
                 type: 'POST',
@@ -419,29 +446,28 @@
                 selected: true
             }).data();
             var no_po = $('#uno_po');
-            var vendor_id = $('#uvendor_id');
+            var vendor = $('#uvendor');
             var pickup_date = $('#upickup_date');
             var tgl_pembuatan_po = $('#utgl_pembuatan_po');
             var origin_city = $('#uorigin_city');
             var destination = $('#udestination');
-            var vehicle_id = $('#uvehicle_id');
-            var driver_id = $('#udriver_id');
+            var vehicle = $('#uvehicle');
+            var driver = $('#udriver');
             var price = $('#uprice');
+            var pajak = $('#upajak');
             var status = $('#ustatus');
             var project = $('#uproject');
             if(selectedData.length > 0){
                 no_po.val(selectedData[0].no_po);
-                vendor_id.empty();
-                vendor_id.append('<option value="' + selectedData[0].vendor_id + '">' + selectedData[0].company_name + '</option>');
+                vendor.val(selectedData[0].vendor);
                 pickup_date.val(selectedData[0].pickup_date);
                 tgl_pembuatan_po.val(selectedData[0].tgl_pembuatan_po);
                 origin_city.val(selectedData[0].origin_city);
                 destination.val(selectedData[0].destination);
-                vehicle_id.empty();
-                vehicle_id.append('<option value="'+selectedData[0].vehicle_id+'">'+selectedData[0].truck_type+'</option>');
-                driver_id.empty();
-                driver_id.append('<option value="'+selectedData[0].driver_id+'">'+selectedData[0].driver_name+'</option>');
+                vehicle.val(selectedData[0].vehicle);
+                driver.val(selectedData[0].driver);
                 price.val(selectedData[0].price);
+                pajak.val(selectedData[0].pajak);
                 status.val(selectedData[0].status);
                 project.val(selectedData[0].project);
                 $('#modalEdit').modal('show');
@@ -472,7 +498,7 @@
             }
             var row = selectedData[0];
             var uID = row.uuid;
-            var updateOrders = "<?= base_url() . '/uorders/' ?>" + uID;
+            var updateOrders = "<?= base_url() . '/uorders-ap/' ?>" + uID;
             var formID = '#formupdateorders';
             $('#modalwarning').modal('hide');
             if (selectedData.length > 0) {
@@ -551,7 +577,7 @@
                             const uuid = data.uuid;
                             $.ajax({
                                 type: 'DELETE',
-                                url: "<?= base_url() . '/orders/' ?>" + uuid,
+                                url: "<?= base_url() . '/orders-ap/' ?>" + uuid,
                                 success: function(response) {
                                     if (response.status === 200) {
                                         Swal.fire({

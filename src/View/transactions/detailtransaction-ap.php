@@ -1,17 +1,28 @@
+<style>
+    .select2-container--bootstrap-5 .select2-selection--single.form-control {
+        height: calc(2.25rem + 2px);
+        /* tinggi standar form-control */
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+    }
+
+    .select2-container--bootstrap-5 .select2-selection__rendered {
+        line-height: 1.5;
+        /* pastikan teks center */
+    }
+</style>
 <div class="page-heading">
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Detail Order Pages</h3>
-                <p class="text-subtitle text-muted">Detail Order</p>
+                <h3>Detail Transactions</h3>
+                <p class="text-subtitle text-muted">This is page Detail Transactions</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?= base_url() ?>">Dashboard</a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">Detail Order
-                        </li>
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Detail Transactions</li>
                     </ol>
                 </nav>
             </div>
@@ -20,222 +31,304 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Detail Order</h4>
-                <h5 class="card-title"><?= $order->no_po?></h5>
-                <h6 class="card-title" style="float:right">Rute <?= $order->origin_city.' - '.$order->destination?></h6>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-content">
-                                <div class="card-body">
-                                    <form action="" id="updateorders" method="POST"
-                                        enctype="multipart/form-data">
-                                        <?= csrf()?>
-                                        <?= method('PUT')?>
+                <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less" id="addpo">Add Pembayaran <i
+                        class="bi bi-person-add"></i></button>
+                <div class="modal fade text-left modal-borderless modal-lg" id="border-less" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                        <form action="" id="formaddpembayaran" class="form form-horizontal" method="POST"
+                            enctype="multipart/form-data">
+                            <?= csrf()?>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Pembayaran</h5>
+                                    <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
+                                        <i data-feather="x"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-body">
                                         <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="first-name-column">Pickup Date</label>
-                                                    <input type="text" name="pickup_date"
-                                                        value="<?= \Support\Date::parse($order->pickup_date)->format('d M Y') ?>"
-                                                        class="form form-control" id="pickup_date" disabled>
-                                                </div>
+                                            <div class="col-md-4">
+                                                <label>No Invoice</label>
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="last-name-column">Tanggal PO</label>
-                                                    <input type="text" name="tgl_pembuatan_po"
-                                                        value="<?= \Support\Date::parse($order->tgl_pembuatan_po)->format('d M Y') ?>"
-                                                        class="form form-control" id="tgl_pembuatan_po" disabled>
-                                                </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="no_invoice" id="no_invoice" class="form form-control" readonly value="<?= $inv->no_invoice?>">
                                             </div>
-                                            <hr>
-                                        </div>
-                                        <h4 class="card-title">Supplier <?= $order->company_name?></h4>
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="first-name-column">Address</label>
-                                                    <textarea name="" id="" disabled class="form-control"><?= $order->address?></textarea>
-                                                </div>
+                                            <div class="col-md-4">
+                                                <label>Tanggal Pembayaran</label>
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="last-name-column">Email</label>
-                                                    <input type="text" name="email"
-                                                        value="<?= $order->email ?>"
-                                                        class="form form-control" id="email" disabled>
-                                                </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="date" name="tanggal_pembayaran" id="tanggal_pembayaran" class="form form-control">
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="first-name-column">Sales</label>
-                                                    <input type="text" name="sales"
-                                                        value="<?= $order->sales ?>"
-                                                        class="form form-control" id="sales" disabled>
-                                                </div>
+                                            <div class="col-md-4">
+                                                <label>Bukti Bayar</label>
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="last-name-column">Sales Support</label>
-                                                    <input type="text" name="sales_support"
-                                                        value="<?= $order->sales_support ?>"
-                                                        class="form form-control" id="sales_support" disabled>
-                                                </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="file" name="bukti_bayar" id="bukti_bayar" class="form form-control">
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="first-name-column">NPWP</label>
-                                                    <input type="text" name="npwp"
-                                                        value="<?= $order->npwp ?>"
-                                                        class="form form-control" id="npwp" disabled>
-                                                </div>
+                                            <div class="col-md-4">
+                                                <label>Jumlah</label>
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="last-name-column">Phone</label>
-                                                    <input type="text" name="phone"
-                                                        value="<?= $order->phone ?>"
-                                                        class="form form-control" id="phone" disabled>
-                                                </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="jumlah" id="jumlah" class="form form-control">
                                             </div>
-                                            <hr>
-                                        </div>
-                                        <h4 class="card-title">Driver <?= $order->company_name?></h4>
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="first-name-column">Plat Number</label>
-                                                    <input type="text" name="plat_number"
-                                                        value="<?= $order->plat_number ?>"
-                                                        class="form form-control" id="plat_number" disabled>
-                                                </div>
+                                            <div class="col-md-4">
+                                                <label>Total Bayar</label>
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="last-name-column">Truck Type</label>
-                                                    <input type="text" name="truck_type"
-                                                        value="<?= $order->truck_type ?>"
-                                                        class="form form-control" id="truck_type" disabled>
-                                                </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="total_bayar" id="total_bayar" class="form form-control" value="<?= $inv->total_pembayaran?>" readonly>
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="first-name-column">Truck Sub Type</label>
-                                                    <input type="text" name="truck_sub_type"
-                                                        value="<?= $order->truck_sub_type ?>"
-                                                        class="form form-control" id="truck_sub_type" disabled>
-                                                </div>
+                                            <div class="col-md-4">
+                                                <label>Status</label>
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="last-name-column">Plat Color</label>
-                                                    <input type="text" name="plat_color"
-                                                        value="<?= $order->plat_color ?>"
-                                                        class="form form-control" id="plat_color" disabled>
-                                                </div>
+                                            <div class="col-md-8 form-group">
+                                                <select name="status" id="status" class="form-control">
+                                                    <option value="Paid">Paid</option>
+                                                    <option value="Partial">Partial</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-12 d-flex justify-content-end">
+                                                <button type="reset"
+                                                    class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                             </div>
                                         </div>
-                                        <h4 class="card-title">No Surat Jalan <?= $order->no_surat_jalan ?? 'Belum diinput'?></h4>
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="first-name-column">No Surat Jalan</label>
-                                                    <?php if($order->no_surat_jalan != null): ?>
-                                                        <input type="text" name="no_surat_jalan"
-                                                            value="<?= $order->no_surat_jalan?>"
-                                                            class="form form-control" id="no_surat_jalan" disabled>
-                                                        <?php else: ?>
-                                                        <input type="text" name="no_surat_jalan"
-                                                            value=""
-                                                            class="form form-control" id="no_surat_jalan">
-                                                    <?php endif; ?>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="last-name-column">Upload Bukti Surat jalan</label>
-                                                    <?php if($order->bukti != null): ?>
-                                                        <img src="<?= asset('document/data/').$order->bukti?>" width="85%" alt="">
-                                                        <?php else: ?>
-                                                            <input type="file" name="bukti"
-                                                            class="form form-control" id="bukti">
-                                                    <?php endif;?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <?php if($order->no_surat_jalan == null && $order->bukti == null):?>
-                                        <button type="submit" class="btn btn-warning" style="float:right" id="update">Update</button>
-                                        <?php endif; ?>
-                                        <br>
-                                        <hr>
-                                        <h1 class="card-title"><?= $order->status?></h1>
-                                        <h2 class="card-title" style="float:right">Rp. <?= number_format($order->price,2,',','.')?></h2>
-                                    </form>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Close</span>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary ml-1" id="addpembayaran" data-bs-dismiss="modal">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Submit</span>
+                                    </button>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
+                </div>
+                <button class="btn btn-danger" id="deletepembayaran">Delete Pembayaran <i class="bi bi-person-x"></i></button>
+            </div>
+            <div class="card-body">
+                <div class="container">
+                    <table class="table table-striped" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>No Invoice</th>
+                                <th>Tanggal Pembayaran</th>
+                                <th>Jumlah</th>
+                                <th>Sisa Bayar</th>
+                                <th>Total Bayar</th>
+                                <th>Bukti</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </section>
 </div>
-<script type="text/javascript">
-    $('#update').on('click', function(e) {
-        e.preventDefault();
-        var uID = '<?= $order->no_po?>';
-        var url = "<?= base_url()?>/updateorders" + '/' + uID;
-        var formData = new FormData($('#updateorders')[0]);
-        Swal.fire({
-            title: 'Update',
-            icon: 'warning',
-            text: 'Apakah yakin data ingin diubah?',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, Update!!',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    processData: false,
-                    contentType: false,
-                    data: formData,
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 200) {
-                            Swal.fire({
-                                title: 'Success',
-                                icon: 'success',
-                                text: 'PO berhasil diupdate',
-                            });
-                            if (response.data.no_surat_jalan) {
-                                $('#no_surat_jalan').val(response.data.no_surat_jalan).prop('disabled', true);
-                            }
-                            if (response.data.bukti) {
-                                $('#bukti').replaceWith('<img src="<?= asset('document/data/') ?>' + response.data.bukti + '" width="85%" alt="">');
-                            }
-                            $('#update').hide();
-                        } else {
-                            Swal.fire({
-                                title: 'Error',
-                                icon: 'error',
-                                text: 'Gagal membuat PO',
-                            })
-                        }
-                    },
-                    error: function(error) {
-                        console.error(error);
+<script>
+    $('#border-less').on('shown.bs.modal', function() {
+                $('.js-example-basic-single').select2({
+                    theme: "bootstrap-5",
+                    dropdownParent: $('#border-less')
+                }).next('.select2-container').find('.select2-selection--single').addClass(
+                    'form-control');
+            });
+</script>
+<script>
+    var table;
+    // function tampil datatable user
+    function initDataTable(){
+        if($.fn.dataTable.isDataTable('#dataTable')){
+            $('#dataTable').DataTable().clear().destroy();
+        }
+        table = $('#dataTable').DataTable({
+            ajax: '<?= base_url().'/getdetailtransaction-ap/'.$inv->no_invoice?>',
+            processing:true,
+            serverSide:true,
+            select:true,
+            responsive:true,
+            columns:[
+                {
+                    data: 'uuid',
+                    name: 'uuid',
+                    render:function(data, type, row, meta){
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: 'no_invoice',
+                    name: 'no_invoice',
+                },
+                {
+                    data: 'tanggal_pembayaran',
+                    name: 'tanggal_pembayaran',
+                },
+                {
+                    data: 'jumlah',
+                    name: 'jumlah',
+                },
+                {
+                    data: 'sisa_bayar',
+                    name: 'sisa_bayar',
+                },
+                {
+                    data: 'total_bayar',
+                    name: 'total_bayar'
+                },
+                {
+                    data: 'bukti_data',
+                    name: 'bukti_data'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
+            ],
+            lengthMenu: [10,25,50,100],
+            dom: 'Blftrip',
+            layout: {
+                topStart: {
+                    buttons: ['copy', 'excel', 'pdf', 'colvis']
+                }
+            }
+        })
+    }
+    // function crud user
+    function crudTransaksi(){
+        $('#addpembayaran').on('click', function(e){
+            e.preventDefault();
+            var url = '<?= base_url()?>/pembayaran-ap';
+            var formdata = new FormData($('#formaddpembayaran')[0]);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                processData: false,
+                contentType: false,
+                data: formdata,
+                dataType: 'json',
+                success:function(response){
+                    if(response.status === 201){
+                        $('#formaddpembayaran')[0].reset();
+                        table.ajax.reload(null, false);
                         Swal.fire({
-                            title: 'Error',
+                            title: 'Success',
+                            icon: 'success',
+                            text:response.message,
+                        });
+                        DateNow();
+                        formatDate();
+                    } else {
+                        var errorMessage = '';
+                        if(response.status === 500 && typeof response.message === 'object'){
+                            for(var field in response.message){
+                                if(response.message.hasOwnProperty(field)){
+                                    response.message[field].forEach(function(message){
+                                        errorMessage += message + '\n';
+                                    });
+                                }
+                            }
+                        } else {
+                            errorMessage = 'An unexpected error occurred.';
+                        }
+                        Swal.fire({
+                            title: 'error',
                             icon: 'error',
-                            text: 'Error dalam melakukan fungsi',
+                            text: errorMessage.trim(),
+                        });
+                    }
+                }
+            })
+        })
+        $('#deletepembayaran').on('click', function(e){
+            e.preventDefault();
+            var selectedData = table.rows({
+                selected: true
+            }).data();
+            if(selectedData.length === 0){
+                Swal.fire({
+                    title: 'info',
+                    icon: 'info',
+                    text: 'No data selected',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                })
+                return
+            }
+            if (selectedData.length > 0) {
+                Swal.fire({
+                    title: 'Delete',
+                    icon: 'warning',
+                    text: 'Yakin ingin dihapus?',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        selectedData.each(function(data) {
+                            const uuid = data.uuid;
+                            $.ajax({
+                                type: 'DELETE',
+                                url: "<?= base_url() . '/pembayaran-ap/' ?>" + uuid,
+                                success: function(response) {
+                                    if (response.status === 200) {
+                                        Swal.fire({
+                                            title: 'Success',
+                                            icon: 'success',
+                                            text: response.message,
+                                            timer: 1500,
+                                            timerProgressBar: true,
+                                        });
+                                        table.ajax.reload(null, false);
+                                    } else {
+                                        Swal.fire({
+                                            title: 'Error',
+                                            icon: 'error',
+                                            text: 'Data Error',
+                                            timer: 1500,
+                                            timerProgressBar: true,
+                                        });
+                                    }
+                                }
+                            })
                         })
                     }
                 })
+
             }
         })
+    }
+    function flatPicker(){
+        flatpickr('#tanggal_pembayaran',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
+        flatpickr('#pickup_date',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
+    }
+    function validateNumberInput(input){
+        input.value = input.value.replace(/[^0-9]/g,'');
+    }
+    $(document).ready(function(){
+        initDataTable();
+        crudTransaksi();
+        flatPicker();
+        validateNumberInput();
     })
 </script>

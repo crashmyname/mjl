@@ -77,11 +77,11 @@
         </tr>
         <tr>
             <td style="font-size:40px"><?= $invoice[0]->name_pt?></td>
-            <td style="font-size:40px"><?= $invoice[0]->company_name?></td>
+            <td style="font-size:40px"><?= $invoice[0]->vendor?></td>
         </tr>
         <tr>
             <td style="font-size:20px"><b>NPWP</b> 61.346.709.1-435.000</td>
-            <td rowspan="2" style="font-size:20px"><b>Alamat</b> <?= $invoice[0]->address?></td>
+            <td rowspan="2" style="font-size:20px"><b>Alamat</b> <?= $invoice[0]->address ?? ""?></td>
         </tr>
         <tr>
             <td style="font-size:20px"><b>Alamat</b> BABAT, LEGOK, TANGERANG, BANTEN</td>
@@ -98,11 +98,11 @@
                     <tr>
                         <th>No</th>
                         <th>Nomor Pengirim</th>
-                        <th>Nomor Surat Jalan</th>
+                        <!-- <th>Nomor Surat Jalan</th> -->
                         <th>Tanggal Muat</th>
-                        <th>Jenis Truck</th>
-                        <th>No. Polisi</th>
-                        <th>Warna Plat</th>
+                        <th>Jenis Truck/No Polisi</th>
+                        <!-- <th>No. Polisi</th> -->
+                        <!-- <th>Warna Plat</th> -->
                         <th>Rute</th>
                         <th>Total Tagihan</th>
                     </tr>
@@ -114,11 +114,11 @@
                     <tr>
                         <td><?= $no?></td>
                         <td><?= $inv->no_po?></td>
-                        <td><?= $inv->no_surat_jalan?></td>
+                        <!-- <td><?= $inv->no_surat_jalan?></td> -->
                         <td><?= \Support\Date::parse($inv->pickup_date)->format('d M Y')?></td>
-                        <td><?= $inv->truck_type?></td>
-                        <td><?= $inv->plat_number?></td>
-                        <td><?= $inv->plat_color?></td>
+                        <td><?= $inv->vehicle?></td>
+                        <!-- <td><?= $inv->plat_number?></td> -->
+                        <!-- <td><?= $inv->plat_color?></td> -->
                         <td><?= $inv->origin_city?> → <?= $inv->destination?></td>
                         <td>Rp. <?= number_format($inv->price,2,',','.')?></td>
                     </tr>

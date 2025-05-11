@@ -4,10 +4,12 @@ namespace App\Controllers;
 
 use App\Models\Drivers;
 use App\Models\Invoice;
+use App\Models\InvoiceAP;
 use App\Models\Order;
 use App\Models\OrderAP;
 use App\Models\Price;
 use App\Models\StatusPembayaran;
+use App\Models\StatusPembayaranAP;
 use App\Models\Transactions;
 use App\Models\Vehicle;
 use App\Models\Vendors;
@@ -214,7 +216,7 @@ class OrderController extends BaseController
             $bayarSebelumnya += $item->jumlah;
         }
         if($request->getClientOriginalName('bukti_bayar')){
-            $path = storage_path('document/data/pembayaran');
+            $path = storage_path('document/data/ar/pembayaran');
             if(!file_exists($path)){
                 mkdir($path,0777,true);
             }
@@ -236,12 +238,12 @@ class OrderController extends BaseController
                 ]);
             }
         }
-        $cektransaksi = Transactions::query()->where('reference_table','=','salaries')->where('reference_id','=',$invoiceID->invoice_id)->first();
+        $cektransaksi = Transactions::query()->where('reference_table','=','status_pembayaran')->where('reference_id','=',$invoiceID->invoice_id)->first();
         if(!$cektransaksi){
             $transaction = Transactions::create([
                 'uuid' => UUID::generateUuid(),
                 'payment_id' => 1,
-                'reference_table' => 'status_pembyaran (invoices)',
+                'reference_table' => 'status_pembyaran',
                 'reference_id' => $invoiceID->invoice_id,
                 'jenis_transaction' => 'Payment',
                 'type_transaction' => 'income',
@@ -275,5 +277,197 @@ class OrderController extends BaseController
             return DataTables::of($orders)
                                 ->make(true);
         }
+    }
+
+    public function createAP(Request $request)
+    {
+        $validate = Validator::make($request->all(),[
+            'no_po' => 'required',
+            'vendor' => 'required',
+            'origin_city' => 'required',
+            'destination' => 'required',
+            'vehicle' => 'required',
+            'project' => 'required',
+            'driver' => 'required',
+            'price' => 'required',
+        ]);
+        if($validate){
+            return Response::json(['status'=>500,'message'=>$validate]);
+        }
+        $orders = OrderAP::create([
+            'uuid' => UUID::generateUuid(),
+            'no_po' => $request->no_po,
+            'vendor' => $request->vendor,
+            'pickup_date' => $request->pickup_date,
+            'tgl_pembuatan_po' => $request->tgl_pembuatan_po,
+            'origin_city' => $request->origin_city,
+            'destination' => $request->destination,
+            'vehicle' => $request->vehicle,
+            'driver' => $request->driver,
+            'project' => $request->project,
+            'price' => $request->price,
+            'pajak' => $request->pajak,
+            'total' => $request->pajak + $request->price,
+            'invoice_id' => null,
+            'quotation' => null,
+            'status' => $request->status,
+        ]);
+        return Response::json(['status'=>201,'message'=>'Order berhasil dibuat']);
+    }
+
+    public function updateAP(Request $request, $id)
+    {
+        $orders = OrderAP::query()->where('uuid','=',$id)->first();
+        $orders->vendor = $request->vendor;
+        $orders->pickup_date = $request->pickup_date;
+        $orders->tgl_pembuatan_po = $request->tgl_pembuatan_po;
+        $orders->origin_city = $request->origin_city;
+        $orders->destination = $request->destination;
+        $orders->vehicle = $request->vehicle;
+        $orders->driver = $request->driver;
+        $orders->project = $request->project;
+        $orders->price = $request->price;
+        $orders->pajak = $request->pajak;
+        $orders->total = $request->price + $request->pajak;
+        $orders->status = $request->status;
+        $orders->updated_at = Date::Now();
+        $orders->save();
+        return Response::json(['status'=>201,'message'=>'Order berhasil diupdate']);
+    }
+
+    public function deleteAP(Request $request, $id)
+    {
+        $orders = OrderAP::query()->where('uuid','=',$id)->first();
+        $orders->deleted_at = Date::Now();
+        $orders->save();
+        return Response::json(['status'=>200,'message'=>'Order berhasil dihapus']);
+    }
+
+    public function detailOrdersAP($nopo)
+    {
+        $order = OrderAP::query()->where('no_po','=',$nopo)->first();
+        return view('transactions/detailorders-ap',['order'=>$order],'layout/app');
+    }
+
+    public function updateQuotation(Request $request,$po)
+    {
+        $orders = OrderAP::query()->where('no_po','=',$po)->first();
+        $validateType = $request->getClientMimeType('quotation');
+        $allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+        if($request->file('quotation') && !in_array($validateType,$allowedTypes)){
+            $errors = ['stnk' => ['File must be a valid image']];
+        }
+        if(!empty($errors)){
+            return Response::json(['status'=>500,'message'=>$errors]);
+        }
+        if($request->getClientOriginalName('quotation')){
+            $path = storage_path('document/data/quotation/');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+
+            $fileName = $request->getClientOriginalName('quotation');
+            $tempPath = $request->getPath('quotation');
+            $destination = $path.'/'.$fileName;
+
+            if(move_uploaded_file($tempPath,$destination)){
+                $orders->quotation = $fileName;
+            }
+        }
+        $orders->save();
+        return Response::json(['status'=>200,'message'=>'Berhasil update quotation','data'=>[
+            'quotation' => $orders->quotation
+        ]]);
+    }
+
+    public function getPricePOAP(Request $request)
+    {
+        $data = $request->order_ap_id;
+        $price = OrderAP::query()->where('order_ap_id','=',$data)->first();
+        return Response::json(['status'=>200,'message'=>'success','data'=>$price->toArray()]);
+    }
+
+    public function detailTransactionAP(Request $request, $noinv)
+    {
+        $inv = InvoiceAP::query()->where('no_invoice','=',$noinv)->first();
+        return view('transactions/detailtransaction-ap',['inv'=>$inv],'layout/app');
+    }
+
+    public function getDetailTransaksiAP(Request $request,$noinv)
+    {
+        if(Request::isAjax()){
+            $detailTransaksi = StatusPembayaranAP::query()
+                                ->leftJoin('invoices_ap','invoices_ap.invoice_ap_id','=','status_pembayaran_ap.invoice_ap_id')
+                                ->select('status_pembayaran_ap.uuid','invoices_ap.no_invoice','tanggal_pembayaran','status_pembayaran_ap.jumlah','status_pembayaran_ap.total_bayar','bukti_data','status_pembayaran_ap.status','status_pembayaran_ap.sisa_bayar')
+                                ->where('invoices_ap.no_invoice','=',$noinv)
+                                ->where('status_pembayaran_ap.deleted_at','=',null)
+                                ->get();
+            return DataTables::of($detailTransaksi)->make(true);
+        }
+    }
+
+    public function addPembayaranAP(Request $request)
+    {
+        $validate = Validator::make($request->all(),[
+            'tanggal_pembayaran' => 'required',
+            'jumlah' => 'required',
+        ]);
+        if($validate){
+            return Response::json(['status'=>500,'message'=>$validate]);
+        }
+        $invoiceID = InvoiceAP::query()->where('no_invoice','=',$request->no_invoice)->first();
+        $pembayaranSebelumnya  = StatusPembayaranAP::query()->where('invoice_ap_id','=',$invoiceID->invoice_ap_id)->where('deleted_at','=',null)->get();
+        $bayarSebelumnya = 0;
+        foreach ($pembayaranSebelumnya as $item) {
+            $bayarSebelumnya += $item->jumlah;
+        }
+        if($request->getClientOriginalName('bukti_bayar')){
+            $path = storage_path('document/data/ap/pembayaran');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+
+            $fileName = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('bukti_bayar'));
+            $tempPath = $request->getPath('bukti_bayar');
+            $destination = $path.'/'.$fileName;
+
+            if(move_uploaded_file($tempPath,$destination)){
+                $pembayaran = StatusPembayaranAP::create([
+                    'uuid' => UUID::generateUuid(),
+                    'invoice_ap_id' => $invoiceID->invoice_ap_id,
+                    'bukti_data' => $fileName,
+                    'tanggal_pembayaran' => $request->tanggal_pembayaran,
+                    'jumlah' => $request->jumlah,
+                    'sisa_bayar' => $request->total_bayar-($bayarSebelumnya+$request->jumlah),
+                    'total_bayar' => $request->total_bayar,
+                    'status' => $request->status
+                ]);
+            }
+        }
+        $cektransaksi = Transactions::query()->where('reference_table','=','status_pembayaran_ap')->where('reference_id','=',$invoiceID->invoice_ap_id)->first();
+        if(!$cektransaksi){
+            $transaction = Transactions::create([
+                'uuid' => UUID::generateUuid(),
+                'payment_id' => 1,
+                'reference_table' => 'status_pembyaran_ap',
+                'reference_id' => $invoiceID->invoice_ap_id,
+                'jenis_transaction' => 'Payment',
+                'type_transaction' => 'outcome',
+                'transaction_date' => $request->tanggal_pembayaran,
+                'amount' => $request->jumlah,
+                'status' => $request->status,
+                'created_at' => Date::Now(),
+                'updated_at' => Date::Now(),
+            ]);
+        }
+        return Response::json(['status'=>201,'message'=>'Pembayaran sukses']);
+    }
+
+    public function deletePembayaranAP(Request $request, $id)
+    {
+        $pembayaran = StatusPembayaranAP::query()->where('uuid','=',$id)->first();
+        $pembayaran->deleted_at = Date::Now();
+        $pembayaran->save();
+        return Response::json(['status'=>200,'message'=>'Pembayaran deleted']);
     }
 }
