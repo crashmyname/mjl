@@ -308,7 +308,7 @@ class OrderController extends BaseController
             'price' => $request->price,
             'pajak' => $request->pajak,
             'total' => $request->pajak + $request->price,
-            'invoice_id' => null,
+            'invoice_ap_id' => null,
             'quotation' => null,
             'status' => $request->status,
         ]);
