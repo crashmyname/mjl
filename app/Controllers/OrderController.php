@@ -243,7 +243,7 @@ class OrderController extends BaseController
             $transaction = Transactions::create([
                 'uuid' => UUID::generateUuid(),
                 'payment_id' => 1,
-                'reference_table' => 'status_pembyaran',
+                'reference_table' => 'status_pembayaran',
                 'reference_id' => $invoiceID->invoice_id,
                 'jenis_transaction' => 'Payment',
                 'type_transaction' => 'income',
@@ -449,7 +449,7 @@ class OrderController extends BaseController
             $transaction = Transactions::create([
                 'uuid' => UUID::generateUuid(),
                 'payment_id' => 1,
-                'reference_table' => 'status_pembyaran_ap',
+                'reference_table' => 'status_pembayaran_ap',
                 'reference_id' => $invoiceID->invoice_ap_id,
                 'jenis_transaction' => 'Payment',
                 'type_transaction' => 'outcome',
