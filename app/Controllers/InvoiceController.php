@@ -197,8 +197,7 @@ class InvoiceController extends BaseController
     {
         $payment = Payment::all();
         $vendor = OrderAP::query()->where('invoice_ap_id','=',null)
-                                ->where('deleted_at','=',null)
-                                ->where('quotation','=',null)->get();
+                                ->where('deleted_at','=',null)->get();
         return view('invoices/invoice-ap',['payment'=>$payment,'vendor'=>$vendor],'layout/app');
     }
 
