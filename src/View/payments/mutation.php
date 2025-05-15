@@ -163,7 +163,7 @@
                     name: 'status'
                 },
             ],
-            lengthMenu: [10,25,50,100],
+            lengthMenu: [10,25,50,100,1000000],
             dom: 'Blftrip',
             layout: {
                 topStart: {
