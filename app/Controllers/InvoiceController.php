@@ -267,7 +267,7 @@ class InvoiceController extends BaseController
         $cekinvoice = InvoiceAP::query()->orderBy('no_invoice','DESC')->first();
         if($cekinvoice){
             $code = intval(substr($cekinvoice->no_invoice,2));
-            $newcode = str_pad($code+1,4,'0',STR_PAD_LEFT).'_INV-MJL_'.$romawi.'_'.$year;
+            $newcode = str_pad($code+1,4,'0',STR_PAD_LEFT).'_INV-AP-MJL_'.$romawi.'_'.$year;
         } else {
             $newcode = '0001'.'_INV-AP-MJL_'.$month.'_'.$year;
         }
