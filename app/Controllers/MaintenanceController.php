@@ -83,7 +83,7 @@ class MaintenanceController extends BaseController
                     'bon' => $fileName,
                     'bukti' => $fileName1,
                     'total' => $request->total,
-                    'status' => $request->status,
+                    'status' => 'unpaid',
                     'created_at' => Date::Now(),
                     'updated_at' => Date::Now(),
                 ]);

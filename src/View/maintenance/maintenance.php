@@ -108,16 +108,6 @@
                                                 <input type="text" name="totals" id="total" class="form-control" readonly>
                                                 <input type="hidden" name="total" id="hiddentotal" class="form-control" readonly>
                                             </div>
-                                            <div class="col-md-4">
-                                                <label>Status</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <select name="status" id="status" class="form-control">
-                                                    <option value="Unpaid">Unpaid</option>
-                                                    <option value="Paid">Paid</option>
-                                                    <option value="Partial">Partial</option>
-                                                </select>
-                                            </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
                                                 <button type="reset"
                                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>
@@ -252,7 +242,7 @@
                             <?= csrf()?>
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Update Maintenance</h5>
+                                    <h5 class="modal-title">Payment Maintenance</h5>
                                     <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
                                         <i data-feather="x"></i>
                                     </button>
@@ -278,6 +268,12 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="number" name="total" id="ptotal" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Description</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <textarea name="description" id="description" class="form-control"></textarea>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>

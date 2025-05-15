@@ -81,7 +81,7 @@ class ClaimController extends BaseController
                     'biaya' => $request->biaya,
                     'remark' => $request->remark,
                     'sj' => $fileName,
-                    'status' => $request->status,
+                    'status' => 'unpaid',
                     'created_at' => Date::Now(),
                     'updated_at' => Date::Now(),
                 ]);

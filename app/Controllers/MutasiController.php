@@ -24,6 +24,7 @@ class MutasiController extends BaseController
                                             'transaction.uuid',
                                             'reference_table',
                                             'reference_id',
+                                            'reff',
                                             'payments.nama_bank',
                                             'payments.no_rek',
                                             'payments.nama_rek',
@@ -31,6 +32,7 @@ class MutasiController extends BaseController
                                             'jenis_transaction',
                                             'type_transaction',
                                             'amount',
+                                            'description',
                                             'status')
                                     ->leftJoin('payments','payments.payment_id','=','transaction.payment_id')
                                     ->where('transaction.deleted_at','=',null)

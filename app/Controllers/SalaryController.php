@@ -68,7 +68,7 @@ class SalaryController extends BaseController
                     'tanggal' => $request->tanggal,
                     'salary' => $request->salary,
                     'bukti' => $fileName,
-                    'status' => $request->status,
+                    'status' => 'unpaid',
                     'created_at' => Date::Now(),
                     'updated_at' => Date::Now(),
                 ]);

@@ -55,12 +55,14 @@
                                 <th>No</th>
                                 <th>Transaction Date</th>
                                 <th>Reference Data</th>
+                                <th>No Invoice</th>
                                 <th>Nama Bank</th>
                                 <th>No Rekening</th>
                                 <th>Nama Rekening</th>
                                 <th>Jenis Transaction</th>
                                 <th>Type</th>
                                 <th>Amount</th>
+                                <th>Description</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -118,6 +120,10 @@
                     name: 'reference_table',
                 },
                 {
+                    data: 'reff',
+                    name: 'reff',
+                },
+                {
                     data: 'nama_bank',
                     name: 'nama_bank',
                 },
@@ -147,6 +153,10 @@
                 {
                     data: 'amount',
                     name: 'amount'
+                },
+                {
+                    data: 'description',
+                    name: 'description'
                 },
                 {
                     data: 'status',

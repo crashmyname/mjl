@@ -31,7 +31,7 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less" id="addpo">Add Pembayaran <i
+                <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less" id="addpo">Add Payment <i
                         class="bi bi-person-add"></i></button>
                 <div class="modal fade text-left modal-borderless modal-lg" id="border-less" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel1" aria-hidden="true">
@@ -41,7 +41,7 @@
                             <?= csrf()?>
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Add Pembayaran</h5>
+                                    <h5 class="modal-title">Add Payment</h5>
                                     <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
                                         <i data-feather="x"></i>
                                     </button>
@@ -78,6 +78,12 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="text" name="total_bayar" id="total_bayar" class="form form-control" value="<?= $inv->total_pembayaran?>" readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Description</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <textarea name="description" id="description" class="form-control"></textarea>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>

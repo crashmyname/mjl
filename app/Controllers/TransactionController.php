@@ -103,6 +103,7 @@ class TransactionController extends BaseController
                     'type_transaction' => 'outcome',
                     'transaction_date' => $request->tanggal,
                     'amount' => $request->total,
+                    'description' => $request->description,
                     'status' => $request->status,
                     'created_at' => Date::Now(),
                     'updated_at' => Date::Now(),
@@ -135,6 +136,7 @@ class TransactionController extends BaseController
                     'transaction_date' => $request->tanggal,
                     'amount' => $request->biaya,
                     'status' => $request->status,
+                    'description' => $request->description,
                     'created_at' => Date::Now(),
                     'updated_at' => Date::Now(),
                 ]);
@@ -165,6 +167,7 @@ class TransactionController extends BaseController
                     'type_transaction' => 'outcome',
                     'transaction_date' => $request->tanggal,
                     'amount' => $request->total,
+                    'description' => $request->description,
                     'status' => $request->status,
                     'created_at' => Date::Now(),
                     'updated_at' => Date::Now(),
