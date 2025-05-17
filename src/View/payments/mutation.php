@@ -165,11 +165,93 @@
             ],
             lengthMenu: [10,25,50,100,1000000],
             dom: 'Blftrip',
-            layout: {
-                topStart: {
-                    buttons: ['copy', 'excel', 'pdf', 'colvis']
-                }
-            }
+            buttons: [{
+                        extend: 'copy',
+                        text: 'COPY',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: 'PDF',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: 'CETAK',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'csv',
+                        text: 'CSV',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text: 'EXCEL',
+                        exportOptions: {
+                            // columns: ':visible',
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            format: {
+                                body: function(data, row, column, node) {
+                                    return String(data)
+                                        .replace(/<[^>]*>/g, '') // Hapus elemen HTML
+                                        .replace(/\./g, '') // Hapus tanda titik
+                                        .replace(/,/g,
+                                            '.'); // Ganti koma menjadi titik (jika perlu)
+                                }
+                            }
+                        },
+                        columnDefs: [{
+                            targets: -1,
+                            visible: false
+                        }]
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'COLUMN VISIBLE',
+                        exportOptions: {
+                            columns: ':visible',
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    }
+                ]
         })
     }
     // function crud user
