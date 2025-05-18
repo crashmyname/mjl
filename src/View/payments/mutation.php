@@ -144,9 +144,9 @@
                     name: 'type_transaction',
                     render: function(data,type,row){
                         if(data == 'outcome'){
-                            return '<span class="badge bg-light-danger">'+data+'</span>'
+                            return '<span class="badge bg-light-danger">'+'cash out'+'</span>'
                         } else {
-                            return '<span class="badge bg-light-success">'+data+'</span>'
+                            return '<span class="badge bg-light-success">'+'cash in'+'</span>'
                         }
                     }
                 },

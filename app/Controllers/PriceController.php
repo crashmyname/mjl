@@ -39,13 +39,13 @@ class PriceController extends BaseController
         $price = Price::create([
             'uuid' => UUID::generateUuid(),
             'vehicle_id' => $request->vehicle_id,
-            'origin_city' => $request->origin_city,
-            'destination_city' => $request->destination_city,
+            'origin_city' => ucfirst($request->origin_city),
+            'destination_city' => ucfirst($request->destination_city),
             'min' => $request->min,
             'max' => $request->max,
             'status' => $request->status,
             'price' => $request->price,
-            'project' => $request->project,
+            'project' => ucfirst($request->project),
         ]);
         return Response::json(['status'=>201,'message'=>'Harga berhasil dibuat']);
     }

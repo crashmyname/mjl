@@ -144,6 +144,23 @@
                 <button class="btn btn-danger" id="deleteinvoices">Delete Invoices <i class="bi bi-person-x"></i></button>
                 <button id="invoicepdf" class="btn btn-outline-danger">Report Invoice PDF</button>
             </div>
+            <div class="card-header">
+                <form action="" method="GET">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="">Start Date</label>
+                                <input type="date" name="startdate" id="startdate" class="form-control">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">End Date</label>
+                                <input type="date" name="enddate" id="enddate" class="form-control">
+                            </div>
+                            <div class="col-md-3 mt-2">
+                                <button type="submit" id="search" class="btn btn-primary mt-3">Search</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
             <div class="card-body">
                 <div class="container">
                     <table class="table table-striped" id="dataTable">
@@ -180,7 +197,14 @@
             $('#dataTable').DataTable().clear().destroy();
         }
         table = $('#dataTable').DataTable({
-            ajax: '<?= base_url()?>/getinvoices-ap',
+            ajax: {
+                url : '<?= base_url()?>/getinvoices-ap',
+                type: 'GET',
+                data: function(data){
+                    data.startdate = $('#startdate').val(),
+                    data.enddate = $('#enddate').val();
+                }
+            },
             processing:true,
             serverSide:true,
             select:true,
@@ -266,15 +290,101 @@
             ],
             lengthMenu: [10,25,50,100],
             dom: 'Blftrip',
-            layout: {
-                topStart: {
-                    buttons: ['copy', 'excel', 'pdf', 'colvis']
-                }
-            }
+            buttons: [{
+                        extend: 'copy',
+                        text: 'COPY',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: 'PDF',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: 'CETAK',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'csv',
+                        text: 'CSV',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text: 'EXCEL',
+                        exportOptions: {
+                            // columns: ':visible',
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            format: {
+                                body: function(data, row, column, node) {
+                                    return String(data)
+                                        .replace(/<[^>]*>/g, '') // Hapus elemen HTML
+                                        .replace(/\./g, '') // Hapus tanda titik
+                                        .replace(/,/g,
+                                            '.'); // Ganti koma menjadi titik (jika perlu)
+                                }
+                            }
+                        },
+                        columnDefs: [{
+                            targets: -1,
+                            visible: false
+                        }]
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'COLUMN VISIBLE',
+                        exportOptions: {
+                            columns: ':visible',
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    }
+                ]
         })
     }
     // function crud user
     function crudInvoices(){
+        $('#search').on('click', function(e){
+            e.preventDefault();
+            table.ajax.reload();
+        })
         $('#addinvoices').on('click', function(e){
             e.preventDefault();
             var url = '<?= base_url()?>/cinvoices-ap';
@@ -538,6 +648,18 @@
             locale: 'id',
             defaultDate: new Date(),
         })
+        flatpickr('#startdate',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
+        flatpickr('#enddate',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
     }
     function getPricePO(){
         $('#po-container').on('change', '.order-select', function () {
@@ -576,7 +698,7 @@
             var inputppn = $('#ppn').val();
             var pph23 = total * (inputpph23/100);
             var ppn = total * (inputppn/100);
-            var jumlah = total + pph23 + ppn;
+            var jumlah = total - pph23 + ppn;
             $('#total_pembayaran').val(jumlah);
         })
     }

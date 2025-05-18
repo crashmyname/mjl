@@ -72,10 +72,16 @@
                                                 <textarea name="description" id="description" class="form form-control"></textarea>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Spare Part</label>
+                                                <label>Jenis Maintenance</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="sparepart" id="sparepart" class="form form-control">
+                                                <select name="sparepart" id="sparepart" class="form-control">
+                                                    <option value="" hidden selected disabled> -- Pilih --</option>
+                                                    <option value="Service Bulanan">Service Bulanan</option>
+                                                    <option value="Ganti Oli">Ganti Oli</option>
+                                                    <option value="Body Repair">Body Repair</option>
+                                                    <option value="Lainnya">Lainnya</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Harga</label>
@@ -100,6 +106,24 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="file" name="bukti" id="bukti" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Upload Bukti Potong</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="file" name="buktipotong" id="buktipotong" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>PPH</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="pph" id="pph" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>PPN</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="ppn" id="ppn" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Total</label>
@@ -166,10 +190,16 @@
                                                 <textarea name="description" id="udescription" class="form form-control"></textarea>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Spare Part</label>
+                                                <label>Jenis Maintenance</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="sparepart" id="usparepart" class="form form-control">
+                                                <select name="sparepart" id="usparepart" class="form-control">
+                                                    <option value="" hidden selected disabled> -- Pilih --</option>
+                                                    <option value="Service Bulanan">Service Bulanan</option>
+                                                    <option value="Ganti Oli">Ganti Oli</option>
+                                                    <option value="Body Repair">Body Repair</option>
+                                                    <option value="Lainnya">Lainnya</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Harga</label>
@@ -194,6 +224,24 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="file" name="bukti" id="ubukti" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Upload Bukti Potong</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="file" name="buktipotong" id="ubuktipotong" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>PPN</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="number" name="ppn" id="uppn" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>PPH</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="number" name="pph" id="upph" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Total</label>
@@ -307,6 +355,23 @@
                     </div>
                 </div>
             </div>
+            <div class="card-header">
+                <form action="" method="GET">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="">Start Date</label>
+                                <input type="date" name="startdate" id="startdate" class="form-control">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">End Date</label>
+                                <input type="date" name="enddate" id="enddate" class="form-control">
+                            </div>
+                            <div class="col-md-3 mt-2">
+                                <button type="submit" id="search" class="btn btn-primary mt-3">Search</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
             <div class="card-body">
                 <div class="container">
                     <table class="table table-striped" id="dataTable">
@@ -322,6 +387,9 @@
                                 <th>Jasa</th>
                                 <th>Bon</th>
                                 <th>Bukti</th>
+                                <th>Bukti Potong</th>
+                                <th>PPN</th>
+                                <th>PPH</th>
                                 <th>Total</th>
                                 <th>Status</th>
                             </tr>
@@ -351,7 +419,14 @@
             $('#dataTable').DataTable().clear().destroy();
         }
         table = $('#dataTable').DataTable({
-            ajax: '<?= base_url()?>/getmaintenance',
+            ajax: {
+                url : '<?= base_url()?>/getmaintenance',
+                type: 'GET',
+                data: function(data){
+                    data.startdate = $('#startdate').val(),
+                    data.enddate = $('#enddate').val();
+                }
+            },
             processing:true,
             serverSide:true,
             select:true,
@@ -409,6 +484,30 @@
                     }
                 },
                 {
+                    data: 'buktipotong',
+                    name: 'buktipotong',
+                    render: function(data,type,row){
+                        var urlAsset = "<?= asset('document/data/transactions');?>";
+                        return '<img src="'+urlAsset+'/'+data+'" width="50%" alt="bon">';
+                    }
+                },
+                {
+                    data: 'ppn',
+                    name: 'ppn',
+                    render:function(data,type,row){
+                        var ppn = data ?? 0;
+                        return '<span class="badge bg-light-danger">'+'Rp. '+ppn.toLocaleString('id-ID')+'</span>';
+                    }
+                },
+                {
+                    data: 'pph',
+                    name: 'pph',
+                    render:function(data,type,row){
+                        var pph = data ?? 0;
+                        return '<span class="badge bg-light-danger">'+'Rp. '+pph.toLocaleString('id-ID')+'</span>';
+                    }
+                },
+                {
                     data: 'total',
                     name: 'total',
                     render:function(data,type,row){
@@ -422,15 +521,101 @@
             ],
             lengthMenu: [10,25,50,100],
             dom: 'Blftrip',
-            layout: {
-                topStart: {
-                    buttons: ['copy', 'excel', 'pdf', 'colvis']
-                }
-            }
+            buttons: [{
+                        extend: 'copy',
+                        text: 'COPY',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: 'PDF',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: 'CETAK',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'csv',
+                        text: 'CSV',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text: 'EXCEL',
+                        exportOptions: {
+                            // columns: ':visible',
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            format: {
+                                body: function(data, row, column, node) {
+                                    return String(data)
+                                        .replace(/<[^>]*>/g, '') // Hapus elemen HTML
+                                        .replace(/\./g, '') // Hapus tanda titik
+                                        .replace(/,/g,
+                                            '.'); // Ganti koma menjadi titik (jika perlu)
+                                }
+                            }
+                        },
+                        columnDefs: [{
+                            targets: -1,
+                            visible: false
+                        }]
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'COLUMN VISIBLE',
+                        exportOptions: {
+                            columns: ':visible',
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    }
+                ]
         })
     }
     // function crud user
     function crudMaintenance(){
+        $('#search').on('click', function(e){
+            e.preventDefault();
+            table.ajax.reload();
+        })
         $('#addmtc').on('click', function(e){
             e.preventDefault();
             var url = '<?= base_url()?>/maintenance';
@@ -575,6 +760,8 @@
             var sparepart = $('#usparepart');
             var harga = $('#uharga');
             var jasa = $('#ujasa');
+            var ppn = $('#uppn');
+            var pph = $('#upph');
             var total = $('#utotal');
             var status = $('#ustatus');
             if(selectedData.length > 0){
@@ -584,6 +771,8 @@
                 sparepart.val(selectedData[0].sparepart);
                 harga.val(selectedData[0].harga);
                 jasa.val(selectedData[0].jasa);
+                ppn.val(selectedData[0].ppn);
+                pph.val(selectedData[0].pph);
                 total.val(selectedData[0].total);
                 status.val(selectedData[0].status);
                 $('#modalEdit').modal('show');
@@ -727,12 +916,26 @@
             e.preventDefault();
             var harga = $('#harga').val();
             var jasa = $('#jasa').val();
-            $('#total').val((parseFloat(harga)+parseFloat(jasa)).toLocaleString('id-ID'));
-            $('#hiddentotal').val(parseFloat(harga)+parseFloat(jasa));
+            var ppn = $('#ppn').val();
+            var pph = $('#pph').val();
+            $('#total').val((parseFloat(harga)+parseFloat(jasa)+parseFloat(ppn)-parseFloat(pph)).toLocaleString('id-ID'));
+            $('#hiddentotal').val(parseFloat(harga)+parseFloat(jasa)+parseFloat(ppn)-parseFloat(pph));
         })
     }
     function flatPicker(){
         flatpickr('#tanggal',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
+        flatpickr('#startdate',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
+        flatpickr('#enddate',{
             dateFormat: 'Y-m-d',
             locale: 'id',
             allowInput: false,

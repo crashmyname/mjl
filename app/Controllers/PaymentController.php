@@ -31,9 +31,9 @@ class PaymentController extends BaseController
     public function create(Request $request)
     {
         $payment = Payment::create([
-            'nama_bank' => $request->nama_bank,
-            'no_rek' => $request->no_rek,
-            'nama_rek' => $request->nama_rek,
+            'nama_bank' => ucfirst($request->nama_bank),
+            'no_rek' => ucfirst($request->no_rek),
+            'nama_rek' => ucfirst($request->nama_rek),
             'bank_code' => $request->bank_code,
             'swift_code' => $request->swift_code,
         ]);

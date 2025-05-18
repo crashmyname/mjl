@@ -21,12 +21,17 @@ class MaintenanceController extends BaseController
     public function getMaintenance(Request $request)
     {
         if(Request::isAjax()){
+            if($request->startdate && $request->enddate){
             $mtc = Maintenance::query()
-                                ->select('maintenance_id','maintenances.uuid','tanggal','vehicles.plat_number','vehicles.truck_type','maintenances.description','sparepart','harga','jasa','bon','bukti','maintenances.total','maintenances.status')
+                                ->select('maintenance_id','maintenances.uuid','tanggal','vehicles.plat_number','vehicles.truck_type','maintenances.description','sparepart','harga','jasa','bon','bukti','maintenances.total','maintenances.status','maintenances.ppn','maintenances.pph','maintenances.buktipotong')
                                 ->leftJoin('vehicles','vehicles.vehicle_id','=','maintenances.vehicle_id')
                                 ->where('maintenances.deleted_at','=',null)
+                                ->whereBetween('tanggal',$request->startdate,$request->enddate)
                                 ->get();
             return DataTables::of($mtc)->make(true);
+            } else {
+                return DataTables::of([])->make(true);
+            }
         }
     }
 
@@ -58,7 +63,7 @@ class MaintenanceController extends BaseController
         if(!empty($errors)){
             return Response::json(['status'=>500,'message'=>$errors]);
         }
-        if($request->getClientOriginalName('bon') && $request->getClientOriginalName('bukti')){
+        if($request->getClientOriginalName('bon') && $request->getClientOriginalName('bukti') && $request->getClientOriginalName('buktipotong')){
             $path = storage_path('document/data/maintenance');
             if(!file_exists($path)){
                 mkdir($path,0777,true);
@@ -66,22 +71,26 @@ class MaintenanceController extends BaseController
 
             $fileName = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('bon'));
             $fileName1 = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('bukti'));
+            $fileName2 = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('buktipotong'));
             $tempPath = $request->getPath('bon');
             $tempPath1 = $request->getPath('bukti');
+            $tempPath2 = $request->getPath('buktipotong');
             $destination = $path.'/'.$fileName;
             $destination1 = $path.'/'.$fileName1;
+            $destination2 = $path.'/'.$fileName2;
 
-            if(move_uploaded_file($tempPath,$destination) && move_uploaded_file($tempPath1,$destination1)){
+            if(move_uploaded_file($tempPath,$destination) && move_uploaded_file($tempPath1,$destination1) && move_uploaded_file($tempPath2,$destination2)){
                 $mtc = Maintenance::create([
                     'uuid' => UUID::generateUuid(),
                     'vehicle_id' => $request->vehicle_id,
                     'tanggal' => $request->tanggal,
-                    'description' => $request->description,
+                    'description' => ucfirst($request->description),
                     'sparepart' => $request->sparepart,
                     'harga' => $request->harga,
                     'jasa' => $request->jasa,
                     'bon' => $fileName,
                     'bukti' => $fileName1,
+                    'buktipotong' => $fileName2,
                     'total' => $request->total,
                     'status' => 'unpaid',
                     'created_at' => Date::Now(),
@@ -113,6 +122,20 @@ class MaintenanceController extends BaseController
             $mtc->bukti = $request->getClientOriginalName('bukti');
             $tempPath = $request->getPath('bukti');
             $destination = $path.'/'.$mtc->bukti;
+            move_uploaded_file($tempPath,$destination);
+        }
+        if($request->getClientOriginalName('buktipotong')){
+            $path = storage_path('document/data/maintenance');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+            $oldFile = $path.'/'.$mtc->buktipotong;
+            if(file_exists($oldFile)){
+                unlink($oldFile);
+            }
+            $mtc->buktipotong = $request->getClientOriginalName('buktipotong');
+            $tempPath = $request->getPath('buktipotong');
+            $destination = $path.'/'.$mtc->buktipotong;
             move_uploaded_file($tempPath,$destination);
         }
         if($request->getClientOriginalName('bon')){

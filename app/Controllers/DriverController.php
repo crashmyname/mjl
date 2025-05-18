@@ -68,7 +68,7 @@ class DriverController extends BaseController
             if(move_uploaded_file($tempPath,$destination) && move_uploaded_file($tempPath1,$destination1)){
                 $driver = Drivers::create([
                     'uuid' => UUID::generateUuid(),
-                    'driver_name' => $request->driver_name,
+                    'driver_name' => ucfirst($request->driver_name),
                     'driver_ksuid' => $request->driver_ksuid,
                     'phone_number' => $request->phone_number,
                     'sim_type' => $request->sim_type,

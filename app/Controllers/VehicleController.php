@@ -67,8 +67,8 @@ class VehicleController extends BaseController
                 Vehicle::create([
                     'uuid' => UUID::generateUuid(),
                     'plat_number' => $request->plat_number,
-                    'truck_type' => $request->truck_type,
-                    'truck_sub_type' => $request->truck_sub_type,
+                    'truck_type' => ucfirst($request->truck_type),
+                    'truck_sub_type' => ucfirst($request->truck_sub_type),
                     'plat_color' => $request->plat_color,
                     'stnk' => $fileName,
                     'kir' => $fileName1

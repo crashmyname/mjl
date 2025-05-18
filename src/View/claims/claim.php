@@ -50,6 +50,12 @@
                                     <div class="form-body">
                                         <div class="row">
                                             <div class="col-md-4">
+                                                <label>Tanggal Claim</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                            <input type="date" name="tanggal_claim" id="tanggal_claim" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>Plat Number</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -83,7 +89,12 @@
                                                 <label>Jenis Claim</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="jenis_claim" id="jenis_claim" class="form form-control">
+                                                <select name="jenis_claim" id="jenis_claim" class="form-control">
+                                                    <option value="" hidden selected disabled>Pilih</option>
+                                                    <option value="Barang Hilang/Kurang">Barang Hilang/Kurang</option>
+                                                    <option value="Packing Rusak">Packing Rusak</option>
+                                                    <option value="Lainnya">Lainnya</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Biaya</label>
@@ -143,6 +154,12 @@
                                     <div class="form-body">
                                         <div class="row">
                                             <div class="col-md-4">
+                                                <label>Tanggal Claim</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                            <input type="date" name="tanggal_claim" id="utanggal_claim" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>Plat Number</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -176,7 +193,12 @@
                                                 <label>Jenis Claim</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="jenis_claim" id="ujenis_claim" class="form form-control">
+                                            <select name="jenis_claim" id="ujenis_claim" class="form-control">
+                                                    <option value="" hidden selected disabled>Pilih</option>
+                                                    <option value="Barang Hilang/Kurang">Barang Hilang/Kurang</option>
+                                                    <option value="Packing Rusak">Packing Rusak</option>
+                                                    <option value="Lainnya">Lainnya</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Biaya</label>
@@ -302,12 +324,30 @@
                     </div>
                 </div>
             </div>
+            <div class="card-header">
+                <form action="" method="GET">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="">Start Date</label>
+                                <input type="date" name="startdate" id="startdate" class="form-control">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">End Date</label>
+                                <input type="date" name="enddate" id="enddate" class="form-control">
+                            </div>
+                            <div class="col-md-3 mt-2">
+                                <button type="submit" id="search" class="btn btn-primary mt-3">Search</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
             <div class="card-body">
                 <div class="container">
                     <table class="table table-striped" id="dataTable">
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Tanggal Claim</th>
                                 <th>Plat Number</th>
                                 <th>Driver Name</th>
                                 <th>Supplier</th>
@@ -343,7 +383,14 @@
             $('#dataTable').DataTable().clear().destroy();
         }
         table = $('#dataTable').DataTable({
-            ajax: '<?= base_url()?>/getclaim',
+            ajax: {
+                url : '<?= base_url()?>/getclaim',
+                type: 'GET',
+                data: function(data){
+                    data.startdate = $('#startdate').val(),
+                    data.enddate = $('#enddate').val();
+                }
+            },
             processing:true,
             serverSide:true,
             select:true,
@@ -355,6 +402,10 @@
                     render:function(data, type, row, meta){
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
+                },
+                {
+                    data: 'tanggal_claim',
+                    name: 'tanggal_claim',
                 },
                 {
                     data: 'plat_number',
@@ -382,7 +433,11 @@
                 },
                 {
                     data: 'sj',
-                    name: 'sj'
+                    name: 'sj',
+                    render: function(data,type,row){
+                        var urlAsset = "<?= asset('document/data/claim');?>";
+                        return '<img src="'+urlAsset+'/'+data+'" width="50%" alt="sj">';
+                    }
                 },
                 {
                     data: 'status',
@@ -400,6 +455,10 @@
     }
     // function crud user
     function crudClaim(){
+        $('#search').on('click', function(e){
+            e.preventDefault();
+            table.ajax.reload();
+        })
         $('#addclaim').on('click', function(e){
             e.preventDefault();
             var url = '<?= base_url()?>/claim';
@@ -699,6 +758,24 @@
             defaultDate: new Date(),
         })
         flatpickr('#pickup_date',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
+        flatpickr('#tanggal_claim',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
+        flatpickr('#startdate',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
+        flatpickr('#enddate',{
             dateFormat: 'Y-m-d',
             locale: 'id',
             allowInput: false,

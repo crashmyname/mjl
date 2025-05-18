@@ -62,7 +62,7 @@
                                                 <input type="date" name="tanggal_pembayaran" id="tanggal_pembayaran" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Bukti Bayar</label>
+                                                <label>Bukti Potong</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="file" name="bukti_bayar" id="bukti_bayar" class="form form-control">
@@ -72,6 +72,12 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="text" name="jumlah" id="jumlah" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Sisa Bayar</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="sisa_bayar" id="sisa_bayar" class="form form-control" value="<?= $payment ? $payment[0]->sisa_bayar : $inv->total_pembayaran?>" readonly>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Total Bayar</label>
@@ -128,7 +134,7 @@
                                 <th>Jumlah</th>
                                 <th>Sisa Bayar</th>
                                 <th>Total Bayar</th>
-                                <th>Bukti</th>
+                                <th>Bukti Potong</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -232,6 +238,12 @@
                         });
                         DateNow();
                         formatDate();
+                    } else if(response.status === 400){
+                        Swal.fire({
+                            title: 'error',
+                            icon: 'error',
+                            text: response.message,
+                        });
                     } else {
                         var errorMessage = '';
                         if(response.status === 500 && typeof response.message === 'object'){

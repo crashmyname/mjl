@@ -20,12 +20,17 @@ class SalaryController extends BaseController
     public function getSalary(Request $request)
     {
         if(Request::isAjax()){
+            if($request->startdate && $request->enddate){
             $salary = Salary::query()
-                                ->select('salary_id','salaries.uuid','drivers.driver_name','salary','tanggal','bukti','salaries.status')
+                                ->select('salary_id','salaries.uuid','drivers.driver_name','salary','tanggal','bukti','salaries.status','salaries.ppn','salaries.pph','salaries.buktipotong')
                                 ->leftJoin('drivers','drivers.driver_id','=','salaries.driver_id')
                                 ->where('salaries.deleted_at','=',null)
+                                ->whereBetween('tanggal',$request->startdate,$request->enddate)
                                 ->get();
             return DataTables::of($salary)->make(true);
+            } else {
+                return DataTables::of([])->make(true);
+            }
         }
     }
 
@@ -51,23 +56,27 @@ class SalaryController extends BaseController
         if(!empty($errors)){
             return Response::json(['status'=>500,'message'=>$errors]);
         }
-        if($request->getClientOriginalName('bukti')){
+        if($request->getClientOriginalName('bukti') && $request->getClientOriginalName('buktipotong')){
             $path = storage_path('document/data/gaji');
             if(!file_exists($path)){
                 mkdir($path,0777,true);
             }
 
             $fileName = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('bukti'));
+            $fileName1 = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('buktipotong'));
             $tempPath = $request->getPath('bukti');
+            $tempPath1 = $request->getPath('buktipotong');
             $destination = $path.'/'.$fileName;
+            $destination1 = $path.'/'.$fileName1;
 
-            if(move_uploaded_file($tempPath,$destination)){
+            if(move_uploaded_file($tempPath,$destination) && move_uploaded_file($tempPath1,$destination1)){
                 Salary::create([
                     'uuid' => UUID::generateUuid(),
                     'driver_id' => $request->driver_id,
                     'tanggal' => $request->tanggal,
                     'salary' => $request->salary,
                     'bukti' => $fileName,
+                    'buktipotong' => $fileName1,
                     'status' => 'unpaid',
                     'created_at' => Date::Now(),
                     'updated_at' => Date::Now(),
@@ -95,6 +104,20 @@ class SalaryController extends BaseController
             $salary->bukti = $request->getClientOriginalName('bukti');
             $tempPath = $request->getPath('bukti');
             $destination = $path.'/'.$salary->bukti;
+            move_uploaded_file($tempPath,$destination);
+        }
+        if($request->getClientOriginalName('buktipotong')){
+            $path = storage_path('document/data/gaji');
+            if(!file_exists($path)){
+                mkdir($path,0777,true);
+            }
+            $oldFile = $path.'/'.$salary->buktipotong;
+            if(file_exists($oldFile)){
+                unlink($oldFile);
+            }
+            $salary->buktipotong = $request->getClientOriginalName('buktipotong');
+            $tempPath = $request->getPath('buktipotong');
+            $destination = $path.'/'.$salary->buktipotong;
             move_uploaded_file($tempPath,$destination);
         }
         $salary->status = $request->status;

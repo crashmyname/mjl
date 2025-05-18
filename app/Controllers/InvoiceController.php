@@ -38,13 +38,18 @@ class InvoiceController extends BaseController
     public function getInvoices(Request $request)
     {
         if(Request::isAjax()){
-            $invoice = Invoice::query()->selectRaw('invoices.uuid')
-                                        ->leftJoin('payments','payments.payment_id','=','invoices.payment_id')
-                                        ->leftJoin('vendors','vendors.vendor_id','=','invoices.vendor_id')
-                                        ->where('invoices.deleted_at','=',null)
-                                        ->get();
-            return DataTables::of($invoice)
-                                ->make(true);
+            if($request->startdate && $request->enddate){
+                $invoice = Invoice::query()->selectRaw('invoices.uuid')
+                                            ->leftJoin('payments','payments.payment_id','=','invoices.payment_id')
+                                            ->leftJoin('vendors','vendors.vendor_id','=','invoices.vendor_id')
+                                            ->where('invoices.deleted_at','=',null)
+                                            ->whereBetween('tgl_invoice',$request->startdate,$request->enddate)
+                                            ->get();
+                return DataTables::of($invoice)
+                                    ->make(true);
+            } else {
+                return DataTables::of([])->make(true);
+            }
         }
     }
 
@@ -117,14 +122,14 @@ class InvoiceController extends BaseController
             'no_invoice' => $newcode,
             'tgl_invoice' => $request->tgl_invoice,
             'tgl_jatuh_tempo' => $request->tgl_jatuh_tempo,
-            'name_pt' => $request->name_pt,
+            'name_pt' => ucfirst($request->name_pt),
             'vendor_id' => $vendor->vendor_id,
             'payment_id' => $request->payment_id,
             'subtotal' => $request->subtotal,
             'pph23' => $request->pph23 ?? 0,
             'ppn' => $request->ppn ?? 0,
             'total_pembayaran' => $request->total_pembayaran,
-            'description' => $request->description,
+            'description' => ucfirst($request->description),
         ]);
         if ($invoice) {
             $orderIds = $request->get('order_id');
@@ -204,11 +209,16 @@ class InvoiceController extends BaseController
     public function getInvoicesAP(Request $request)
     {
         if(Request::isAjax()){
-            $invoice = InvoiceAP::query()->leftJoin('payments','payments.payment_id','=','invoices_ap.payment_id')
-                                        ->where('invoices_ap.deleted_at','=',null)
-                                        ->get();
-            return DataTables::of($invoice)
-                                ->make(true);
+            if($request->startdate && $request->enddate){
+                $invoice = InvoiceAP::query()->leftJoin('payments','payments.payment_id','=','invoices_ap.payment_id')
+                                            ->where('invoices_ap.deleted_at','=',null)
+                                            ->whereBetween('tgl_invoice',$request->startdate,$request->enddate)
+                                            ->get();
+                return DataTables::of($invoice)
+                                    ->make(true);
+            } else {
+                return DataTables::of([])->make(true);
+            }
         }
     }
 
@@ -280,14 +290,14 @@ class InvoiceController extends BaseController
             'no_invoice' => $newcode,
             'tgl_invoice' => $request->tgl_invoice,
             'tgl_jatuh_tempo' => $request->tgl_jatuh_tempo,
-            'name_pt' => $request->name_pt,
+            'name_pt' => ucfirst($request->name_pt),
             'vendor' => $transaction->vendor,
             'payment_id' => $request->payment_id,
             'subtotal' => $request->subtotal,
             'pph23' => $request->pph23 ?? 0,
             'ppn' => $request->ppn ?? 0,
             'total_pembayaran' => $request->total_pembayaran,
-            'description' => $request->description,
+            'description' => ucfirst($request->description),
         ]);
         if ($invoice) {
             $orderIds = $request->get('order_ap_id');

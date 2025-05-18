@@ -66,6 +66,18 @@
                                                 <input type="number" name="salary" id="salary" class="form-control">
                                             </div>
                                             <div class="col-md-4">
+                                                <label>PPN</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="number" name="ppn" id="ppn" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>PPH</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="number" name="pph" id="pph" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>Tanggal</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -131,6 +143,18 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="number" name="salary" id="usalary" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>PPN</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="number" name="ppn" id="uppn" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>PPH</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="number" name="pph" id="upph" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Tanggal</label>
@@ -250,6 +274,23 @@
                     </div>
                 </div>
             </div>
+            <div class="card-header">
+                <form action="" method="GET">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="">Start Date</label>
+                                <input type="date" name="startdate" id="startdate" class="form-control">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">End Date</label>
+                                <input type="date" name="enddate" id="enddate" class="form-control">
+                            </div>
+                            <div class="col-md-3 mt-2">
+                                <button type="submit" id="search" class="btn btn-primary mt-3">Search</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
             <div class="card-body">
                 <div class="container">
                     <table class="table table-striped" id="dataTable">
@@ -258,8 +299,12 @@
                                 <th>No</th>
                                 <th>Driver Name</th>
                                 <th>Gaji Driver</th>
+                                <th>PPN</th>
+                                <th>PPH</th>
+                                <th>Total</th>
                                 <th>Tanggal</th>
                                 <th>Upload Bukti TF</th>
+                                <th>Upload Bukti Potong</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -288,7 +333,14 @@
             $('#dataTable').DataTable().clear().destroy();
         }
         table = $('#dataTable').DataTable({
-            ajax: '<?= base_url()?>/getsalary',
+            ajax: {
+                url : '<?= base_url()?>/getsalary',
+                type: 'GET',
+                data: function(data){
+                    data.startdate = $('#startdate').val(),
+                    data.enddate = $('#enddate').val();
+                }
+            },
             processing:true,
             serverSide:true,
             select:true,
@@ -310,12 +362,42 @@
                     name: 'salary',
                 },
                 {
+                    data: 'ppn',
+                    name: 'ppn',
+                },
+                {
+                    data: 'pph',
+                    name: 'pph',
+                },
+                {
+                    data: null,
+                    name: 'total',
+                    render: function(data,type,row){
+                        var ppn = row.ppn ? parseFloat(row.ppn) : 0;
+                        var pph = row.pph ? parseFloat(row.pph) : 0;
+                        var total = parseFloat(row.salary) + ppn - pph;
+                        return '<span class="badge bg-light-success">'+'Rp. '+total.toLocaleString('id-ID')+'</span>';
+                    }
+                },
+                {
                     data: 'tanggal',
                     name: 'tanggal',
                 },
                 {
                     data: 'bukti',
-                    name: 'bukti'
+                    name: 'bukti',
+                    render: function(data,type,row){
+                        var urlAsset = "<?= asset('document/data/gaji');?>";
+                        return '<img src="'+urlAsset+'/'+data+'" width="50%" alt="salary">';
+                    }
+                },
+                {
+                    data: 'buktipotong',
+                    name: 'buktipotong',
+                    render: function(data,type,row){
+                        var urlAsset = "<?= asset('document/data/gaji');?>";
+                        return '<img src="'+urlAsset+'/'+data+'" width="50%" alt="salary">';
+                    }
                 },
                 {
                     data: 'status',
@@ -324,15 +406,101 @@
             ],
             lengthMenu: [10,25,50,100],
             dom: 'Blftrip',
-            layout: {
-                topStart: {
-                    buttons: ['copy', 'excel', 'pdf', 'colvis']
-                }
-            }
+            buttons: [{
+                        extend: 'copy',
+                        text: 'COPY',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: 'PDF',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: 'CETAK',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'csv',
+                        text: 'CSV',
+                        exportOptions: {
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text: 'EXCEL',
+                        exportOptions: {
+                            // columns: ':visible',
+                            columns: function(idx, data, node) {
+                                return true;
+                            },
+                            format: {
+                                body: function(data, row, column, node) {
+                                    return String(data)
+                                        .replace(/<[^>]*>/g, '') // Hapus elemen HTML
+                                        .replace(/\./g, '') // Hapus tanda titik
+                                        .replace(/,/g,
+                                            '.'); // Ganti koma menjadi titik (jika perlu)
+                                }
+                            }
+                        },
+                        columnDefs: [{
+                            targets: -1,
+                            visible: false
+                        }]
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'COLUMN VISIBLE',
+                        exportOptions: {
+                            columns: ':visible',
+                            columnDefs: [{
+                                targets: -1,
+                                visible: false
+                            }]
+                        }
+                    }
+                ]
         })
     }
     // function crud user
     function crudSalary(){
+        $('#search').on('click', function(e){
+            e.preventDefault();
+            table.ajax.reload();
+        })
         $('#addsalary').on('click', function(e){
             e.preventDefault();
             var url = '<?= base_url()?>/salary';
@@ -627,6 +795,18 @@
             defaultDate: new Date(),
         })
         flatpickr('#pickup_date',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
+        flatpickr('#startdate',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
+        flatpickr('#enddate',{
             dateFormat: 'Y-m-d',
             locale: 'id',
             allowInput: false,

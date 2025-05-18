@@ -33,10 +33,10 @@ class VendorController extends BaseController
     {
         $vendor = Vendors::create([
             'uuid' => UUID::generateUuid(),
-            'company_name' => $request->company_name,
-            'address' => $request->address,
-            'sales' => $request->sales,
-            'sales_support' => $request->sales_support,
+            'company_name' => ucfirst($request->company_name),
+            'address' => ucfirst($request->address),
+            'sales' => ucfirst($request->sales),
+            'sales_support' => ucfirst($request->sales_support),
             'email' => $request->email,
             'phone' => $request->phone,
             'npwp' => $request->npwp,

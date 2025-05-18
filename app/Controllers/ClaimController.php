@@ -22,15 +22,19 @@ class ClaimController extends BaseController
     public function getClaim(Request $request)
     {
         if(Request::isAjax()){
+            if($request->startdate && $request->enddate){
             $claim = Claim::query()
-                                ->select('claim_id','claims.uuid','vehicles.plat_number','drivers.driver_name','vendors.company_name','jenis_claim','biaya','remark','sj','claims.status')
+                                ->select('claim_id','claims.uuid','vehicles.plat_number','drivers.driver_name','vendors.company_name','jenis_claim','biaya','remark','sj','claims.status','claims.tanggal_claim')
                                 ->leftJoin('drivers','drivers.driver_id','=','claims.driver_id')
                                 ->leftJoin('vehicles','vehicles.vehicle_id','=','claims.vehicle_id')
                                 ->leftJoin('vendors','vendors.vendor_id','=','claims.vendor_id')
                                 ->where('claims.deleted_at','=',null)
+                                ->whereBetween('tanggal_claim',$request->startdate,$request->enddate)
                                 ->get();
             return DataTables::of($claim)->make(true);
-            // Baru code sampe sini belum crud nya
+            } else {
+                return DataTables::of([])->make(true);
+            }
         }
     }
 
@@ -79,7 +83,7 @@ class ClaimController extends BaseController
                     'vendor_id' => $request->vendor_id,
                     'jenis_claim' => $request->jenis_claim,
                     'biaya' => $request->biaya,
-                    'remark' => $request->remark,
+                    'remark' => ucfirst($request->remark),
                     'sj' => $fileName,
                     'status' => 'unpaid',
                     'created_at' => Date::Now(),

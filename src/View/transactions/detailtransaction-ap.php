@@ -74,6 +74,12 @@
                                                 <input type="text" name="jumlah" id="jumlah" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
+                                                <label>Sisa Bayar</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="sisa_bayar" id="sisa_bayar" class="form form-control" readonly value="<?= $payment ? $payment[0]->sisa_bayar : $inv->total_pembayaran?>">
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>Total Bayar</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -232,6 +238,12 @@
                         });
                         DateNow();
                         formatDate();
+                    } else if(response.status === 400){
+                        Swal.fire({
+                            title: 'error',
+                            icon: 'error',
+                            text: response.message,
+                        });
                     } else {
                         var errorMessage = '';
                         if(response.status === 500 && typeof response.message === 'object'){

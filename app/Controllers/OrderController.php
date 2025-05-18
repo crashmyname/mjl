@@ -37,12 +37,17 @@ class OrderController extends BaseController
     public function getOrders(Request $request)
     {
         if(Request::isAjax()){
+            if($request->startdate && $request->enddate){
             $orders = Order::query()->selectRaw('orders.uuid')
                                             ->leftJoin('vendors','vendors.vendor_id','=','orders.vendor_id')
                                             ->leftJoin('vehicles','vehicles.vehicle_id','=','orders.vehicle_id')
-                                            ->leftJoin('drivers','drivers.driver_id','=','orders.driver_id')->where('orders.deleted_at','=',null)->get();
+                                            ->leftJoin('drivers','drivers.driver_id','=','orders.driver_id')->where('orders.deleted_at','=',null)
+                                            ->whereBetween('tgl_pembuatan_po',$request->startdate,$request->enddate)->get();
             return DataTables::of($orders)
                                 ->make(true);
+            } else {
+                return DataTables::of([])->make(true);
+            }
         }
     }
 
@@ -109,8 +114,8 @@ class OrderController extends BaseController
             'vendor_id' => $request->vendor_id,
             'pickup_date' => $request->pickup_date,
             'tgl_pembuatan_po' => $request->tgl_pembuatan_po,
-            'origin_city' => $request->origin_city,
-            'destination' => $request->destination,
+            'origin_city' => ucfirst($request->origin_city),
+            'destination' => ucfirst($request->destination),
             'vehicle_id' => $request->vehicle_id,
             'driver_id' => $request->driver_id,
             'price' => $request->price,
@@ -184,7 +189,8 @@ class OrderController extends BaseController
     public function detailTransaction(Request $request, $noinv)
     {
         $inv = Invoice::query()->where('no_invoice','=',$noinv)->first();
-        return view('transactions/detailtransaction',['inv'=>$inv],'layout/app');
+        $payment = StatusPembayaran::query()->where('invoice_id','=', $inv->invoice_id)->where('deleted_at','=',null)->orderBy('status_pembayaran_id','DESC')->get();
+        return view('transactions/detailtransaction',['inv'=>$inv,'payment'=>$payment],'layout/app');
     }
 
     public function getDetailTransaksi(Request $request,$noinv)
@@ -214,6 +220,9 @@ class OrderController extends BaseController
         $bayarSebelumnya = 0;
         foreach ($pembayaranSebelumnya as $item) {
             $bayarSebelumnya += $item->jumlah;
+        }
+        if($request->jumlah > $request->sisa_bayar){
+            return Response::json(['status'=>400,'message'=>'Pembayaran melebihi total tagihan']);
         }
         if($request->getClientOriginalName('bukti_bayar')){
             $path = storage_path('document/data/ar/pembayaran');
@@ -250,7 +259,7 @@ class OrderController extends BaseController
                 'type_transaction' => 'income',
                 'transaction_date' => $request->tanggal_pembayaran,
                 'amount' => $request->jumlah,
-                'description' => $request->description,
+                'description' => ucfirst($request->description),
                 'status' => $request->status,
                 'created_at' => Date::Now(),
                 'updated_at' => Date::Now(),
@@ -275,9 +284,14 @@ class OrderController extends BaseController
     public function getOrdersAP(Request $request)
     {
         if(Request::isAjax()){
-            $orders = OrderAP::query()->where('deleted_at','=',null)->get();
+            if($request->startdate && $request->enddate){
+            $orders = OrderAP::query()->where('deleted_at','=',null)
+                        ->whereBetween('tgl_pembuatan_po',$request->startdate,$request->enddate)->get();
             return DataTables::of($orders)
                                 ->make(true);
+            } else {
+                return DataTables::of([])->make(true);
+            }
         }
     }
 
@@ -302,11 +316,11 @@ class OrderController extends BaseController
             'vendor' => $request->vendor,
             'pickup_date' => $request->pickup_date,
             'tgl_pembuatan_po' => $request->tgl_pembuatan_po,
-            'origin_city' => $request->origin_city,
-            'destination' => $request->destination,
-            'vehicle' => $request->vehicle,
-            'driver' => $request->driver,
-            'project' => $request->project,
+            'origin_city' => ucfirst($request->origin_city),
+            'destination' => ucfirst($request->destination),
+            'vehicle' => ucfirst($request->vehicle),
+            'driver' => ucfirst($request->driver),
+            'project' => ucfirst($request->project),
             'price' => $request->price,
             'pajak' => $request->pajak,
             'total' => $request->pajak + $request->price,
@@ -392,7 +406,8 @@ class OrderController extends BaseController
     public function detailTransactionAP(Request $request, $noinv)
     {
         $inv = InvoiceAP::query()->where('no_invoice','=',$noinv)->first();
-        return view('transactions/detailtransaction-ap',['inv'=>$inv],'layout/app');
+        $payment = StatusPembayaranAP::query()->where('invoice_ap_id','=', $inv->invoice_ap_id)->where('deleted_at','=',null)->orderBy('status_pembayaran_ap_id','DESC')->get();
+        return view('transactions/detailtransaction-ap',['inv'=>$inv,'payment'=>$payment],'layout/app');
     }
 
     public function getDetailTransaksiAP(Request $request,$noinv)
@@ -422,6 +437,9 @@ class OrderController extends BaseController
         $bayarSebelumnya = 0;
         foreach ($pembayaranSebelumnya as $item) {
             $bayarSebelumnya += $item->jumlah;
+        }
+        if($request->jumlah > $request->sisa_bayar){
+            return Response::json(['status'=>400,'message'=>'Pembayaran melebihi total tagihan']);
         }
         if($request->getClientOriginalName('bukti_bayar')){
             $path = storage_path('document/data/ap/pembayaran');
@@ -458,7 +476,7 @@ class OrderController extends BaseController
                 'type_transaction' => 'outcome',
                 'transaction_date' => $request->tanggal_pembayaran,
                 'amount' => $request->jumlah,
-                'description' => $request->description,
+                'description' => ucfirst($request->description),
                 'status' => $request->status,
                 'created_at' => Date::Now(),
                 'updated_at' => Date::Now(),
