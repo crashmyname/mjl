@@ -198,7 +198,11 @@
                 },
                 {
                     data: 'bukti_data',
-                    name: 'bukti_data'
+                    name: 'bukti_data',
+                    render: function(data,type,row){
+                        var urlAsset = "<?= asset('document/data/ar/pembayaran');?>";
+                        return '<img src="'+urlAsset+'/'+data+'" width="50%" alt="salary">';
+                    }
                 },
                 {
                     data: 'status',
