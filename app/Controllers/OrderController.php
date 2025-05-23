@@ -62,14 +62,14 @@ class OrderController extends BaseController
     public function getProject(Request $request)
     {
         $data =$request->vehicle;
-        $price = Price::query()->where('vehicle_id','=',$data)->get();
+        $price = Price::getPrice($data);
         return Response::json(['status'=>200,'message'=>'success','data'=>$price]);
     }
     
     public function getPricePO(Request $request)
     {
         $data =$request->order_id;
-        $price = Order::query()->where('order_id','=',$data)->first();
+        $price = Order::getPOPrice($data);
         return Response::json(['status'=>200,'message'=>'success','data'=>$price->toArray()]);
     }
 
@@ -129,7 +129,7 @@ class OrderController extends BaseController
 
     public function update(Request $request, $id)
     {
-        $orders = Order::query()->where('uuid','=',$id)->first();
+        $orders = Order::getID($id);
         $orders->vendor_id = $request->vendor_id;
         $orders->pickup_date = $request->pickup_date;
         $orders->tgl_pembuatan_po = $request->tgl_pembuatan_po;
@@ -180,7 +180,7 @@ class OrderController extends BaseController
 
     public function delete(Request $request, $id)
     {
-        $orders = Order::query()->where('uuid','=',$id)->first();
+        $orders = Order::getID($id);
         $orders->deleted_at = Date::Now();
         $orders->save();
         return Response::json(['status'=>200,'message'=>'Order berhasil dihapus']);
@@ -333,7 +333,7 @@ class OrderController extends BaseController
 
     public function updateAP(Request $request, $id)
     {
-        $orders = OrderAP::query()->where('uuid','=',$id)->first();
+        $orders = OrderAP::getID($id);
         $orders->vendor = $request->vendor;
         $orders->pickup_date = $request->pickup_date;
         $orders->tgl_pembuatan_po = $request->tgl_pembuatan_po;
@@ -353,7 +353,7 @@ class OrderController extends BaseController
 
     public function deleteAP(Request $request, $id)
     {
-        $orders = OrderAP::query()->where('uuid','=',$id)->first();
+        $orders = OrderAP::getID($id);
         $orders->deleted_at = Date::Now();
         $orders->save();
         return Response::json(['status'=>200,'message'=>'Order berhasil dihapus']);
