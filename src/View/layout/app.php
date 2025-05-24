@@ -143,17 +143,33 @@
                                 <span>Driver Salary</span>
                             </a>
                         </li>
-                        <li class="sidebar-item  ">
-                            <a href="<?= base_url() ?>/mutation" class='sidebar-link'>
+                        <li class="sidebar-item has-sub">
+                            <a href="#" class="sidebar-link" id="dropdown">
                                 <i class="bi bi-bank"></i>
                                 <span>Laporan Bank</span>
                             </a>
+                            <ul class="submenu">
+                                <li class="submenu-item">
+                                    <a href="<?= base_url() ?>/mutation" class="sidebar-link">Laporan Bank</a>
+                                </li>
+                                <li class="submenu-item">
+                                    <a href="" class="sidebar-link">Arsip</a>
+                                </li>
+                            </ul>
                         </li>
                         <?php if(\Support\Session::user()->role_id == 'Administrator'):?>
                         <li class="sidebar-item  ">
                             <a href="<?= base_url() ?>/shippers" class='sidebar-link'>
                                 <i class="bi bi-building"></i>
                                 <span>Shippers</span>
+                            </a>
+                        </li>
+                        <?php endif; ?>
+                        <?php if(\Support\Session::user()->role_id == 'Administrator'):?>
+                        <li class="sidebar-item  ">
+                            <a href="<?= base_url() ?>/vendors" class='sidebar-link'>
+                                <i class="bi bi-building"></i>
+                                <span>Vendor</span>
                             </a>
                         </li>
                         <?php endif; ?>

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\NVendor;
 use App\Models\Vendors;
 use Support\BaseController;
 use Support\DataTables;
@@ -66,4 +67,50 @@ class VendorController extends BaseController
         $vendor->save();
         return Response::json(['status'=>200,'message'=>'Shippers success delete']);
     }
+
+    public function indexVendor()
+    {
+        return view('vendors/vendor',[],'layout/app');
+    }
+
+    public function getVendor(Request $request)
+    {
+        if(Request::isAjax()){
+            $vendor = NVendor::query()->where('deleted_at','=',null)->get();
+            return DataTables::of($vendor)->make(true);
+        }
+    }
+
+    public function createVendor(Request $request)
+    {
+        $vendor = NVendor::create([
+            'uuid' => UUID::generateUuid(),
+            'nama_vendor' => ucfirst($request->nama_vendor),
+            'alias' => ucfirst($request->alias),
+            'email' => $request->email,
+            'phone' => $request->phone,
+        ]);
+        return Response::json(['status'=>201,'message'=>'Vendor Created']);
+    }
+
+    public function updateVendor(Request $request, $id)
+    {
+        $vendor = NVendor::getID($id);
+        $vendor->nama_vendor = $request->nama_vendor;
+        $vendor->alias = $request->alias;
+        $vendor->email = $request->email;
+        $vendor->phone = $request->phone;
+        $vendor->updated_at = Date::Now();
+        $vendor->save();
+        return Response::json(['status'=>201,'message'=>'Vendor success update']);
+    }
+
+    public function deleteVendor(Request $request, $id)
+    {
+        $vendor = NVendor::getID($id);
+        $vendor->deleted_at = Date::Now();
+        $vendor->save();
+        return Response::json(['status'=>200,'message'=>'Vendor success delete']);
+    }
+    
 }

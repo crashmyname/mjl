@@ -8,4 +8,9 @@ class SaldoAwal extends BaseModel
     // Model logic here
     protected $table = 'saldo_awal';
     protected $primaryKey = 'saldo_id';
+
+    public static function getSaldoID($id)
+    {
+        return self::find($id);
+    }
 }

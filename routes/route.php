@@ -163,4 +163,11 @@ Route::group([AuthMiddleware::class],function(){
     Route::post('/salary',[SalaryController::class, 'create']);
     Route::put('/usalary/{id}',[SalaryController::class, 'update']);
     Route::delete('/salary/{id}',[SalaryController::class, 'delete']);
+
+    // Vendor
+    Route::get('/vendors',[VendorController::class, 'indexVendor']);
+    Route::get('/getvendors', [VendorController::class, 'getVendor']);
+    Route::post('/vendors',[VendorController::class, 'createVendor']);
+    Route::put('/uvendors/{id}', [VendorController::class, 'updateVendor']);
+    Route::delete('/vendors/{id}', [VendorController::class, 'deleteVendor']);
 });

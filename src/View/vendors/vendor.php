@@ -152,13 +152,10 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Company Name</th>
-                                <th>Address</th>
-                                <th>Sales</th>
-                                <th>Sales Support</th>
+                                <th>Nama Vendor</th>
+                                <th>Alias</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>NPWP</th>
                                 <th>Created at</th>
                             </tr>
                         </thead>
@@ -178,7 +175,7 @@
             $('#dataTable').DataTable().clear().destroy();
         }
         table = $('#dataTable').DataTable({
-            ajax: '<?= base_url()?>/getshippers',
+            ajax: '<?= base_url()?>/getvendors',
             processing:true,
             serverSide:true,
             select:true,
@@ -192,20 +189,12 @@
                     }
                 },
                 {
-                    data: 'company_name',
-                    name: 'company_name',
+                    data: 'nama_vendor',
+                    name: 'nama_vendor',
                 },
                 {
-                    data: 'address',
-                    name: 'address',
-                },
-                {
-                    data: 'sales',
-                    name: 'sales',
-                },
-                {
-                    data: 'sales_support',
-                    name: 'sales_support'
+                    data: 'alias',
+                    name: 'alias',
                 },
                 {
                     data: 'email',
@@ -214,10 +203,6 @@
                 {
                     data: 'phone',
                     name: 'phone'
-                },
-                {
-                    data: 'npwp',
-                    name: 'npwp'
                 },
                 {
                     data: 'created_at',
@@ -316,11 +301,11 @@
         })
     }
     // function crud user
-    function crudShippers(){
-        $('#addshippers').on('click', function(e){
+    function crudVendor(){
+        $('#addvendor').on('click', function(e){
             e.preventDefault();
-            var url = '<?= base_url()?>/shippers';
-            var formdata = new FormData($('#formaddshippers')[0]);
+            var url = '<?= base_url()?>/vendors';
+            var formdata = new FormData($('#formaddvendor')[0]);
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -330,7 +315,7 @@
                 dataType: 'json',
                 success:function(response){
                     if(response.status === 201){
-                        $('#formaddshippers')[0].reset();
+                        $('#formaddvendor')[0].reset();
                         Swal.fire({
                             title: 'Success',
                             icon: 'success',
@@ -359,26 +344,20 @@
                 }
             })
         })
-        $('#modalupdateshippers').on('click', function(e){
+        $('#modalupdatevendor').on('click', function(e){
             e.preventDefault();
             var selectedData = table.rows({
                 selected: true
             }).data();
-            var company_name = $('#ucompany_name');
-            var address = $('#uaddress');
-            var sales = $('#usales');
-            var sales_support = $('#usales_support');
+            var nama_vendor = $('#unama_vendor');
+            var alias = $('#ualias');
             var email = $('#uemail');
             var phone = $('#uphone');
-            var npwp = $('#unpwp');
             if(selectedData.length > 0){
-                company_name.val(selectedData[0].company_name);
-                address.val(selectedData[0].address);
-                sales.val(selectedData[0].sales);
-                sales_support.val(selectedData[0].sales_support);
+                nama_vendor.val(selectedData[0].nama_vendor);
+                alias.val(selectedData[0].alias);
                 email.val(selectedData[0].email);
                 phone.val(selectedData[0].phone);
-                npwp.val(selectedData[0].npwp);
                 $('#modalEdit').modal('show');
             } else {
                 $('#modalEdit').modal('hide');
@@ -389,7 +368,7 @@
                 });
             }
         })
-        $('#updateshippers').on('click', function(e){
+        $('#updatevendor').on('click', function(e){
             e.preventDefault();
             var selectedData = table.rows({
                 selected: true
@@ -407,8 +386,8 @@
             }
             var row = selectedData[0];
             var uID = row.uuid;
-            var updateShippers = "<?= base_url() . '/ushippers/' ?>" + uID;
-            var formID = '#formupdateshippers';
+            var updateVendor = "<?= base_url() . '/uvendors/' ?>" + uID;
+            var formID = '#formupdatevendor';
             // $('#modalwarning').modal('hide');
             if (selectedData.length > 0) {
                 Swal.fire({
@@ -419,11 +398,11 @@
                     confirmButtonText: 'Ya, Ubah!!',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var formUpShippers = new FormData($(formID)[0]);
+                        var formUpVendor = new FormData($(formID)[0]);
                         $.ajax({
                             type: 'POST',
-                            url: updateShippers,
-                            data: formUpShippers,
+                            url: updateVendor,
+                            data: formUpVendor,
                             contentType: false,
                             processData: false,
                             dataType: 'json',
@@ -438,7 +417,7 @@
                                         timerProgressBar: true,
                                     })
                                     table.ajax.reload(null, false);
-                                    $('#formupdateshippers')[0].reset();
+                                    $('#formupdatevendor')[0].reset();
                                 } else {
                                     Swal.fire({
                                         title: 'error',
@@ -455,7 +434,7 @@
                 })
             }
         })
-        $('#deleteshippers').on('click', function(e){
+        $('#deletevendor').on('click', function(e){
             e.preventDefault();
             var selectedData = table.rows({
                 selected: true
@@ -486,7 +465,7 @@
                             const uuid = data.uuid;
                             $.ajax({
                                 type: 'DELETE',
-                                url: "<?= base_url() . '/shippers/' ?>" + uuid,
+                                url: "<?= base_url() . '/vendors/' ?>" + uuid,
                                 success: function(response) {
                                     if (response.status === 200) {
                                         Swal.fire({
@@ -520,7 +499,7 @@
     }
     $(document).ready(function(){
         initDataTable();
-        crudShippers();
+        crudVendor();
         validateNumberInput();
     })
 </script>

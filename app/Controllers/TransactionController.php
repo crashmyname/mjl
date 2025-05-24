@@ -8,6 +8,7 @@ use App\Models\Maintenance;
 use App\Models\Price;
 use App\Models\RekeningKoran;
 use App\Models\Salary;
+use App\Models\SaldoAwal;
 use App\Models\Transactions;
 use App\Models\Vehicle;
 use App\Models\Vendors;
@@ -92,26 +93,52 @@ class TransactionController extends BaseController
     {
         $cekdata = Maintenance::query()->where('maintenance_id','=',$request->maintenance)->first();
         $cektransaksi = Transactions::query()->where('reference_table','=','maintenance')->where('reference_id','=',$cekdata->maintenance_id)->first();
+        $ceksaldoawal = SaldoAwal::query()->whereMonth('tanggal_saldo_awal','=',Date::parse($request->tanggal)->format('m'))->first();
         if(!$cektransaksi){
             if($cekdata){
-                $transaction = Transactions::create([
-                    'uuid' => UUID::generateUuid(),
-                    'payment_id' => 1,
-                    'reference_table' => 'maintenance',
-                    'reference_id' => $cekdata->maintenance_id,
-                    'jenis_transaction' => 'Repair',
-                    'type_transaction' => 'outcome',
-                    'transaction_date' => $request->tanggal,
-                    'amount' => $request->total,
-                    'description' => ucfirst($request->description),
-                    'status' => $request->status,
-                    'created_at' => Date::Now(),
-                    'updated_at' => Date::Now(),
-                ]);
-                $cekdata->update([
-                    'status' => $request->status,
-                    'updated_at' => Date::Now(),
-                ]);
+                if(!$ceksaldoawal){
+                    SaldoAwal::create([
+                        'saldo_awal' => $request->total,
+                        'tanggal_saldo_awal' => Date::Now(),
+                    ]);
+                    $transaction = Transactions::create([
+                        'uuid' => UUID::generateUuid(),
+                        'payment_id' => 1,
+                        'reference_table' => 'maintenance',
+                        'reference_id' => $cekdata->maintenance_id,
+                        'jenis_transaction' => 'Repair',
+                        'type_transaction' => 'outcome',
+                        'transaction_date' => $request->tanggal,
+                        'amount' => $request->total,
+                        'description' => ucfirst($request->description),
+                        'status' => $request->status,
+                        'created_at' => Date::Now(),
+                        'updated_at' => Date::Now(),
+                    ]);
+                    $cekdata->update([
+                        'status' => $request->status,
+                        'updated_at' => Date::Now(),
+                    ]);
+                } else {
+                    $transaction = Transactions::create([
+                        'uuid' => UUID::generateUuid(),
+                        'payment_id' => 1,
+                        'reference_table' => 'maintenance',
+                        'reference_id' => $cekdata->maintenance_id,
+                        'jenis_transaction' => 'Repair',
+                        'type_transaction' => 'outcome',
+                        'transaction_date' => $request->tanggal,
+                        'amount' => $request->total,
+                        'description' => ucfirst($request->description),
+                        'status' => $request->status,
+                        'created_at' => Date::Now(),
+                        'updated_at' => Date::Now(),
+                    ]);
+                    $cekdata->update([
+                        'status' => $request->status,
+                        'updated_at' => Date::Now(),
+                    ]);
+                }
             }
             return Response::json(['status'=>201,'message'=>'Payment berhasil dibuat']);
         } else {
@@ -124,6 +151,7 @@ class TransactionController extends BaseController
         $cekdata = Claim::query()->where('claim_id','=',$request->claim)->first();
         $cektransaksi = Transactions::query()->where('reference_table','=','claim')
                         ->where('reference_id','=',$cekdata->claim_id)->first();
+        $ceksaldoawal = SaldoAwal::query()->whereMonth('tanggal_saldo_awal','=',Date::parse($request->tanggal)->format('m'))->first();
         if(!$cektransaksi){
             if($cekdata){
                 $transaction = Transactions::create([
