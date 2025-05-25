@@ -4,6 +4,7 @@ namespace PhpOffice\PhpSpreadsheet\Writer;
 
 use Composer\Pcre\Preg;
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+use PhpOffice\PhpSpreadsheet\Calculation\Exception as CalculationException;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
@@ -22,6 +23,9 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Borders;
+use PhpOffice\PhpSpreadsheet\Style\Conditional;
+use PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting\CellStyleAssessor;
+use PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting\StyleMerger;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Font;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
@@ -119,13 +123,6 @@ class Html extends BaseWriter
     protected bool $isPdf = false;
 
     /**
-     * Is the current writer creating mPDF?
-     *
-     * @deprecated 2.0.1 use instanceof Mpdf instead
-     */
-    protected bool $isMPdf = false;
-
-    /**
      * Generate the Navigation block.
      */
     private bool $generateSheetNavigationBlock = true;
@@ -143,7 +140,7 @@ class Html extends BaseWriter
     /** @var Chart[] */
     private $sheetCharts;
 
-    private bool $betterBoolean = false;
+    private bool $betterBoolean = true;
 
     private string $getTrue = 'TRUE';
 
@@ -169,13 +166,10 @@ class Html extends BaseWriter
     public function save($filename, int $flags = 0): void
     {
         $this->processFlags($flags);
-
         // Open file
         $this->openFileHandle($filename);
-
         // Write html
         fwrite($this->fileHandle, $this->generateHTMLAll());
-
         // Close file
         $this->maybeCloseFileHandle();
     }
@@ -480,12 +474,24 @@ class Html extends BaseWriter
 
         // Loop all sheets
         $sheetId = 0;
+
+        $activeSheet = $this->spreadsheet->getActiveSheetIndex();
+
         foreach ($sheets as $sheet) {
+            // save active cells
+            $selectedCells = $sheet->getSelectedCells();
             // Write table header
             $html .= $this->generateTableHeader($sheet);
             $this->sheetCharts = [];
             $this->sheetDrawings = [];
-
+            $condStylesCollection = $sheet->getConditionalStylesCollection();
+            foreach ($condStylesCollection as $condStyles) {
+                foreach ($condStyles as $key => $cs) {
+                    if ($cs->getConditionType() === Conditional::CONDITION_COLORSCALE) {
+                        $cs->getColorScale()->setScaleArray();
+                    }
+                }
+            }
             // Get worksheet dimension
             [$min, $max] = explode(':', $sheet->calculateWorksheetDataDimension());
             [$minCol, $minRow, $minColString] = Coordinate::indexesFromString($min);
@@ -493,7 +499,6 @@ class Html extends BaseWriter
             $this->extendRowsAndColumns($sheet, $maxCol, $maxRow);
 
             [$theadStart, $theadEnd, $tbodyStart] = $this->generateSheetStarts($sheet, $minRow);
-
             // Loop through cells
             $row = $minRow - 1;
             while ($row++ < $maxRow) {
@@ -521,7 +526,6 @@ class Html extends BaseWriter
 
                 $html .= $endTag;
             }
-
             // Write table footer
             $html .= $this->generateTableFooter();
             // Writing PDF?
@@ -533,7 +537,9 @@ class Html extends BaseWriter
 
             // Next sheet
             ++$sheetId;
+            $sheet->setSelectedCells($selectedCells);
         }
+        $this->spreadsheet->setActiveSheetIndex($activeSheet);
 
         return $html;
     }
@@ -576,16 +582,14 @@ class Html extends BaseWriter
     {
         if ($this->includeCharts) {
             foreach ($worksheet->getChartCollection() as $chart) {
-                if ($chart instanceof Chart) {
-                    $chartCoordinates = $chart->getTopLeftPosition();
-                    $this->sheetCharts[$chartCoordinates['cell']] = $chart;
-                    $chartTL = Coordinate::indexesFromString($chartCoordinates['cell']);
-                    if ($chartTL[1] > $rowMax) {
-                        $rowMax = $chartTL[1];
-                    }
-                    if ($chartTL[0] > $colMax) {
-                        $colMax = $chartTL[0];
-                    }
+                $chartCoordinates = $chart->getTopLeftPosition();
+                $this->sheetCharts[$chartCoordinates['cell']] = $chart;
+                $chartTL = Coordinate::indexesFromString($chartCoordinates['cell']);
+                if ($chartTL[1] > $rowMax) {
+                    $rowMax = $chartTL[1];
+                }
+                if ($chartTL[0] > $colMax) {
+                    $colMax = $chartTL[0];
                 }
             }
         }
@@ -1365,7 +1369,11 @@ class Html extends BaseWriter
             $cellData .= $this->generateRowCellDataValueRich($cell->getValue());
         } else {
             if ($this->preCalculateFormulas) {
-                $origData = $cell->getCalculatedValue();
+                try {
+                    $origData = $cell->getCalculatedValue();
+                } catch (CalculationException $exception) {
+                    $origData = '#ERROR'; // mark as error, rather than crash everything
+                }
                 if ($this->betterBoolean && is_bool($origData)) {
                     $origData2 = $origData ? $this->getTrue : $this->getFalse;
                 } else {
@@ -1412,7 +1420,7 @@ class Html extends BaseWriter
 
             // Converts the cell content so that spaces occuring at beginning of each new line are replaced by &nbsp;
             // Example: "  Hello\n to the world" is converted to "&nbsp;&nbsp;Hello\n&nbsp;to the world"
-            $cellData = Preg::replace('/(?m)(?:^|\\G) /', '&nbsp;', $cellData);
+            $cellData = Preg::replace('/(?m)(?:^|\G) /', '&nbsp;', $cellData);
 
             // convert newline "\n" to '<br>'
             $cellData = nl2br($cellData);
@@ -1482,7 +1490,8 @@ class Html extends BaseWriter
         array|string $cssClass,
         int $colNum,
         int $sheetIndex,
-        int $row
+        int $row,
+        array $condStyles = []
     ): void {
         // Image?
         $htmlx = $this->writeImageInCell($coordinate);
@@ -1494,7 +1503,7 @@ class Html extends BaseWriter
             $dataType = $worksheet->getCell($coordinate)->getDataType();
             if ($dataType === DataType::TYPE_BOOL) {
                 $html .= ' data-type="' . DataType::TYPE_BOOL . '"';
-            } elseif ($dataType === DataType::TYPE_FORMULA && is_bool($worksheet->getCell($coordinate)->getCalculatedValue())) {
+            } elseif ($dataType === DataType::TYPE_FORMULA && $this->preCalculateFormulas && is_bool($worksheet->getCell($coordinate)->getCalculatedValue())) {
                 $html .= ' data-type="' . DataType::TYPE_BOOL . '"';
             } elseif (is_numeric($cellData) && $worksheet->getCell($coordinate)->getDataType() === DataType::TYPE_STRING) {
                 $html .= ' data-type="' . DataType::TYPE_STRING . '"';
@@ -1549,7 +1558,56 @@ class Html extends BaseWriter
                 $html .= ' class="gridlines gridlinesp"';
             }
         }
+
         $html = $this->generateRowSpans($html, $rowSpan, $colSpan);
+
+        $tables = $worksheet->getTablesWithStylesForCell($worksheet->getCell($coordinate));
+        if (count($tables) > 0 || count($condStyles) > 0) {
+            $matched = false; // TODO the style gotten from the merger overrides everything
+            $styleMerger = new StyleMerger($worksheet->getCell($coordinate)->getStyle());
+            if ($this->tableFormats) {
+                if (count($tables) > 0) {
+                    foreach ($tables as $ts) {
+                        $dxfsTableStyle = $ts->getStyle()->getTableDxfsStyle();
+                        if ($dxfsTableStyle !== null) {
+                            $tableRow = $ts->getRowNumber($coordinate);
+                            if ($tableRow === 0 && $dxfsTableStyle->getHeaderRowStyle() !== null) {
+                                $styleMerger->mergeStyle($dxfsTableStyle->getHeaderRowStyle());
+                                $matched = true;
+                            } elseif ($tableRow % 2 === 1 && $dxfsTableStyle->getFirstRowStripeStyle() !== null) {
+                                $styleMerger->mergeStyle($dxfsTableStyle->getFirstRowStripeStyle());
+                                $matched = true;
+                            } elseif ($tableRow % 2 === 0 && $dxfsTableStyle->getSecondRowStripeStyle() !== null) {
+                                $styleMerger->mergeStyle($dxfsTableStyle->getSecondRowStripeStyle());
+                                $matched = true;
+                            }
+                        }
+                    }
+                }
+            }
+            if (count($condStyles) > 0 && $this->conditionalFormatting) {
+                if ($worksheet->getConditionalRange($coordinate) !== null) {
+                    $assessor = new CellStyleAssessor($worksheet->getCell($coordinate), $worksheet->getConditionalRange($coordinate));
+                } else {
+                    $assessor = new CellStyleAssessor($worksheet->getCell($coordinate), $coordinate);
+                }
+                $matchedStyle = $assessor->matchConditionsReturnNullIfNoneMatched($condStyles, $cellData, true);
+
+                if ($matchedStyle !== null) {
+                    $matched = true;
+                    // this is really slow
+                    $styleMerger->mergeStyle($matchedStyle);
+                }
+            }
+            if ($matched) {
+                $styles = $this->createCSSStyle($styleMerger->getStyle());
+                $html .= ' style="';
+                foreach ($styles as $key => $value) {
+                    $html .= $key . ':' . $value . ';';
+                }
+                $html .= '"';
+            }
+        }
 
         $html .= '>';
         $html .= $htmlx;
@@ -1566,7 +1624,7 @@ class Html extends BaseWriter
     /**
      * Generate row.
      *
-     * @param array<int, mixed> $values Array containing cells in a row
+     * @param array<int, string> $values Array containing cells in a row
      * @param int $row Row number (0-based)
      * @param string $cellType eg: 'td'
      */
@@ -1596,12 +1654,15 @@ class Html extends BaseWriter
             // Cell Data
             $cellData = $this->generateRowCellData($worksheet, $cell, $cssClass);
 
+            // Get an array of all styles
+            $condStyles = $worksheet->getStyle($coordinate)->getConditionalStyles();
+
             // Hyperlink?
             if ($worksheet->hyperlinkExists($coordinate) && !$worksheet->getHyperlink($coordinate)->isInternal()) {
                 $url = $worksheet->getHyperlink($coordinate)->getUrl();
                 $urlDecode1 = html_entity_decode($url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-                $urlTrim = Preg::replace('/^\\s+/u', '', $urlDecode1);
-                $parseScheme = Preg::isMatch('/^([\\w\\s\\x00-\\x1f]+):/u', strtolower($urlTrim), $matches);
+                $urlTrim = Preg::replace('/^\s+/u', '', $urlDecode1);
+                $parseScheme = Preg::isMatch('/^([\w\s\x00-\x1f]+):/u', strtolower($urlTrim), $matches);
                 if ($parseScheme && !in_array($matches[1], ['http', 'https', 'file', 'ftp', 'mailto', 's3'], true)) {
                     $cellData = htmlspecialchars($url, Settings::htmlEntityFlags());
                     $cellData = self::replaceControlChars($cellData);
@@ -1630,7 +1691,7 @@ class Html extends BaseWriter
                 //    Also apply style from last cell in merge to fix borders -
                 //        relies on !important for non-none border declarations in createCSSStyleBorder
                 $endCellCoord = Coordinate::stringFromColumnIndex($colNum + $colSpan) . ($row + $rowSpan);
-                if (!$this->useInlineCss) {
+                if (!$this->useInlineCss && is_string($cssClass)) {
                     $cssClass .= ' style' . $worksheet->getCell($endCellCoord)->getXfIndex();
                 } else {
                     $endBorders = $this->spreadsheet->getCellXfByIndex($worksheet->getCell($endCellCoord)->getXfIndex())->getBorders();
@@ -1645,7 +1706,7 @@ class Html extends BaseWriter
 
             // Write
             if ($writeCell) {
-                $this->generateRowWriteCell($html, $worksheet, $coordinate, $cellType, $cellData, $colSpan, $rowSpan, $cssClass, $colNum, $sheetIndex, $row);
+                $this->generateRowWriteCell($html, $worksheet, $coordinate, $cellType, $cellData, $colSpan, $rowSpan, $cssClass, $colNum, $sheetIndex, $row, $condStyles);
             }
 
             // Next column
@@ -1667,7 +1728,7 @@ class Html extends BaseWriter
     private static function replaceControlChars(string $convert): string
     {
         return (string) preg_replace_callback(
-            '/[\\x00-\\x1f]/',
+            '/[\x00-\x1f]/',
             [self::class, 'replaceNonAscii'],
             $convert
         );
@@ -1747,6 +1808,20 @@ class Html extends BaseWriter
         return $this;
     }
 
+    public function setTableFormats(bool $tableFormats): self
+    {
+        $this->tableFormats = $tableFormats;
+
+        return $this;
+    }
+
+    public function setConditionalFormatting(bool $conditionalFormatting): self
+    {
+        $this->conditionalFormatting = $conditionalFormatting;
+
+        return $this;
+    }
+
     /**
      * Add color to formatted string as inline style.
      *
@@ -1770,7 +1845,7 @@ class Html extends BaseWriter
         $color = null; // initialize
         $matches = [];
 
-        $color_regex = '/^\\[[a-zA-Z]+\\]/';
+        $color_regex = '/^\[[a-zA-Z]+\]/';
         if (Preg::isMatch($color_regex, $format, $matches)) {
             $color = str_replace(['[', ']'], '', $matches[0]);
             $color = strtolower($color);

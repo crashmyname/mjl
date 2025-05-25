@@ -197,3 +197,43 @@
                         </form>
                     </div>
                 </div>
+                <div class="modal fade text-left modal-borderless modal-lg" id="modalImportPrice" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                        <form action="" id="formimportprice" class="form form-horizontal" method="POST"
+                            enctype="multipart/form-data">
+                            <?= csrf()?>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Import Price</h5>
+                                    <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
+                                        <i data-feather="x"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-body">
+                                        <div class="row">
+                                        <div class="col-md-4">
+                                                <label>Excel</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="file" name="fileprice" id="fileprice" class="form form-control" accept=".xlsx,.xls">
+                                            </div>
+                                            <div class="col-sm-12 d-flex justify-content-end">
+                                            <button type="submit" id="importprice" class="btn btn-success me-1 mb-1">Simpan</button>
+                                                <button type="reset"
+                                                    class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Close</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>

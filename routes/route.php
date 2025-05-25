@@ -78,6 +78,7 @@ Route::group([AuthMiddleware::class],function(){
     // Order AP
     Route::get('/orders-ap',[OrderController::class, 'indexAP']);
     Route::get('/getorders-ap', [OrderController::class, 'getOrdersAP']);
+    Route::post('/generatepo-ap', [OrderController::class, 'generatePOAP']);
     Route::post('/orders-ap',[OrderController::class, 'createAP']);
     Route::put('/uorders-ap/{id}', [OrderController::class, 'updateAP']);
     Route::delete('/orders-ap/{id}', [OrderController::class, 'deleteAP']);

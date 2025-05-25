@@ -42,6 +42,8 @@
                                         <div class="card-header">
                                             <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less">Add Vehicle <i
                                                     class="bi bi-plus-square"></i></button>
+                                             <button class="btn btn-success block" data-bs-toggle="modal" id="modalimportvehicle">Import Vehicle <i
+                                                    class="bi bi-plus-square"></i></button>
                                             <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdatevehicle">Update Vehicle <i
                                                     class="bi bi-pencil-square"></i></button>
                                             <button class="btn btn-danger" id="deletevehicle">Delete Vehicle <i
@@ -77,6 +79,8 @@
                                         <div class="card-header">
                                             <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-lessDriver">Add Driver <i
                                                     class="bi bi-plus-square"></i></button>
+                                            <button class="btn btn-success block" data-bs-toggle="modal" id="modalimportdriver">Import Driver <i
+                                                    class="bi bi-plus-square"></i></button>
                                             <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdatedriver">Update Driver <i
                                                     class="bi bi-pencil-square"></i></button>
                                             <button class="btn btn-danger" id="deletedriver">Delete Driver <i
@@ -111,6 +115,8 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-lessPrice">Add Price <i
+                                                    class="bi bi-plus-square"></i></button>
+                                            <button class="btn btn-success block" data-bs-toggle="modal" id="modalimportprice">Import Price <i
                                                     class="bi bi-plus-square"></i></button>
                                             <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdateprice">Update Price <i
                                                     class="bi bi-pencil-square"></i></button>
@@ -681,6 +687,10 @@
                 });
             }
         })
+        $('#modalimportvehicle').on('click', function(e){
+            e.preventDefault();
+            $('#modalImportVehicle').modal('show');
+        })
         $('#updatevehicle').on('click', function(e){
             e.preventDefault();
             var selectedData = tableVehicle.rows({
@@ -878,6 +888,10 @@
                     text: 'No Data Selected',
                 });
             }
+        })
+        $('#modalimportdriver').on('click', function(e){
+            e.preventDefault();
+            $('#modalImportDriver').modal('show');
         })
         $('#updatedriver').on('click', function(e){
             e.preventDefault();
@@ -1080,6 +1094,10 @@
                     text: 'No Data Selected',
                 });
             }
+        })
+        $('#modalimportprice').on('click', function(e){
+            e.preventDefault();
+            $('#modalImportPrice').modal('show');
         })
         $('#updateprice').on('click', function(e){
             e.preventDefault();

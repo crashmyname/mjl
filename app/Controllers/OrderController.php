@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Drivers;
 use App\Models\Invoice;
 use App\Models\InvoiceAP;
+use App\Models\NVendor;
 use App\Models\Order;
 use App\Models\OrderAP;
 use App\Models\Price;
@@ -278,7 +279,19 @@ class OrderController extends BaseController
 
     public function indexAP()
     {
-        return view('transactions/transaction-ap',[],'layout/app');
+        $vendor = NVendor::query()->where('deleted_at','=',null)->get();
+        return view('transactions/transaction-ap',['vendor'=>$vendor],'layout/app');
+    }
+
+    public function generatePOAP(Request $request)
+    {
+        $generatePO = OrderAP::query()->orderBy('no_po','DESC');
+        $cekvendor = NVendor::query()->where('nama_vendor','=',$request->vendor)->first();
+        if ($generatePO && $cekvendor) {
+            // $code = intval(substr($generatePO->no_po, 3));
+            $newcode = 'DO-' . $cekvendor->alias .'-'. str_pad($generatePO->count() + 1, 7, '0', STR_PAD_LEFT) . '-' . Date::parse(Date::Now())->format('m') . '-' . Date::parse(Date::Now())->format('Y');
+            return Response::json(['status' => 200, 'code' => $newcode]);
+        }
     }
 
     public function getOrdersAP(Request $request)

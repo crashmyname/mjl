@@ -50,16 +50,21 @@
                                     <div class="form-body">
                                         <div class="row">
                                             <div class="col-md-4">
+                                                <label>Vendors</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <select name="vendor" id="vendor" class="form-control">
+                                                    <option value="" hidden disabled selected> Pilih </option>
+                                                    <?php foreach($vendor as $vnd):?>
+                                                    <option value="<?= $vnd->nama_vendor?>"><?= $vnd->nama_vendor?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>No PO</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="text" name="no_po" id="no_po" class="form form-control" >
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Vendors</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="text" name="vendor" id="vendor" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Pickup Date</label>
@@ -745,7 +750,34 @@
     function validateNumberInput(input){
         input.value = input.value.replace(/[^0-9]/g,'');
     }
+    function generatePOAP(){
+        $('#vendor').on('change', function(){
+            var url = '<?= base_url().'/generatepo-ap'?>';
+            var data = {
+                vendor: $(this).val()
+            };
+            console.log(data);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN' : '<?= csrfHeader()?>',
+                },
+                dataType: 'json',
+                success: function(response){
+                    console.log(response);
+                    if(response.status === 200){
+                        $('#no_po').val(response.code);
+                    } else {
+                        $('#no_po').val();
+                    }
+                }
+            })
+        })
+    }
     $(document).ready(function(){
+        generatePOAP();
         initDataTable();
         crudOrders();
         flatPicker();
