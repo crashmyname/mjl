@@ -81,6 +81,51 @@
                         </form>
                     </div>
                 </div>
+                <button class="btn btn-success" data-bs-toggle="modal" id="modalimportvendor">Import Vendor <i class="bi bi-plus-square"></i></button>
+                <div class="modal fade text-left modal-borderless modal-lg" id="modalImportVendor" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                        <form action="" id="formimportvendor" class="form form-horizontal" method="POST"
+                            enctype="multipart/form-data">
+                            <?= csrf()?>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Import Vendor</h5>
+                                    <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
+                                        <i data-feather="x"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-body">
+                                        <div class="row">
+                                        <div class="col-md-4">
+                                                <label>Excel</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="file" name="filevendor" id="filevendor" class="form form-control" accept=".xlsx,.xls">
+                                            </div>
+                                            <div class="col-sm-12 d-flex justify-content-end">
+                                            <button type="submit" id="importvendor" class="btn btn-success me-1 mb-1">Simpan</button>
+                                            <button class="btn btn-success me-1 mb-1" id="loadingimportvendor" type="button" disabled="" style="display: none;">
+                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                    Processing...
+                                                </button>
+                                                <button type="reset"
+                                                    class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Close</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdatevendor">Update Vendor <i class="bi bi-person-fill-gear"></i></button>
                 <div class="modal fade text-left modal-borderless modal-lg" id="modalEdit" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel1" aria-hidden="true">
@@ -340,6 +385,48 @@
                             icon: 'error',
                             text: errorMessage.trim(),
                         });
+                    }
+                }
+            })
+        })
+        $('#modalimportvendor').on('click', function(e){
+            e.preventDefault();
+            $('#modalImportVendor').modal('show');
+        })
+        $('#importvendor').on('click', function(e){
+            e.preventDefault();
+            var from = new FormData($('#formimportvendor')[0]);
+            $('#loadingimportvendor').show();
+            $('#importvendor').hide();
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url()?>/importvendor',
+                data: from,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN' : '<?= csrfHeader()?>'
+                },
+                dataType: 'json',
+                success: function(response){
+                    if(response.status === 201){
+                        $('#loadingimportvendor').hide();
+                        $('#importvendor').show();
+                        table.ajax.reload();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            text: response.message,
+                        })
+                    } else {
+                        $('#loadingimportvendor').hide();
+                        $('#importvendor').show();
+                        table.ajax.reload();
+                        Swal.fire({
+                            title: 'Error',
+                            icon: 'error',
+                            text: response.message,
+                        })
                     }
                 }
             })

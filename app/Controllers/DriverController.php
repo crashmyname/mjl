@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Drivers;
 use App\Models\Vehicle;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Support\BaseController;
 use Support\DataTables;
 use Support\Date;
@@ -78,6 +79,31 @@ class DriverController extends BaseController
             }
         }
         return Response::json(['status'=>201,'message'=>'Driver Berhasil dibuat']);
+    }
+
+    public function import(Request $request)
+    {
+        $file = $request->file('filedriver');
+        try{
+            $spreadsheet = IOFactory::load($request->getPath('filedriver'));
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray(null, true, true, true);
+            array_shift($data);
+            foreach($data as $index => $row){
+                Drivers::create([
+                    'uuid' => UUID::generateUuid(),
+                    'driver_name' => $row['A'],
+                    'driver_ksuid' => $row['B'],
+                    'phone_number' => $row['C'],
+                    'sim_type' => $row['D'],
+                    'ktp' => null,
+                    'sim' => null,
+                ]);
+            }
+            return Response::json(['status'=>201, 'message'=>'Sukses Import']);
+        } catch(\Exception $e){
+            return Response::json(['status'=>500,'message'=>$e->getMessage()]);
+        }
     }
 
     public function update(Request $request, $id)

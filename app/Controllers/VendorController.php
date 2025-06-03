@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\NVendor;
 use App\Models\Vendors;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Support\BaseController;
 use Support\DataTables;
 use Support\Date;
@@ -43,6 +44,32 @@ class VendorController extends BaseController
             'npwp' => $request->npwp,
         ]);
         return Response::json(['status'=>201,'message'=>'Shippers Created']);
+    }
+
+    public function import(Request $request)
+    {
+        $file = $request->file('file');
+        try{
+            $spreadsheet = IOFactory::load($request->getPath('file'));
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray(null, true, true, true);
+            array_shift($data);
+            foreach($data as $index => $row){
+                Vendors::create([
+                    'uuid' => UUID::generateUuid(),
+                    'company_name' => $row['A'],
+                    'address' => $row['B'],
+                    'sales' => $row['C'],
+                    'sales_support' => $row['D'],
+                    'email' => $row['E'],
+                    'phone' => $row['F'],
+                    'npwp' => $row['G'],
+                ]);
+            }
+            return Response::json(['status'=>201, 'message'=>'Sukses Import']);
+        } catch(\Exception $e){
+            return Response::json(['status'=>500,'message'=>$e->getMessage()]);
+        }
     }
 
     public function update(Request $request, $id)
@@ -91,6 +118,29 @@ class VendorController extends BaseController
             'phone' => $request->phone,
         ]);
         return Response::json(['status'=>201,'message'=>'Vendor Created']);
+    }
+    
+    public function importVendor(Request $request)
+    {
+        $file = $request->file('file');
+        try{
+            $spreadsheet = IOFactory::load($request->getPath('file'));
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray(null, true, true, true);
+            array_shift($data);
+            foreach($data as $index => $row){
+                NVendor::create([
+                    'uuid' => UUID::generateUuid(),
+                    'nama_vendor' => $row['A'],
+                    'alias' => $row['B'],
+                    'email' => $row['C'],
+                    'phone' => $row['D'],
+                ]);
+            }
+            return Response::json(['status'=>201, 'message'=>'Sukses Import']);
+        } catch(\Exception $e){
+            return Response::json(['status'=>500,'message'=>$e->getMessage()]);
+        }
     }
 
     public function updateVendor(Request $request, $id)

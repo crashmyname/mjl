@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Vehicle;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Support\BaseController;
 use Support\DataTables;
 use Support\Date;
@@ -76,6 +77,31 @@ class VehicleController extends BaseController
             }
         }
         return Response::json(['status'=>201,'message'=>'Vehcile berhasil dibuat']);
+    }
+
+    public function import(Request $request)
+    {
+        $file = $request->file('filevehicle');
+        try{
+            $spreadsheet = IOFactory::load($request->getPath('filevehicle'));
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray(null, true, true, true);
+            array_shift($data);
+            foreach($data as $index => $row){
+                Vehicle::create([
+                    'uuid' => UUID::generateUuid(),
+                    'plat_number' => $row['A'],
+                    'truck_type' => $row['B'],
+                    'truck_sub_type' => $row['C'],
+                    'plat_color' => $row['D'],
+                    'stnk' => null,
+                    'kir' => null,
+                ]);
+            }
+            return Response::json(['status'=>201, 'message'=>'Sukses Import']);
+        } catch(\Exception $e){
+            return Response::json(['status'=>500,'message'=>$e->getMessage()]);
+        }
     }
 
     public function update(Request $request, $id)

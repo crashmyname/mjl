@@ -691,6 +691,44 @@
             e.preventDefault();
             $('#modalImportVehicle').modal('show');
         })
+        $('#importvehicle').on('click', function(e){
+            e.preventDefault();
+            var from = new FormData($('#formimportvehicle')[0]);
+            $('#loadingimportvehicle').show();
+            $('#importvehicle').hide();
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url()?>/importvehicle',
+                data: from,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN' : '<?= csrfHeader()?>'
+                },
+                dataType: 'json',
+                success: function(response){
+                    if(response.status === 201){
+                        $('#loadingimportvehicle').hide();
+                        $('#importvehicle').show();
+                        tableVehicle.ajax.reload();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            text: response.message,
+                        })
+                    } else {
+                        $('#loadingimportvehicle').hide();
+                        $('#importvehicle').show();
+                        tableVehicle.ajax.reload();
+                        Swal.fire({
+                            title: 'Error',
+                            icon: 'error',
+                            text: response.message,
+                        })
+                    }
+                }
+            })
+        })
         $('#updatevehicle').on('click', function(e){
             e.preventDefault();
             var selectedData = tableVehicle.rows({
@@ -892,6 +930,44 @@
         $('#modalimportdriver').on('click', function(e){
             e.preventDefault();
             $('#modalImportDriver').modal('show');
+        })
+        $('#importdriver').on('click', function(e){
+            e.preventDefault();
+            var from = new FormData($('#formimportdriver')[0]);
+            $('#loadingimportdriver').show();
+            $('#importdriver').hide();
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url()?>/importdriver',
+                data: from,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN' : '<?= csrfHeader()?>'
+                },
+                dataType: 'json',
+                success: function(response){
+                    if(response.status === 201){
+                        $('#loadingimportdriver').hide();
+                        $('#importdriver').show();
+                        tableDriver.ajax.reload();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            text: response.message,
+                        })
+                    } else {
+                        $('#loadingimportdriver').hide();
+                        $('#importdriver').show();
+                        tableDriver.ajax.reload();
+                        Swal.fire({
+                            title: 'Error',
+                            icon: 'error',
+                            text: response.message,
+                        })
+                    }
+                }
+            })
         })
         $('#updatedriver').on('click', function(e){
             e.preventDefault();
@@ -1098,6 +1174,44 @@
         $('#modalimportprice').on('click', function(e){
             e.preventDefault();
             $('#modalImportPrice').modal('show');
+        })
+        $('#importprice').on('click', function(e){
+            e.preventDefault();
+            var from = new FormData($('#formimportprice')[0]);
+            $('#loadingimportprice').show();
+            $('#importprice').hide();
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url()?>/importprice',
+                data: from,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN' : '<?= csrfHeader()?>'
+                },
+                dataType: 'json',
+                success: function(response){
+                    if(response.status === 201){
+                        $('#loadingimportprice').hide();
+                        $('#importprice').show();
+                        tablePrice.ajax.reload();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            text: response.message,
+                        })
+                    } else {
+                        $('#loadingimportprice').hide();
+                        $('#importprice').show();
+                        tablePrice.ajax.reload();
+                        Swal.fire({
+                            title: 'Error',
+                            icon: 'error',
+                            text: response.message,
+                        })
+                    }
+                }
+            })
         })
         $('#updateprice').on('click', function(e){
             e.preventDefault();

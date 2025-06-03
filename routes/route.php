@@ -59,6 +59,7 @@ Route::group([AuthMiddleware::class],function(){
     Route::get('/shippers',[VendorController::class, 'index']);
     Route::get('/getshippers', [VendorController::class, 'getShippers']);
     Route::post('/shippers',[VendorController::class, 'create']);
+    Route::post('/importshippers',[VendorController::class, 'import']);
     Route::put('/ushippers/{id}', [VendorController::class, 'update']);
     Route::delete('/shippers/{id}', [VendorController::class, 'delete']);
     
@@ -117,16 +118,19 @@ Route::group([AuthMiddleware::class],function(){
     // Transporter - Driver
     Route::get('/getdriver', [DriverController::class, 'getDriver']);
     Route::post('/driver',[DriverController::class, 'create']);
+    Route::post('/importdriver',[DriverController::class, 'import']);
     Route::put('/udriver/{id}', [DriverController::class, 'update']);
     Route::delete('/driver/{id}', [DriverController::class, 'delete']);
     // Transporter - Vehicle
     Route::get('/getvehicle', [VehicleController::class, 'getVehicle']);
     Route::post('/vehicle',[VehicleController::class, 'create']);
+    Route::post('/importvehicle',[VehicleController::class, 'import']);
     Route::put('/uvehicle/{id}', [VehicleController::class, 'update']);
     Route::delete('/vehicle/{id}', [VehicleController::class, 'delete']);
     // Transporter - Price
     Route::get('/getprice', [PriceController::class, 'getPrice']);
     Route::post('/price',[PriceController::class, 'create']);
+    Route::post('/importprice',[PriceController::class, 'import']);
     Route::put('/uprice/{id}', [PriceController::class, 'update']);
     Route::delete('/price/{id}', [PriceController::class, 'delete']);
     
@@ -169,6 +173,7 @@ Route::group([AuthMiddleware::class],function(){
     Route::get('/vendors',[VendorController::class, 'indexVendor']);
     Route::get('/getvendors', [VendorController::class, 'getVendor']);
     Route::post('/vendors',[VendorController::class, 'createVendor']);
+    Route::post('/importvendors',[VendorController::class, 'importVendor']);
     Route::put('/uvendors/{id}', [VendorController::class, 'updateVendor']);
     Route::delete('/vendors/{id}', [VendorController::class, 'deleteVendor']);
 });

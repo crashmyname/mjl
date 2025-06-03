@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Price;
+use App\Models\Vehicle;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Support\BaseController;
 use Support\DataTables;
 use Support\Date;
@@ -48,6 +50,34 @@ class PriceController extends BaseController
             'project' => ucfirst($request->project),
         ]);
         return Response::json(['status'=>201,'message'=>'Harga berhasil dibuat']);
+    }
+
+    public function import(Request $request)
+    {
+        $file = $request->file('fileprice');
+        try{
+            $spreadsheet = IOFactory::load($request->getPath('fileprice'));
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray(null, true, true, true);
+            array_shift($data);
+            foreach($data as $index => $row){
+                $vehicle = Vehicle::query()->where('plat_number','=',$row['A'])->first();
+                Price::create([
+                    'uuid' => UUID::generateUuid(),
+                    'vehicle_id' => $vehicle->vehicle_id,
+                    'origin_city' => $row['B'],
+                    'destination_city' => $row['C'],
+                    'min' => $row['D'],
+                    'max' => $row['E'],
+                    'status' => $row['F'],
+                    'price' => $row['G'],
+                    'project' => $row['H'],
+                ]);
+            }
+            return Response::json(['status'=>201, 'message'=>'Sukses Import']);
+        } catch(\Exception $e){
+            return Response::json(['status'=>500,'message'=>$e->getMessage()]);
+        }
     }
 
     public function update(Request $request, $id)
