@@ -40,6 +40,16 @@
                                                 <input type="text" name="sim_type" id="sim_type" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
+                                                <label>Status Driver</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <select name="statusdriver" id="statusdriver" class="form-control">
+                                                    <option value="" hidden selected disabled> Pilih </option>
+                                                    <option value="Internal">Internal</option>
+                                                    <option value="External">External</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>KTP</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -115,6 +125,16 @@
                                                 <input type="text" name="sim_type" id="usim_type" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
+                                                <label>Status Driver</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <select name="statusdriver" id="ustatusdriver" class="form-control">
+                                                    <option value="" hidden selected disabled> Pilih </option>
+                                                    <option value="Internal">Internal</option>
+                                                    <option value="External">External</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>KTP</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -170,6 +190,8 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="file" name="filedriver" id="filedriver" class="form form-control" accept=".xlsx,.xls">
+                                                <hr>
+                                                <a href="<?= asset('template/importdriver.xlsx')?>" class="badge bg-light-success">Template</a>
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
                                             <button type="submit" id="importdriver" class="btn btn-success me-1 mb-1">Simpan</button>

@@ -20,15 +20,22 @@ class DriverController extends BaseController
     // Controller logic here
     public function index()
     {
-        $vehicle = Vehicle::query()->where('deleted_at','=',null)->get();
+        $vehicle = Vehicle::query()->where('deleted_at','=',null)->where('status_vehicle','=','Internal')->get();
         return view('transporters/transporter',['vehicle'=>$vehicle],'layout/app');
     }
 
     public function getDriver(Request $request)
     {
-        if(Request::isAjax()){
-            $driver = Drivers::query()->where('deleted_at','=',null)->get();
-            return DataTables::of($driver)->make(true);
+        if($request->status != 'All'){
+            if(Request::isAjax()){
+                $driver = Drivers::query()->where('deleted_at','=',null)->where('status_driver','=',$request->status)->get();
+                return DataTables::of($driver)->make(true);
+            }
+        } else {
+            if(Request::isAjax()){
+                $driver = Drivers::query()->where('deleted_at','=',null)->get();
+                return DataTables::of($driver)->make(true);
+            }
         }
     }
 
@@ -73,6 +80,7 @@ class DriverController extends BaseController
                     'driver_ksuid' => $request->driver_ksuid,
                     'phone_number' => $request->phone_number,
                     'sim_type' => $request->sim_type,
+                    'status_driver' => $request->statusdriver,
                     'ktp' => $fileName,
                     'sim' => $fileName1,
                 ]);
@@ -96,6 +104,7 @@ class DriverController extends BaseController
                     'driver_ksuid' => $row['B'],
                     'phone_number' => $row['C'],
                     'sim_type' => $row['D'],
+                    'status_driver' => $row['E'],
                     'ktp' => null,
                     'sim' => null,
                 ]);
@@ -113,6 +122,7 @@ class DriverController extends BaseController
         $driver->driver_ksuid = $request->driver_ksuid;
         $driver->phone_number = $request->phone_number;
         $driver->sim_type = $request->sim_type;
+        $driver->status_driver = $request->statusdriver;
         if($request->getClientOriginalName('ktp')){
             $path = storage_path('document/data');
             if(!file_exists($path)){

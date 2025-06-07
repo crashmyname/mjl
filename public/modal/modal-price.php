@@ -218,6 +218,8 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="file" name="fileprice" id="fileprice" class="form form-control" accept=".xlsx,.xls">
+                                                <hr>
+                                                <a href="<?= asset('template/importprice.xlsx')?>" class="badge bg-light-success">Template</a>
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
                                             <button type="submit" id="importprice" class="btn btn-success me-1 mb-1">Simpan</button>

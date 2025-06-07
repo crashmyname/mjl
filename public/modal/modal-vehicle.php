@@ -40,6 +40,16 @@
                                                 <input type="text" name="plat_color" id="plat_color" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
+                                                <label>Status vehicle</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <select name="statusvehicle" id="statusvehicle" class="form-control">
+                                                    <option value="" hidden selected disabled> Pilih </option>
+                                                    <option value="Internal">Internal</option>
+                                                    <option value="External">External</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>STNK</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -116,6 +126,15 @@
                                                 <input type="text" name="plat_color" id="uplat_color" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
+                                                <label>Status Vehicle</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <select name="statusvehicle" id="ustatusvehicle" class="form-control">
+                                                    <option value="Internal">Internal</option>
+                                                    <option value="External">External</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>STNK</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -168,6 +187,8 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="file" name="filevehicle" id="filevehicle" class="form form-control" accept=".xlsx,.xls">
+                                                <hr>
+                                                <a href="<?= asset('template/importvehicle.xlsx')?>" class="badge bg-light-success">Template</a>
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
                                             <button type="submit" id="importvehicle" class="btn btn-success me-1 mb-1">Simpan</button>

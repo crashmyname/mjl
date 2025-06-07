@@ -40,15 +40,35 @@
                                 <section class="section">
                                     <div class="card">
                                         <div class="card-header">
-                                            <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less">Add Vehicle <i
-                                                    class="bi bi-plus-square"></i></button>
-                                             <button class="btn btn-success block" data-bs-toggle="modal" id="modalimportvehicle">Import Vehicle <i
-                                                    class="bi bi-plus-square"></i></button>
-                                            <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdatevehicle">Update Vehicle <i
-                                                    class="bi bi-pencil-square"></i></button>
-                                            <button class="btn btn-danger" id="deletevehicle">Delete Vehicle <i
-                                                    class="bi bi-trash"></i></button>
-                                            <?php include includeFile('modal/modal-vehicle.php')?>
+                                            <div class="row">
+                                                <div class="col-md-7">
+                                                    <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-less">Add Vehicle <i
+                                                            class="bi bi-plus-square"></i></button>
+                                                     <button class="btn btn-success block" data-bs-toggle="modal" id="modalimportvehicle">Import Vehicle <i
+                                                            class="bi bi-plus-square"></i></button>
+                                                    <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdatevehicle">Update Vehicle <i
+                                                            class="bi bi-pencil-square"></i></button>
+                                                    <button class="btn btn-danger" id="deletevehicle">Delete Vehicle <i
+                                                            class="bi bi-trash"></i></button>
+                                                    <?php include includeFile('modal/modal-vehicle.php')?>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <form action="" method="GET">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <select name="status_vehicle" id="status_vehicle" class="form-control">
+                                                                    <option value="All">All Status</option>
+                                                                    <option value="Internal">Internal</option>
+                                                                    <option value="External">External</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <button type="submit" id="filter-vehicle" class="btn btn-primary">Filter</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="card-body">
                                             <div class="container">
@@ -60,6 +80,7 @@
                                                             <th>Truck Type</th>
                                                             <th>Truck sub type</th>
                                                             <th>Plat Color</th>
+                                                            <th>Status</th>
                                                             <th>STNK</th>
                                                             <th>KIR</th>
                                                             <th>Created at</th>
@@ -77,15 +98,35 @@
                                 <section class="section">
                                     <div class="card">
                                         <div class="card-header">
-                                            <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-lessDriver">Add Driver <i
-                                                    class="bi bi-plus-square"></i></button>
-                                            <button class="btn btn-success block" data-bs-toggle="modal" id="modalimportdriver">Import Driver <i
-                                                    class="bi bi-plus-square"></i></button>
-                                            <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdatedriver">Update Driver <i
-                                                    class="bi bi-pencil-square"></i></button>
-                                            <button class="btn btn-danger" id="deletedriver">Delete Driver <i
-                                                    class="bi bi-trash"></i></button>
-                                            <?php include includeFile('modal/modal-driver.php')?>
+                                            <div class="row">
+                                                <div class="col-md-7">
+                                                    <button class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#border-lessDriver">Add Driver <i
+                                                            class="bi bi-plus-square"></i></button>
+                                                    <button class="btn btn-success block" data-bs-toggle="modal" id="modalimportdriver">Import Driver <i
+                                                            class="bi bi-plus-square"></i></button>
+                                                    <button class="btn btn-warning" data-bs-toggle="modal" id="modalupdatedriver">Update Driver <i
+                                                            class="bi bi-pencil-square"></i></button>
+                                                    <button class="btn btn-danger" id="deletedriver">Delete Driver <i
+                                                            class="bi bi-trash"></i></button>
+                                                    <?php include includeFile('modal/modal-driver.php')?>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <form action="" method="GET">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <select name="status_driver" id="status_driver" class="form-control">
+                                                                    <option value="All">All Status</option>
+                                                                    <option value="Internal">Internal</option>
+                                                                    <option value="External">External</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <button type="submit" id="filter-driver" class="btn btn-primary">Filter</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="card-body">
                                             <div class="container">
@@ -173,7 +214,13 @@
             $('#dataTablePrice').DataTable().clear().destroy();
         }
         tableVehicle = $('#dataTableVehicle').DataTable({
-            ajax: '<?= base_url()?>/getvehicle',
+            ajax: {
+                url : '<?= base_url()?>/getvehicle',
+                type: 'GET',
+                data: function(data){
+                    data.status = $('#status_vehicle').val()
+                }
+            },
             processing:true,
             serverSide:true,
             select:true,
@@ -201,6 +248,17 @@
                 {
                     data: 'plat_color',
                     name: 'plat_color'
+                },
+                {
+                    data: 'status_vehicle',
+                    name: 'status_vehicle',
+                    render: function(data, type, row){
+                        if(data == 'External'){
+                            return '<span class="badge bg-light-danger">'+data+'</span>';
+                        } else {
+                            return '<span class="badge bg-light-success">'+data+'</span>'
+                        }
+                    }
                 },
                 {
                     data: 'stnk',
@@ -313,7 +371,13 @@
         });
 
         tableDriver = $('#dataTableDriver').DataTable({
-            ajax: '<?= base_url()?>/getdriver',
+            ajax: {
+                url : '<?= base_url()?>/getdriver',
+                type: 'GET',
+                data: function(data){
+                    data.status = $('#status_driver').val()
+                }
+            },
             processing:true,
             serverSide:true,
             select:true,
@@ -610,6 +674,10 @@
 
     // function crud vehicle
     function crudVehicle(){
+        $('#filter-vehicle').on('click', function(e){
+            e.preventDefault();
+            tableVehicle.ajax.reload();
+        })
         $('#addvehicle').on('click', function(e){
             e.preventDefault();
             $('#loading').show();
@@ -667,6 +735,7 @@
             var truck_type = $('#utruck_type');
             var truck_sub_type = $('#utruck_sub_type');
             var plat_color = $('#uplat_color');
+            var statusvehicle = $('#ustatusvehicle');
             var stnk = $('#imgstnk');
             var kir = $('#imgkir');
             var urlimage = '<?= asset('document/data/')?>'
@@ -675,6 +744,7 @@
                 truck_type.val(selectedData[0].truck_type);
                 truck_sub_type.val(selectedData[0].truck_sub_type);
                 plat_color.val(selectedData[0].plat_color);
+                statusvehicle.val(selectedData[0].status_vehicle);
                 stnk.attr('src',urlimage+selectedData[0].stnk)
                 kir.attr('src',urlimage+selectedData[0].kir);
                 $('#modalEditVehicle').modal('show');
@@ -856,6 +926,10 @@
     }
     // function crud driver
     function crudDriver(){
+        $('#filter-driver').on('click', function(e){
+            e.preventDefault();
+            tableDriver.ajax.reload();
+        })
         $('#adddriver').on('click', function(e){
             e.preventDefault();
             var url = '<?= base_url()?>/driver';
@@ -907,6 +981,7 @@
             var driver_ksuid = $('#udriver_ksuid');
             var phone_number = $('#uphone_number');
             var sim_type = $('#usim_type');
+            var status_driver = $('#ustatusdriver');
             var ktp = $('#imgktp');
             var sim = $('#imgsim');
             var urlimage = '<?= asset('document/data/')?>'
@@ -915,6 +990,7 @@
                 driver_ksuid.val(selectedData[0].driver_ksuid);
                 phone_number.val(selectedData[0].phone_number);
                 sim_type.val(selectedData[0].sim_type);
+                status_driver.val(selectedData[0].status_driver);
                 ktp.attr('src',urlimage+selectedData[0].ktp)
                 sim.attr('src',urlimage+selectedData[0].sim)
                 $('#modalEditDriver').modal('show');

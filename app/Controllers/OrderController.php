@@ -30,8 +30,8 @@ class OrderController extends BaseController
     public function index()
     {
         $vendor = Vendors::query()->where('deleted_at','=',null)->get();
-        $vehicle = Vehicle::query()->where('deleted_at','=',null)->get();
-        $driver = Drivers::query()->where('deleted_at','=',null)->get();
+        $vehicle = Vehicle::query()->where('deleted_at','=',null)->where('status_vehicle','=','Internal')->get();
+        $driver = Drivers::query()->where('deleted_at','=',null)->where('status_driver','=','Internal')->get();
         return view('transactions/transaction',['vendor'=>$vendor,'vehicle'=>$vehicle,'driver'=>$driver],'layout/app');
     }
 
@@ -280,7 +280,9 @@ class OrderController extends BaseController
     public function indexAP()
     {
         $vendor = NVendor::query()->where('deleted_at','=',null)->get();
-        return view('transactions/transaction-ap',['vendor'=>$vendor],'layout/app');
+        $vehicle = Vehicle::query()->where('deleted_at','=',null)->where('status_vehicle','=','External')->get();
+        $driver = Drivers::query()->where('deleted_at','=',null)->where('status_driver','=','External')->get();
+        return view('transactions/transaction-ap',['vendor'=>$vendor,'vehicle'=>$vehicle,'driver'=>$driver],'layout/app');
     }
 
     public function generatePOAP(Request $request)

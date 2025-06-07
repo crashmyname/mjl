@@ -94,7 +94,12 @@
                                                 <label>Vehicle</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="vehicle" id="vehicle" class="form-control">
+                                                <select name="vehicle" id="vehicle" class="form-control">
+                                                    <option value="" hidden selected disabled> Pilih </option>
+                                                    <?php foreach($vehicle as $vhc): ?>
+                                                    <option value="<?= $vhc->plat_number?>"><?= $vhc->plat_number.'-'.$vhc->truck_type?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Project</label>
@@ -106,7 +111,12 @@
                                                 <label>Driver</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="driver" id="driver" class="form-control">
+                                                <select name="driver" id="driver" class="form-control">
+                                                    <option value="" hidden selected disabled> Pilih </option>
+                                                    <?php foreach($driver as $drv): ?>
+                                                    <option value="<?= $drv->driver_name?>"><?= $drv->driver_name?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Price</label>

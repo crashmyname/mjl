@@ -24,9 +24,16 @@ class VehicleController extends BaseController
 
     public function getVehicle(Request $request)
     {
-        if(Request::isAjax()){
-            $vehicle = Vehicle::query()->where('deleted_at','=',null)->get();
-            return DataTables::of($vehicle)->make(true);
+        if($request->status != 'All'){
+            if(Request::isAjax()){
+                $vehicle = Vehicle::query()->where('deleted_at','=',null)->where('status_vehicle','=',$request->status)->get();
+                return DataTables::of($vehicle)->make(true);
+            }
+        } else {
+            if(Request::isAjax()){
+                $vehicle = Vehicle::query()->where('deleted_at','=',null)->get();
+                return DataTables::of($vehicle)->make(true);
+            }
         }
     }
 
@@ -71,6 +78,7 @@ class VehicleController extends BaseController
                     'truck_type' => ucfirst($request->truck_type),
                     'truck_sub_type' => ucfirst($request->truck_sub_type),
                     'plat_color' => $request->plat_color,
+                    'status_vehicle' => $request->statusvehicle,
                     'stnk' => $fileName,
                     'kir' => $fileName1
                 ]);
@@ -94,6 +102,7 @@ class VehicleController extends BaseController
                     'truck_type' => $row['B'],
                     'truck_sub_type' => $row['C'],
                     'plat_color' => $row['D'],
+                    'status_vehicle' => $row['E'],
                     'stnk' => null,
                     'kir' => null,
                 ]);
@@ -111,6 +120,7 @@ class VehicleController extends BaseController
         $vehicle->truck_type = $request->truck_type;
         $vehicle->truck_sub_type = $request->truck_sub_type;
         $vehicle->plat_color = $request->plat_color;
+        $vehicle->status_vehicle = $request->statusvehicle;
         if($request->getClientOriginalName('stnk')){
             $path = storage_path('document/data');
             if(!file_exists($path)){
