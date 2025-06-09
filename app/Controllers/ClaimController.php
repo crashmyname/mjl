@@ -81,6 +81,7 @@ class ClaimController extends BaseController
                     'vehicle_id' => $request->vehicle_id,
                     'driver_id' => $request->driver_id,
                     'vendor_id' => $request->vendor_id,
+                    'tanggal_claim' => $request->tanggal_claim,
                     'jenis_claim' => $request->jenis_claim,
                     'biaya' => $request->biaya,
                     'remark' => ucfirst($request->remark),
@@ -98,6 +99,7 @@ class ClaimController extends BaseController
     {
         $claim = Claim::query()->where('uuid','=',$id)->first();
         $claim->jenis_claim = $request->jenis_claim;
+        $claim->tanggal_claim = $request->tanggal_claim;
         $claim->biaya = $request->biaya;
         $claim->remark = $request->remark;
         $claim->status = $request->status;

@@ -69,13 +69,21 @@
                                                 <label>PPN</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="number" name="ppn" id="ppn" class="form-control">
+                                                <select name="ppn" id="ppn" class="form-control">
+                                                    <option value="" hidden disabled selected>Pilih</option>
+                                                    <option value="11">11%</option>
+                                                    <option value="1.1">1.1%</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>PPH</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="number" name="pph" id="pph" class="form-control">
+                                                <select name="pph" id="pph" class="form-control">
+                                                    <option value="" hidden disabled selected>Pilih</option>
+                                                    <option value="2">2%</option>
+                                                    <option value="10">10%</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Tanggal</label>
@@ -788,7 +796,7 @@
         })
     }
     function flatPicker(){
-        flatpickr('#tgl_pembuatan_po',{
+        flatpickr('#tanggal',{
             dateFormat: 'Y-m-d',
             locale: 'id',
             allowInput: false,

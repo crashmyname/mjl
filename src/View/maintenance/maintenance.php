@@ -117,13 +117,21 @@
                                                 <label>PPH</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="pph" id="pph" class="form-control">
+                                                <select name="pph" id="pph" class="form-control">
+                                                    <option value="" hidden disabled selected>Pilih</option>
+                                                    <option value="2">2%</option>
+                                                    <option value="10">10%</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>PPN</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="ppn" id="ppn" class="form-control">
+                                                <select name="ppn" id="ppn" class="form-control">
+                                                    <option value="" hidden disabled selected>Pilih</option>
+                                                    <option value="11">11%</option>
+                                                    <option value="1.1">1.1%</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Total</label>
@@ -912,15 +920,21 @@
         })
     }
     function getTotal(){
-        $('#harga,#jasa').on('input',function(e){
+        $('#harga,#jasa,#pph,#ppn').on('input',function(e){
             e.preventDefault();
-            var harga = $('#harga').val();
-            var jasa = $('#jasa').val();
-            var ppn = $('#ppn').val();
-            var pph = $('#pph').val();
-            $('#total').val((parseFloat(harga)+parseFloat(jasa)+parseFloat(ppn)-parseFloat(pph)).toLocaleString('id-ID'));
-            $('#hiddentotal').val(parseFloat(harga)+parseFloat(jasa)+parseFloat(ppn)-parseFloat(pph));
+            var harga = parseNumber($('#harga').val());
+            var jasa = parseNumber($('#jasa').val());
+            var ppn = parseNumber($('#ppn').val());
+            var gppn = harga + jasa * ppn;
+            var pph = parseNumber($('#pph').val());
+            var gpph = harga + jasa * pph;
+            var total = harga + jasa + gppn - gpph;
+            $('#total').val(total).toLocaleString('id-ID');
+            $('#hiddentotal').val(total);
         })
+    }
+    function parseNumber(val){
+        return parseFloat(val.replace(',','.')) || 0;
     }
     function flatPicker(){
         flatpickr('#tanggal',{
@@ -951,5 +965,6 @@
         getTotal();
         flatPicker();
         validateNumberInput();
+        parseNumber();
     })
 </script>

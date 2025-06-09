@@ -75,6 +75,8 @@ class SalaryController extends BaseController
                     'driver_id' => $request->driver_id,
                     'tanggal' => $request->tanggal,
                     'salary' => $request->salary,
+                    'ppn' => $request->ppn,
+                    'pph' => $request->pph,
                     'bukti' => $fileName,
                     'buktipotong' => $fileName1,
                     'status' => 'unpaid',
