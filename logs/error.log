@@ -1,0 +1,8 @@
+[Error] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'price.vehicle_id' in 'where clause' in C:\laragon\www\mjl\bin\support\BaseModel.php at line 249
+Trace: #0 C:\laragon\www\mjl\bin\support\BaseModel.php(249): PDOStatement->execute()
+#1 C:\laragon\www\mjl\bin\support\BaseModel.php(287): Support\BaseModel->get()
+#2 C:\laragon\www\mjl\app\Controllers\OrderController.php(59): Support\BaseModel->first()
+#3 [internal function]: App\Controllers\OrderController->getPrice(Object(Support\Request))
+#4 C:\laragon\www\mjl\bin\support\Route.php(194): call_user_func_array(Array, Array)
+#5 C:\laragon\www\mjl\index.php(26): Support\Route::dispatch()
+#6 {main}

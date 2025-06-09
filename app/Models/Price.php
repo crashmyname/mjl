@@ -11,6 +11,6 @@ class Price extends BaseModel
 
     public static function getPrice($data)
     {
-        return self::query()->where('vehicle_id','=',$data)->get();
+        return self::query()->where('vehicle_id','=',$data)->where('deleted_at','=',null)->get();
     }
 }

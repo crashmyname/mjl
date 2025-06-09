@@ -87,13 +87,15 @@
                                                 <label>Harga</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="number" name="harga" id="harga" class="form form-control">
+                                                <input type="text" name="harga" id="rpharga" class="form form-control">
+                                                <input type="hidden" name="harga" id="harga" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Jasa</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                            <input type="number" name="jasa" id="jasa" class="form form-control">
+                                            <input type="text" name="jasa" id="rpjasa" class="form form-control">
+                                            <input type="hidden" name="jasa" id="jasa" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Upload Bon</label>
@@ -118,9 +120,7 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <select name="pph" id="pph" class="form-control">
-                                                    <option value="" hidden disabled selected>Pilih</option>
-                                                    <option value="2">2%</option>
-                                                    <option value="10">10%</option>
+                                                    <option value="0.02">2%</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
@@ -128,9 +128,7 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <select name="ppn" id="ppn" class="form-control">
-                                                    <option value="" hidden disabled selected>Pilih</option>
-                                                    <option value="11">11%</option>
-                                                    <option value="1.1">1.1%</option>
+                                                    <option value="0.11">11%</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
@@ -920,7 +918,25 @@
         })
     }
     function getTotal(){
-        $('#harga,#jasa,#pph,#ppn').on('input',function(e){
+        $('#rpharga').on('input', function(){
+            let value = $(this).val().replace(/\D/g, '');
+                if (value) {
+                    $(this).val(parseInt(value, 10).toLocaleString('id-ID'))
+                } else {
+                    $(this).val('');
+                }
+            $('#harga').val(value)
+        })
+        $('#rpjasa').on('input', function(){
+            let value = $(this).val().replace(/\D/g, '');
+                if (value) {
+                    $(this).val(parseInt(value, 10).toLocaleString('id-ID'))
+                } else {
+                    $(this).val('');
+                }
+            $('#jasa').val(value)
+        })
+        $('#rpharga,#rpjasa,#pph,#ppn').on('input',function(e){
             e.preventDefault();
             var harga = parseNumber($('#harga').val());
             var jasa = parseNumber($('#jasa').val());
@@ -929,7 +945,7 @@
             var pph = parseNumber($('#pph').val());
             var gpph = harga + jasa * pph;
             var total = harga + jasa + gppn - gpph;
-            $('#total').val(total).toLocaleString('id-ID');
+            $('#total').val(total.toLocaleString('id-ID'));
             $('#hiddentotal').val(total);
         })
     }

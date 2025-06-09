@@ -65,24 +65,20 @@
                                             <div class="col-md-8 form-group">
                                                 <input type="number" name="salary" id="salary" class="form-control">
                                             </div>
-                                            <div class="col-md-4">
+                                            <!-- <div class="col-md-4">
                                                 <label>PPN</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <select name="ppn" id="ppn" class="form-control">
-                                                    <option value="" hidden disabled selected>Pilih</option>
                                                     <option value="11">11%</option>
-                                                    <option value="1.1">1.1%</option>
                                                 </select>
-                                            </div>
+                                            </div> -->
                                             <div class="col-md-4">
                                                 <label>PPH</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <select name="pph" id="pph" class="form-control">
-                                                    <option value="" hidden disabled selected>Pilih</option>
-                                                    <option value="2">2%</option>
-                                                    <option value="10">10%</option>
+                                                    <option value="0.025">2.5%</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
@@ -152,17 +148,17 @@
                                             <div class="col-md-8 form-group">
                                                 <input type="number" name="salary" id="usalary" class="form-control">
                                             </div>
-                                            <div class="col-md-4">
+                                            <!-- <div class="col-md-4">
                                                 <label>PPN</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="number" name="ppn" id="uppn" class="form-control">
-                                            </div>
+                                                <input type="text" name="ppn" id="uppn" class="form-control">
+                                            </div> -->
                                             <div class="col-md-4">
                                                 <label>PPH</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="number" name="pph" id="upph" class="form-control">
+                                                <input type="text" name="pph" id="upph" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Tanggal</label>

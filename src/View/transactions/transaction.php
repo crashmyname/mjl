@@ -78,18 +78,6 @@
                                                 <input type="date" name="tgl_pembuatan_po" id="tgl_pembuatan_po" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Origin City</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="text" name="origin_city" id="origin_city" class="form form-control">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>Destination</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <input type="text" name="destination" id="destination" class="form form-control">
-                                            </div>
-                                            <div class="col-md-4">
                                                 <label>Vehicle</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -107,6 +95,18 @@
                                                 <select name="project" id="project" class="form-control">
 
                                                 </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Origin City</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="origin_city" id="origin_city" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Destination</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="destination" id="destination" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Driver</label>
@@ -725,7 +725,7 @@
                         $('#project').empty();
                         $('#project').append('<option value="" disabled selected hidden>' + '-' + '</option>');
                         $.each(response.data, function(key, value) {
-                            $('#project').append('<option value="' + value.project + '">' + value.project + '</option>');
+                            $('#project').append('<option value="' + value.price_id + '">' + value.project + '|' + value.origin_city+'-'+ value.destination_city + '</option>');
                         })
                     } else {
                         $('#project').empty();
@@ -753,6 +753,8 @@
                 success:function(response){
                     if(response.status === 200){
                         $('#price').val(response.data.price);
+                        $('#origin_city').val(response.data.origin_city);
+                        $('#destination').val(response.data.destination_city);
                     } else {
                         $('#price').val('');
                     }

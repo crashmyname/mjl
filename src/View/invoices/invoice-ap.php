@@ -91,20 +91,20 @@
                                                 <input type="text" name="subtotal" id="subtotal" readonly class="form form-control">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>PPH 23</label>
-                                            </div>
-                                            <div class="col-md-8 form-group">
-                                                <div class="input-group">
-                                                    <input type="text" name="pph23" id="pph23" class="form form-control" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)">
-                                                    <span class="input-group-text">%</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
                                                 <label>PPN</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <div class="input-group">
-                                                    <input type="text" name="ppn" id="ppn" class="form form-control" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)">
+                                                    <input type="text" name="ppn" id="ppn" class="form form-control" value="1.1" readonly>
+                                                    <span class="input-group-text">%</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>PPH 23</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <div class="input-group">
+                                                    <input type="text" name="pph23" id="pph23" class="form form-control" value="2" readonly>
                                                     <span class="input-group-text">%</span>
                                                 </div>
                                             </div>
@@ -693,7 +693,10 @@
             total += price;
         });
         $('#subtotal').val(total);
-        $('#pph23,#ppn').on('input', function(){
+        setTimeout(function(){
+            $('#subtotal').trigger('change');
+        },100);
+        $('#subtotal').on('change', function(){
             var inputpph23 = $('#pph23').val();
             var inputppn = $('#ppn').val();
             var pph23 = total * (inputpph23/100);

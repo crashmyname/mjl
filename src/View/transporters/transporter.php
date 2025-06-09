@@ -1418,11 +1418,24 @@
     function validateNumberInput(input){
         input.value = input.value.replace(/[^0-9]/g,'');
     }
+    function getRupiah(){
+        $('#rpprice').on('input', function(){
+            let value = $(this).val().replace(/\D/g, '');
+                if (value) {
+                    $(this).val(parseInt(value, 10).toLocaleString('id-ID'))
+                } else {
+                    $(this).val('');
+                }
+                // ghiddenInput.value = value;
+            $('#price').val(value)
+        })
+    }
     $(document).ready(function(){
         initDataTable();
         crudVehicle();
         crudDriver();
         crudPrice();
+        getRupiah();
         validateNumberInput();
     })
 </script>

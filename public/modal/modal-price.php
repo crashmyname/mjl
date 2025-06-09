@@ -21,7 +21,7 @@
                                             <div class="col-md-8 form-group">
                                                 <select name="vehicle_id" id="vehicle_id" class="form-control">
                                                     <?php foreach($vehicle as $vhc): ?>
-                                                    <option value="<?= $vhc->vehicle_id?>"><?= $vhc->plat_number?> | <?= $vhc->truck_type?></option>
+                                                    <option value="<?= $vhc->vehicle_id?>"><?= $vhc->plat_number?> | <?= $vhc->truck_type?> | (<?= $vhc->status_vehicle?>)</option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
@@ -59,7 +59,8 @@
                                                 <label>Price</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="price" id="price" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form form-control">
+                                                <input type="text" name="price" id="rpprice" class="form form-control">
+                                                <input type="hidden" name="price" id="price" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Project</label>

@@ -100,7 +100,8 @@
                                                 <label>Biaya</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="number" name="biaya" id="biaya" class="form form-control">
+                                                <input type="text" name="biaya" id="rpbiaya" class="form form-control">
+                                                <input type="hidden" name="biaya" id="biaya" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Remark</label>
@@ -785,10 +786,22 @@
     function validateNumberInput(input){
         input.value = input.value.replace(/[^0-9]/g,'');
     }
+    function getRupiah(){
+        $('#rpbiaya').on('input', function(){
+            let value = $(this).val().replace(/\D/g, '');
+                if (value) {
+                    $(this).val(parseInt(value, 10).toLocaleString('id-ID'))
+                } else {
+                    $(this).val('');
+                }
+            $('#biaya').val(value)
+        })
+    }
     $(document).ready(function(){
         initDataTable();
         crudClaim();
         flatPicker();
+        getRupiah();
         validateNumberInput();
     })
 </script>

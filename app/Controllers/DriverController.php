@@ -20,7 +20,7 @@ class DriverController extends BaseController
     // Controller logic here
     public function index()
     {
-        $vehicle = Vehicle::query()->where('deleted_at','=',null)->where('status_vehicle','=','Internal')->get();
+        $vehicle = Vehicle::query()->where('deleted_at','=',null)->get();
         return view('transporters/transporter',['vehicle'=>$vehicle],'layout/app');
     }
 
