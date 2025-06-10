@@ -943,10 +943,10 @@
             var harga = parseNumber($('#harga').val());
             var jasa = parseNumber($('#jasa').val());
             var ppn = parseNumber($('#ppn').val());
-            var gppn = harga + jasa * ppn;
+            var gppn = (harga + jasa) * ppn;
             var pph = parseNumber($('#pph').val());
-            var gpph = harga + jasa * pph;
-            var total = harga + jasa + gppn - gpph;
+            var gpph = (harga + jasa) * pph;
+            var total = (harga + jasa + gppn) - gpph;
             $('#total').val(total.toLocaleString('id-ID'));
             $('#hiddentotal').val(total);
         })
