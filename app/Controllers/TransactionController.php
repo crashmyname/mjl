@@ -93,33 +93,23 @@ class TransactionController extends BaseController
     {
         $cekdata = Maintenance::query()->where('maintenance_id','=',$request->maintenance)->first();
         $cektransaksi = Transactions::query()->where('reference_table','=','maintenance')->where('reference_id','=',$cekdata->maintenance_id)->first();
-        $ceksaldoawal = SaldoAwal::query()->whereMonth('tanggal_saldo_awal','=',Date::parse($request->tanggal)->format('m'))->first();
+        $ceksaldoawal = SaldoAwal::query()
+                            ->whereMonth('tanggal_saldo_awal',Date::parse($request->tanggal)->format('m'))
+                            ->whereYear('tanggal_saldo_awal',Date::parse($request->tanggal)->format('Y'))
+                            ->first();
+        $cekavailable = SaldoAwal::query()->count();
         if(!$cektransaksi){
             if($cekdata){
-                if(!$ceksaldoawal){
+                if($ceksaldoawal){
+                    
+                } else if($cekavailable == 0){
                     SaldoAwal::create([
-                        'saldo_awal' => $request->total,
+                        'saldo_awal' => 0,
                         'tanggal_saldo_awal' => Date::Now(),
                     ]);
-                    $transaction = Transactions::create([
-                        'uuid' => UUID::generateUuid(),
-                        'payment_id' => 1,
-                        'reference_table' => 'maintenance',
-                        'reference_id' => $cekdata->maintenance_id,
-                        'jenis_transaction' => 'Repair',
-                        'type_transaction' => 'outcome',
-                        'transaction_date' => $request->tanggal,
-                        'amount' => $request->total,
-                        'description' => ucfirst($request->description),
-                        'status' => $request->status,
-                        'created_at' => Date::Now(),
-                        'updated_at' => Date::Now(),
-                    ]);
-                    $cekdata->update([
-                        'status' => $request->status,
-                        'updated_at' => Date::Now(),
-                    ]);
                 } else {
+                    $this->Calculate($request->tanggal);
+                }
                     $transaction = Transactions::create([
                         'uuid' => UUID::generateUuid(),
                         'payment_id' => 1,
@@ -138,7 +128,6 @@ class TransactionController extends BaseController
                         'status' => $request->status,
                         'updated_at' => Date::Now(),
                     ]);
-                }
             }
             return Response::json(['status'=>201,'message'=>'Payment berhasil dibuat']);
         } else {
@@ -151,9 +140,23 @@ class TransactionController extends BaseController
         $cekdata = Claim::query()->where('claim_id','=',$request->claim)->first();
         $cektransaksi = Transactions::query()->where('reference_table','=','claim')
                         ->where('reference_id','=',$cekdata->claim_id)->first();
-        $ceksaldoawal = SaldoAwal::query()->whereMonth('tanggal_saldo_awal','=',Date::parse($request->tanggal)->format('m'))->first();
+        $ceksaldoawal = SaldoAwal::query()
+                            ->whereMonth('tanggal_saldo_awal',Date::parse($request->tanggal)->format('m'))
+                            ->whereYear('tanggal_saldo_awal',Date::parse($request->tanggal)->format('Y'))
+                            ->first();
+        $cekavailable = SaldoAwal::query()->count();
         if(!$cektransaksi){
             if($cekdata){
+                if($ceksaldoawal){
+                    
+                } else if($cekavailable == 0){
+                    SaldoAwal::create([
+                        'saldo_awal' => 0,
+                        'tanggal_saldo_awal' => Date::Now(),
+                    ]);
+                } else {
+                    $this->Calculate($request->tanggal);
+                }
                 $transaction = Transactions::create([
                     'uuid' => UUID::generateUuid(),
                     'payment_id' => 1,
@@ -184,8 +187,23 @@ class TransactionController extends BaseController
         $cekdata = Salary::query()->where('salary_id','=',$request->salary)->first();
         $cektransaksi = Transactions::query()->where('reference_table','=','salaries')
                         ->where('reference_id','=',$cekdata->salary_id)->first();
+        $ceksaldoawal = SaldoAwal::query()
+                            ->whereMonth('tanggal_saldo_awal',Date::parse($request->tanggal)->format('m'))
+                            ->whereYear('tanggal_saldo_awal',Date::parse($request->tanggal)->format('Y'))
+                            ->first();
+        $cekavailable = SaldoAwal::query()->count();
         if(!$cektransaksi){
             if($cekdata){
+                if($ceksaldoawal){
+                    
+                } else if($cekavailable == 0){
+                    SaldoAwal::create([
+                        'saldo_awal' => 0,
+                        'tanggal_saldo_awal' => Date::Now(),
+                    ]);
+                } else {
+                    $this->Calculate($request->tanggal);
+                }
                 $transaction = Transactions::create([
                     'uuid' => UUID::generateUuid(),
                     'payment_id' => 1,
@@ -268,5 +286,23 @@ class TransactionController extends BaseController
         $orders->deleted_at = Date::Now();
         $orders->save();
         return Response::json(['status'=>200,'message'=>'Order berhasil dihapus']);
+    }
+
+    public function Calculate($tanggal)
+    {
+        $cekbalance = SaldoAwal::query()->whereMonth('tanggal_saldo_awal',Date::parse($tanggal)->format('m'))
+                                        ->whereYear('tanggal_saldo_awal',Date::parse($tanggal)->format('Y'))
+                                        ->first();
+        $opening = $cekbalance->saldo_awal ?? 0;
+        $transactions = Transactions::query()->select(
+                                                'SUM(CASE WHEN type_transaction = "outcome" THEN amount ELSE 0 END) as credit','SUM(CASE WHEN type_transaction = "income" THEN amount ELSE 0 END) as debit'
+                                            )
+                                            ->whereMonth('transaction_date',Date::parse($tanggal)->format('m')-1)
+                                            ->whereYear('transaction_date',Date::parse($tanggal)->format('Y'))
+                                            ->first();
+        SaldoAwal::create([
+            'saldo_awal' => $opening + $transactions->debit - $transactions->credit,
+            'tanggal_saldo_awal' => $tanggal
+        ]);
     }
 }

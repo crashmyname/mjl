@@ -59,7 +59,7 @@
                                                 <label>Price</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="price" id="rpprice" class="form form-control">
+                                                <input type="text" name="price" inputmode="numeric" pattern="[0-9],.*" oninput="validateNumberInput(this)" id="rpprice" class="form form-control">
                                                 <input type="hidden" name="price" id="price" class="form form-control">
                                             </div>
                                             <div class="col-md-4">

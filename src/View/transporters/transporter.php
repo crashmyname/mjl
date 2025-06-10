@@ -1416,7 +1416,7 @@
         })
     }
     function validateNumberInput(input){
-        input.value = input.value.replace(/[^0-9]/g,'');
+        input.value = input.value.replace(/[^0-9],./g,'');
     }
     function getRupiah(){
         $('#rpprice').on('input', function(){

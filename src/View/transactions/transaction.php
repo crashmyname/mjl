@@ -123,7 +123,8 @@
                                                 <label>Price</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="price" id="price" inputmode="numeric" pattern="[0-9]*" oninput="validateNumberInput(this)" class="form-control">
+                                                <input type="text" name="price" id="rpprice" inputmode="numeric" pattern="[0-9],.*" oninput="validateNumberInput(this)" class="form-control">
+                                                <input type="hidden" name="price" id="price" inputmode="numeric" pattern="[0-9],.*" oninput="validateNumberInput(this)" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status</label>
@@ -752,6 +753,13 @@
                 },
                 success:function(response){
                     if(response.status === 200){
+                        var rpprice = response.data.price;
+                        let value = rpprice.toString().replace(/\D/g, '');
+                            if (value) {
+                                $('#rpprice').val(parseInt(value, 10).toLocaleString('id-ID'))
+                            } else {
+                                $('#rpprice').val('');
+                            }
                         $('#price').val(response.data.price);
                         $('#origin_city').val(response.data.origin_city);
                         $('#destination').val(response.data.destination_city);
@@ -808,7 +816,7 @@
         })
     }
     function validateNumberInput(input){
-        input.value = input.value.replace(/[^0-9]/g,'');
+        input.value = input.value.replace(/[^0-9],./g,'');
     }
     $(document).ready(function(){
         initDataTable();

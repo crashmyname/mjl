@@ -87,14 +87,14 @@
                                                 <label>Harga</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="harga" id="rpharga" class="form form-control">
+                                                <input type="text" name="harga" id="rpharga" inputmode="numeric" pattern="[0-9],.*" oninput="validateNumberInput(this)" class="form form-control">
                                                 <input type="hidden" name="harga" id="harga" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Jasa</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                            <input type="text" name="jasa" id="rpjasa" class="form form-control">
+                                            <input type="text" name="jasa" id="rpjasa" inputmode="numeric" pattern="[0-9],.*" oninput="validateNumberInput(this)" class="form form-control">
                                             <input type="hidden" name="jasa" id="jasa" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
@@ -121,6 +121,7 @@
                                             <div class="col-md-8 form-group">
                                                 <select name="pph" id="pph" class="form-control">
                                                     <option value="0.02">2%</option>
+                                                    <option value="0">0%</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
@@ -129,6 +130,7 @@
                                             <div class="col-md-8 form-group">
                                                 <select name="ppn" id="ppn" class="form-control">
                                                     <option value="0.11">11%</option>
+                                                    <option value="0">0%</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
@@ -973,7 +975,7 @@
         })
     }
     function validateNumberInput(input){
-        input.value = input.value.replace(/[^0-9]/g,'');
+        input.value = input.value.replace(/[^0-9],./g,'');
     }
     $(document).ready(function(){
         initDataTable();

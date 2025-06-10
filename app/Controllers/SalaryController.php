@@ -42,10 +42,10 @@ class SalaryController extends BaseController
 
     public function create(Request $request)
     {
+        // vd($request->all());
         $validate = Validator::make($request->all(),[
             'driver_id' => 'required',
             'salary' => 'required',
-            'tanggal' => 'required',
         ]);
         $errors = $validate;
         $validateType = $request->getClientMimeType('bukti');
@@ -56,20 +56,20 @@ class SalaryController extends BaseController
         if(!empty($errors)){
             return Response::json(['status'=>500,'message'=>$errors]);
         }
-        if($request->getClientOriginalName('bukti') && $request->getClientOriginalName('buktipotong')){
+        if($request->getClientOriginalName('bukti')){
             $path = storage_path('document/data/gaji');
             if(!file_exists($path)){
                 mkdir($path,0777,true);
             }
 
             $fileName = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('bukti'));
-            $fileName1 = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('buktipotong'));
+            // $fileName1 = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('buktipotong'));
             $tempPath = $request->getPath('bukti');
-            $tempPath1 = $request->getPath('buktipotong');
+            // $tempPath1 = $request->getPath('buktipotong');
             $destination = $path.'/'.$fileName;
-            $destination1 = $path.'/'.$fileName1;
+            // $destination1 = $path.'/'.$fileName1;
 
-            if(move_uploaded_file($tempPath,$destination) && move_uploaded_file($tempPath1,$destination1)){
+            if(move_uploaded_file($tempPath,$destination)){
                 Salary::create([
                     'uuid' => UUID::generateUuid(),
                     'driver_id' => $request->driver_id,
@@ -78,7 +78,7 @@ class SalaryController extends BaseController
                     'ppn' => $request->ppn,
                     'pph' => $request->pph,
                     'bukti' => $fileName,
-                    'buktipotong' => $fileName1,
+                    'buktipotong' => null,
                     'status' => 'unpaid',
                     'created_at' => Date::Now(),
                     'updated_at' => Date::Now(),

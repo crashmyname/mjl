@@ -79,6 +79,7 @@
                                             <div class="col-md-8 form-group">
                                                 <select name="pph" id="pph" class="form-control">
                                                     <option value="0.025">2.5%</option>
+                                                    <option value="0">0%</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
@@ -364,6 +365,9 @@
                 {
                     data: 'salary',
                     name: 'salary',
+                    render:function(data,type,row){
+                        return 'Rp. '+parseFloat(data).toLocaleString('id-ID');
+                    }
                 },
                 {
                     data: 'ppn',
@@ -379,7 +383,9 @@
                     render: function(data,type,row){
                         var ppn = row.ppn ? parseFloat(row.ppn) : 0;
                         var pph = row.pph ? parseFloat(row.pph) : 0;
-                        var total = parseFloat(row.salary) + ppn - pph;
+                        var getpph = row.salary*pph;
+                        var getppn = row.salary*ppn;
+                        var total = parseFloat(row.salary) + getppn - getpph;
                         return '<span class="badge bg-light-success">'+'Rp. '+total.toLocaleString('id-ID')+'</span>';
                     }
                 },

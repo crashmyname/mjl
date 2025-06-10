@@ -125,7 +125,8 @@
                                                 <label>Price</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="price" id="price" readonly class="form-control">
+                                                <input type="text" name="price" id="rpprice" readonly class="form-control">
+                                                <input type="hidden" name="price" id="price" readonly class="form-control">
                                             </div>
                                             <!-- <div class="col-md-4">
                                                 <label>Pajak</label>
@@ -312,7 +313,6 @@
                                 <th>Driver</th>
                                 <th>Project</th>
                                 <th>Price</th>
-                                <th>Pajak</th>
                                 <th>Total</th>
                                 <th>Status</th>
                             </tr>
@@ -405,21 +405,14 @@
                     data: 'price',
                     name: 'price',
                     render:function(data,type,row){
-                        return '<span class="badge bg-light-success">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
-                    }
-                },
-                {
-                    data: 'pajak',
-                    name: 'pajak',
-                    render:function(data,type,row){
-                        return '<span class="badge bg-light-danger">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
+                        return '<span class="badge bg-light-success">'+'Rp. '+row.price.toLocaleString('id-ID')+'</span>';
                     }
                 },
                 {
                     data: 'total',
                     name: 'total',
                     render:function(data,type,row){
-                        return '<span class="badge bg-light-primary">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
+                        return '<span class="badge bg-light-primary">'+'Rp. '+row.total.toLocaleString('id-ID')+'</span>';
                     }
                 },
                 {
@@ -769,7 +762,6 @@
             var data = {
                 vendor: $(this).val()
             };
-            console.log(data);
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -779,7 +771,6 @@
                 },
                 dataType: 'json',
                 success: function(response){
-                    console.log(response);
                     if(response.status === 200){
                         $('#no_po').val(response.code);
                     } else {
@@ -835,6 +826,13 @@
                 },
                 success:function(response){
                     if(response.status === 200){
+                        var rpprice = response.data.price;
+                        let rprice = rpprice.toString().replace(/[^0-9]/g,'');
+                        if(rprice){
+                            $('#rpprice').val(parseInt(rprice, 10).toLocaleString('id-ID'));
+                        } else {
+                            $('#rpprice').val('');
+                        }
                         $('#price').val(response.data.price);
                         $('#origin_city').val(response.data.origin_city);
                         $('#destination').val(response.data.destination_city);

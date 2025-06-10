@@ -9,6 +9,7 @@ use App\Models\NVendor;
 use App\Models\Order;
 use App\Models\OrderAP;
 use App\Models\Price;
+use App\Models\SaldoAwal;
 use App\Models\StatusPembayaran;
 use App\Models\StatusPembayaranAP;
 use App\Models\Transactions;
@@ -249,7 +250,23 @@ class OrderController extends BaseController
             }
         }
         $cektransaksi = Transactions::query()->where('reference_table','=','status_pembayaran')->where('reference_id','=',$invoiceID->invoice_id)->first();
+        $ceksaldoawal = SaldoAwal::query()
+                            ->whereMonth('tanggal_saldo_awal',Date::parse($request->tanggal_pembayaran)->format('m'))
+                            ->whereYear('tanggal_saldo_awal',Date::parse($request->tanggal_pembayaran)->format('Y'))
+                            ->first();
+        $cekavailable = SaldoAwal::query()->count();
         if(!$cektransaksi){
+            if($ceksaldoawal){
+                    
+            } else if($cekavailable == 0){
+                SaldoAwal::create([
+                    'saldo_awal' => 0,
+                    'tanggal_saldo_awal' => Date::Now(),
+                ]);
+            } else {
+                $cal = new TransactionController();
+                $cal->Calculate($request->tanggal);
+            }
             $transaction = Transactions::create([
                 'uuid' => UUID::generateUuid(),
                 'payment_id' => 1,
@@ -480,7 +497,23 @@ class OrderController extends BaseController
             }
         }
         $cektransaksi = Transactions::query()->where('reference_table','=','status_pembayaran_ap')->where('reference_id','=',$invoiceID->invoice_ap_id)->first();
+        $ceksaldoawal = SaldoAwal::query()
+                            ->whereMonth('tanggal_saldo_awal',Date::parse($request->tanggal_pembayaran)->format('m'))
+                            ->whereYear('tanggal_saldo_awal',Date::parse($request->tanggal_pembayaran)->format('Y'))
+                            ->first();
+        $cekavailable = SaldoAwal::query()->count();
         if(!$cektransaksi){
+            if($ceksaldoawal){
+                    
+            } else if($cekavailable == 0){
+                SaldoAwal::create([
+                    'saldo_awal' => 0,
+                    'tanggal_saldo_awal' => Date::Now(),
+                ]);
+            } else {
+                $cal = new TransactionController();
+                $cal->Calculate($request->tanggal);
+            }
             $transaction = Transactions::create([
                 'uuid' => UUID::generateUuid(),
                 'payment_id' => 1,

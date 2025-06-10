@@ -100,7 +100,7 @@
                                                 <label>Biaya</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="biaya" id="rpbiaya" class="form form-control">
+                                                <input type="text" name="biaya" id="rpbiaya" inputmode="numeric" pattern="[0-9],.*" oninput="validateNumberInput(this)" class="form form-control">
                                                 <input type="hidden" name="biaya" id="biaya" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
@@ -784,7 +784,7 @@
         })
     }
     function validateNumberInput(input){
-        input.value = input.value.replace(/[^0-9]/g,'');
+        input.value = input.value.replace(/[^0-9].,/g,'');
     }
     function getRupiah(){
         $('#rpbiaya').on('input', function(){

@@ -88,31 +88,41 @@
                                                 <label>Sub Total</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="subtotal" id="subtotal" readonly class="form form-control">
+                                                <input type="text" name="subtotal" id="rpsubtotal" readonly class="form form-control">
+                                                <input type="hidden" name="subtotal" id="subtotal" readonly class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>PPN</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <div class="input-group">
+                                                <!-- <div class="input-group">
                                                     <input type="text" name="ppn" id="ppn" class="form form-control" value="1.1" readonly>
                                                     <span class="input-group-text">%</span>
-                                                </div>
+                                                </div> -->
+                                                <select name="ppn" id="ppn" class="form-control">
+                                                    <option value="1.1">1.1%</option>
+                                                    <option value="0">0%</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>PPH 23</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <div class="input-group">
+                                                <!-- <div class="input-group">
                                                     <input type="text" name="pph23" id="pph23" class="form form-control" value="2" readonly>
                                                     <span class="input-group-text">%</span>
-                                                </div>
+                                                </div> -->
+                                                <select name="pph23" id="pph23" class="form-control">
+                                                    <option value="2">2%</option>
+                                                    <option value="0">0%</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Total Pembayaran</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="total_pembayaran" id="total_pembayaran" class="form form-control" readonly>
+                                                <input type="text" name="total_pembayaran" id="rptotal_pembayaran" class="form form-control" readonly>
+                                                <input type="hidden" name="total_pembayaran" id="total_pembayaran" class="form form-control" readonly>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Description</label>
@@ -811,6 +821,8 @@
             var price = parseFloat($(this).attr('data-price')) || 0;
             total += price;
         });
+        var rptotal = total.toString().replace(/\D/g, '');
+        $('#rpsubtotal').val(parseInt(rptotal, 10).toLocaleString('id-ID'));
         $('#subtotal').val(total);
         setTimeout(function(){
             $('#subtotal').trigger('change');
@@ -821,7 +833,9 @@
             var pph23 = total * (inputpph23/100);
             var ppn = total * (inputppn/100);
             var jumlah = total + ppn - pph23;
+            var rptotalpembayaran = jumlah.toLocaleString('id-ID');
             $('#total_pembayaran').val(jumlah);
+            $('#rptotal_pembayaran').val(rptotalpembayaran);
         })
     }
     function validateNumberInput(input){
