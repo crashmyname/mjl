@@ -219,6 +219,7 @@ class TransactionController extends BaseController
                     'updated_at' => Date::Now(),
                 ]);
                 $cekdata->update([
+                    'tanggal_payment' => $request->tanggal,
                     'status' => $request->status,
                     'updated_at' => Date::Now(),
                 ]);

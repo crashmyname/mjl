@@ -22,7 +22,7 @@ class SalaryController extends BaseController
         if(Request::isAjax()){
             if($request->startdate && $request->enddate){
             $salary = Salary::query()
-                                ->select('salary_id','salaries.uuid','drivers.driver_name','salary','tanggal','bukti','salaries.status','salaries.ppn','salaries.pph','salaries.buktipotong')
+                                ->select('salary_id','salaries.uuid','drivers.driver_name','salary','tanggal','bukti','salaries.status','salaries.ppn','salaries.pph','salaries.buktipotong','salaries.tanggal_payment')
                                 ->leftJoin('drivers','drivers.driver_id','=','salaries.driver_id')
                                 ->where('salaries.deleted_at','=',null)
                                 ->whereBetween('tanggal',$request->startdate,$request->enddate)

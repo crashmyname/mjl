@@ -46,6 +46,7 @@
                         </div>
                     </div>
                 </form>
+                <button type="submit" id="getpdf" class="btn btn-danger mt-3">Get PDF</button>
             </div>
             <div class="card-body">
                 <div class="container">
@@ -278,9 +279,18 @@
     function validateNumberInput(input){
         input.value = input.value.replace(/[^0-9]/g,'');
     }
+    function getPDF(){
+        $('#getpdf').on('click', function(e){
+            e.preventDefault();
+            var startdate = $('#startdate').val();
+            var enddate = $('#enddate').val();
+            window.location.href = '<?= base_url() . '/get-mutation-pdf'?>'+'/'+startdate+'/'+enddate;
+        })
+    }
     $(document).ready(function(){
         initDataTable();
         crudClaim();
+        getPDF();
         flatPicker();
         validateNumberInput();
     })

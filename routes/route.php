@@ -105,13 +105,14 @@ Route::group([AuthMiddleware::class],function(){
     Route::post('/transactionsalary',[TransactionController::class, 'createSalary']);
     Route::put('/utransaction/{id}', [TransactionController::class, 'update']);
     Route::delete('/transaction/{id}', [TransactionController::class, 'delete']);
-
+    
     // Rekening Koran
     Route::get('/mutation',[MutasiController::class, 'index']);
     Route::get('/getmutation', [MutasiController::class, 'getRekening']);
     Route::post('/mutation',[MutasiController::class, 'create']);
     Route::put('/umutation/{id}', [MutasiController::class, 'update']);
     Route::delete('/mutation/{id}', [MutasiController::class, 'delete']);
+    Route::get('/get-mutation-pdf/{startdate}/{enddate}',[MutasiController::class, 'getPDF']);
     
     // Transporter
     Route::get('/transporters',[DriverController::class, 'index']);

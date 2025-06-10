@@ -121,6 +121,7 @@
                                             <div class="col-md-8 form-group">
                                                 <select name="pph" id="pph" class="form-control">
                                                     <option value="0.02">2%</option>
+                                                    <option value="0.10">10%</option>
                                                     <option value="0">0%</option>
                                                 </select>
                                             </div>
@@ -130,6 +131,7 @@
                                             <div class="col-md-8 form-group">
                                                 <select name="ppn" id="ppn" class="form-control">
                                                     <option value="0.11">11%</option>
+                                                    <option value="0.011">1.1%</option>
                                                     <option value="0">0%</option>
                                                 </select>
                                             </div>

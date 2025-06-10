@@ -101,6 +101,7 @@
                                                 </div> -->
                                                 <select name="ppn" id="ppn" class="form-control">
                                                     <option value="1.1">1.1%</option>
+                                                    <option value="11">11%</option>
                                                     <option value="0">0%</option>
                                                 </select>
                                             </div>
@@ -114,6 +115,7 @@
                                                 </div> -->
                                                 <select name="pph23" id="pph23" class="form-control">
                                                     <option value="2">2%</option>
+                                                    <option value="10">10%</option>
                                                     <option value="0">0%</option>
                                                 </select>
                                             </div>

@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\RekeningKoran;
+use App\Models\SaldoAwal;
 use App\Models\Transactions;
 use Support\BaseController;
+use Support\Date;
 use Support\Request;
 use Support\Validator;
 use Support\View;
@@ -49,6 +51,14 @@ class MutasiController extends BaseController
     public function index()
     {
         return view('payments/mutation',[],'layout/app');
+    }
+
+    public function getPDF(Request $request,$startdate,$enddate)
+    {
+        $transactions = Transactions::query()->leftJoin('payments','payments.payment_id','=','transaction.payment_id')->whereBetween('transaction_date',$startdate,$enddate)->get();
+        $saldoawal = SaldoAwal::query()->whereMonth('tanggal_saldo_awal',Date::parse($startdate)->format('m'))->whereYear('tanggal_saldo_awal',Date::parse($startdate)->format('Y'))->first();
+        $balance = $saldoawal->saldo_awal ?? 0;
+        return view('payments/balance',['startdate'=>$startdate,'enddate'=>$enddate,'transactions'=>$transactions,'balance'=>$balance]);
     }
 
     // public function create(Request $request)

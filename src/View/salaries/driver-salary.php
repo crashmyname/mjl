@@ -307,7 +307,8 @@
                                 <th>PPN</th>
                                 <th>PPH</th>
                                 <th>Total</th>
-                                <th>Tanggal</th>
+                                <th>Tanggal Input</th>
+                                <th>Tanggal Payment</th>
                                 <th>Upload Bukti TF</th>
                                 <th>Upload Bukti Potong</th>
                                 <th>Status</th>
@@ -376,6 +377,9 @@
                 {
                     data: 'pph',
                     name: 'pph',
+                    render:function(data,type,row){
+                        return data*100+'%';
+                    }
                 },
                 {
                     data: null,
@@ -392,6 +396,10 @@
                 {
                     data: 'tanggal',
                     name: 'tanggal',
+                },
+                {
+                    data: 'tanggal_payment',
+                    name: 'tanggal_payment',
                 },
                 {
                     data: 'bukti',
