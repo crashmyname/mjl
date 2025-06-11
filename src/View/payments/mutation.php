@@ -66,9 +66,23 @@
                                 <th>Description</th>
                                 <th>Status</th>
                             </tr>
+                            <tr>
+                                <th colspan="9">Begining Balance</th>
+                                <th colspan="1"><span style="float:right" id="begining"></span></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
                         </thead>
                         <tbody>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="9">Last Balance</th>
+                                <th colspan="1"><span style="float:right" id="last"></span></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -153,7 +167,10 @@
                 },
                 {
                     data: 'amount',
-                    name: 'amount'
+                    name: 'amount',
+                    render:function(data,type,row){
+                        return 'Rp. '+parseFloat(data).toLocaleString('id-ID');
+                    }
                 },
                 {
                     data: 'description',
@@ -260,6 +277,26 @@
         $('#search').on('click', function(e){
             e.preventDefault();
             table.ajax.reload();
+            var startdate = $('#startdate').val();
+            var enddate = $('#enddate').val();
+            $.ajax({
+                url : '<?= base_url().'/getdata-mutation'?>',
+                type: 'POST',
+                data: {
+                    startdate: startdate,
+                    enddate: enddate
+                },
+                headers: {
+                    'X-CSRF-TOKEN' : '<?= csrfHeader()?>'
+                },
+                success: function(response){
+                    if(response.status === 200){
+                        var begining =response.begining.toString();
+                        $('#begining').text('Rp. '+parseFloat(begining).toLocaleString('id-ID'));
+                        $('#last').text('Rp. '+response.last.toLocaleString('id-ID'));
+                    }
+                }
+            })
         })
     }
     function flatPicker(){

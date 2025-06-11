@@ -113,6 +113,7 @@ Route::group([AuthMiddleware::class],function(){
     Route::put('/umutation/{id}', [MutasiController::class, 'update']);
     Route::delete('/mutation/{id}', [MutasiController::class, 'delete']);
     Route::get('/get-mutation-pdf/{startdate}/{enddate}',[MutasiController::class, 'getPDF']);
+    Route::post('/getdata-mutation',[MutasiController::class, 'getData']);
     
     // Transporter
     Route::get('/transporters',[DriverController::class, 'index']);

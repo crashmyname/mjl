@@ -61,85 +61,24 @@ class MutasiController extends BaseController
         return view('payments/balance',['startdate'=>$startdate,'enddate'=>$enddate,'transactions'=>$transactions,'balance'=>$balance]);
     }
 
-    // public function create(Request $request)
-    // {
-    //     $validate = Validator::make($request->all(),[
-    //         'vehicle_id' => 'required',
-    //         'driver_id' => 'required',
-    //         'vendor_id' => 'required',
-    //         'jenis_claim' => 'required',
-    //         'biaya' => 'required',
-    //         'remark' => 'required',
-    //     ]);
-    //     $errors = $validate;
-    //     $validateType = $request->getClientMimeType('surat_jalan');
-    //     $allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
-    //     if($request->file('surat_jalan') && !in_array($validateType,$allowedTypes)){
-    //         $errors = array_merge($errors, ['surat_jalan' => ['File must be a valid image']]);
-    //     }
-    //     if(!empty($errors)){
-    //         return Response::json(['status'=>500,'message'=>$errors]);
-    //     }
-    //     if($request->getClientOriginalName('surat_jalan')){
-    //         $path = storage_path('document/data/claim');
-    //         if(!file_exists($path)){
-    //             mkdir($path,0777,true);
-    //         }
+    public static function getData(Request $request)
+    {
+        $saldoawal = SaldoAwal::query()->whereMonth('tanggal_saldo_awal',Date::parse($request->startdate)->format('m'))
+                                ->whereYear('tanggal_saldo_awal',Date::parse($request->startdate)->format('Y'))
+                                ->first();
+        $transaction = Transactions::query()->whereBetween('transaction_date',$request->startdate,$request->enddate)->get();
+        $beginingSaldo = $saldoawal->saldo_awal ?? 0;
+        $currentSaldo = $beginingSaldo;
+        foreach($transaction as $data){
+            if($data->type_transaction == 'income'){
+                $currentSaldo += $data->amount;
+            } else if($data->type_transaction == 'outcome'){
+                $currentSaldo -= $data->amount;
+            }
+        }
+        $begining = $beginingSaldo;
+        $last = $currentSaldo;
+        return Response::json(['status'=>200,'message'=>'success','begining'=>$begining,'last'=>$last]);
+    }
 
-    //         $fileName = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('surat_jalan'));
-    //         $tempPath = $request->getPath('surat_jalan');
-    //         $destination = $path.'/'.$fileName;
-
-    //         if(move_uploaded_file($tempPath,$destination)){
-    //             Claim::create([
-    //                 'uuid' => UUID::generateUuid(),
-    //                 'vehicle_id' => $request->vehicle_id,
-    //                 'driver_id' => $request->driver_id,
-    //                 'vendor_id' => $request->vendor_id,
-    //                 'jenis_claim' => $request->jenis_claim,
-    //                 'biaya' => $request->biaya,
-    //                 'remark' => $request->remark,
-    //                 'sj' => $fileName,
-    //                 'status' => $request->status,
-    //                 'created_at' => Date::Now(),
-    //                 'updated_at' => Date::Now(),
-    //             ]);
-    //         }
-    //     }
-    //     return Response::json(['status'=>201,'message'=>'Claim berhasil dibuat']);
-    // }
-
-    // public function update(Request $request, $id)
-    // {
-    //     $claim = Claim::query()->where('uuid','=',$id)->first();
-    //     $claim->jenis_claim = $request->jenis_claim;
-    //     $claim->biaya = $request->biaya;
-    //     $claim->remark = $request->remark;
-    //     $claim->status = $request->status;
-    //     if($request->getClientOriginalName('surat_jalan')){
-    //         $path = storage_path('document/data/claim');
-    //         if(!file_exists($path)){
-    //             mkdir($path,0777,true);
-    //         }
-    //         $oldFile = $path.'/'.$claim->sj;
-    //         if(file_exists($oldFile)){
-    //             unlink($oldFile);
-    //         }
-    //         $claim->sj = $request->getClientOriginalName('surat_jalan');
-    //         $tempPath = $request->getPath('surat_jalan');
-    //         $destination = $path.'/'.$claim->sj;
-    //         move_uploaded_file($tempPath,$destination);
-    //     }
-    //     $claim->updated_at = Date::Now();
-    //     $claim->save();
-    //     return Response::json(['status'=>201,'message'=>'Claim berhasil diupdate']);
-    // }
-
-    // public function delete($id)
-    // {
-    //     $claim = Claim::query()->where('uuid','=',$id)->first();
-    //     $claim->deleted_at = Date::Now();
-    //     $claim->save();
-    //     return Response::json(['status'=>200,'message'=>'Claim berhasil dihapus']);
-    // }
 }
