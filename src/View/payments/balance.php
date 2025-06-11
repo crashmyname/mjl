@@ -91,13 +91,6 @@
             <table border="1" width="100%" class="">
                 <thead>
                     <tr>
-                        <th colspan="9">Begining Balance</th>
-                        <th colspan="2"><span style="float:right"><?= 'Rp. '.number_format($balance,2,',','.')?></span></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <thead>
-                    <tr>
                         <th>No</th>
                         <th>Transaction Date</th>
                         <th>Reference</th>
@@ -113,6 +106,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <th colspan="9">Begining Balance</th>
+                        <th colspan="2"><span style="float:right"><?= 'Rp. '.number_format($balance,2,',','.')?></span></th>
+                        <th></th>
+                    </tr>
                     <?php 
                     $no = 1;
                     $balance;
@@ -155,7 +153,7 @@
     </table>
     <script>
     window.onload = function() {
-        window.print(); // Cetak otomatis saat halaman dimuat
+        window.print();
     };
 </script>
 
