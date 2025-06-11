@@ -321,7 +321,8 @@
             e.preventDefault();
             var startdate = $('#startdate').val();
             var enddate = $('#enddate').val();
-            window.location.href = '<?= base_url() . '/get-mutation-pdf'?>'+'/'+startdate+'/'+enddate;
+            var url = '<?= base_url() . '/get-mutation-pdf'?>'+'/'+startdate+'/'+enddate;
+            window.open(url,'_blank');
         })
     }
     $(document).ready(function(){

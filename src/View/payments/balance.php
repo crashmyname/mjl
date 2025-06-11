@@ -114,12 +114,14 @@
                     <?php 
                     $no = 1;
                     $balance;
+                    $currentBalance = $balance;
                     foreach($transactions as $transaction):
                         if($transaction->type_transaction == 'income'){
-                            $balance += $transaction->amount;
+                            $currentBalance += $transaction->amount;
                         } else if($transaction->type_transaction == 'outcome'){
-                            $balance -= $transaction->amount;
+                            $currentBalance -= $transaction->amount;
                         }
+                    $last = $currentBalance;
                     ?>
                     <tr>
                         <th><?= $no?></th>
@@ -132,12 +134,19 @@
                         <th><?= $transaction->jenis_transaction?></th>
                         <th><?= $transaction->type_transaction?></th>
                         <th><?= 'Rp. '.number_format($transaction->amount,2,',','.')?></th>
-                        <th><?= 'Rp. '.number_format($balance,2,',','.')?></th>
+                        <th><?= 'Rp. '.number_format($currentBalance,2,',','.')?></th>
                         <th><?= $transaction->description?></th>
                     <?php $no++; ?>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="9">Last Balance</th>
+                        <th colspan="2"><span style="float:right"><?= 'Rp. '.number_format($last,2,',','.')?></span></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
             </table>
         </tr>
         <br>

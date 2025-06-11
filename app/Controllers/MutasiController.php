@@ -55,7 +55,7 @@ class MutasiController extends BaseController
 
     public function getPDF(Request $request,$startdate,$enddate)
     {
-        $transactions = Transactions::query()->leftJoin('payments','payments.payment_id','=','transaction.payment_id')->whereBetween('transaction_date',$startdate,$enddate)->get();
+        $transactions = Transactions::query()->leftJoin('payments','payments.payment_id','=','transaction.payment_id')->whereBetween('transaction_date',$startdate,$enddate)->orderBy('transaction_date','ASC')->get();
         $saldoawal = SaldoAwal::query()->whereMonth('tanggal_saldo_awal',Date::parse($startdate)->format('m'))->whereYear('tanggal_saldo_awal',Date::parse($startdate)->format('Y'))->first();
         $balance = $saldoawal->saldo_awal ?? 0;
         return view('payments/balance',['startdate'=>$startdate,'enddate'=>$enddate,'transactions'=>$transactions,'balance'=>$balance]);
