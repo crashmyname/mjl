@@ -94,9 +94,10 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <!-- <input type="text" name="project" id="project" class="form-control"> -->
-                                                <select name="project" id="project" class="form-control">
+                                                <select name="project_id" id="project_id" class="form-control">
 
                                                 </select>
+                                                <input type="hidden" name="project" id="project">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Origin City</label>
@@ -799,7 +800,8 @@
                         $('#project').empty();
                         $('#project').append('<option value="" disabled selected hidden>' + '-' + '</option>');
                         $.each(response.data, function(key, value) {
-                            $('#project').append('<option value="' + value.project + '">' + value.project + '|' + value.origin_city+'-'+ value.destination_city + '</option>');
+                            $('#project_id').append('<option value="' + value.price_id + '">' + value.project + '|' + value.origin_city+'-'+ value.destination_city + '</option>');
+                            $('#project').val(value.project);
                         })
                     } else {
                         $('#project').empty();
@@ -809,7 +811,7 @@
         })
     }
     function getPrice(){
-        $('#project').on('change', function(){
+        $('#project_id').on('change', function(){
             var url = '<?= base_url()?>/getprice';
             var price = $('#vehicle').val();
             var project = $('#project').val();
