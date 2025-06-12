@@ -56,7 +56,7 @@ class OrderController extends BaseController
     public function getPrice(Request $request)
     {
         $data =$request->price;
-        $project = $request->project_id;
+        $project = $request->project;
         $price = Price::query()->leftJoin('vehicles','vehicles.vehicle_id','=','prices.vehicle_id')->where('prices.vehicle_id','=',$data)->where('price_id','=',$project)->where('prices.deleted_at','=',null)->first();
         return Response::json(['status'=>200,'message'=>'success','data'=>$price->toArray()]);
     }
