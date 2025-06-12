@@ -814,7 +814,7 @@
         $('#project_id').on('change', function(){
             var url = '<?= base_url()?>/getprice';
             var price = $('#vehicle').val();
-            var project = $('#project').val();
+            var project = $('#project_id').val();
             $.ajax({
                 type : 'POST',
                 url:url,
@@ -831,7 +831,7 @@
                         var rpprice = response.data.price;
                         let rprice = rpprice.toString().replace(/[^0-9]/g,'');
                         if(rprice){
-                            $('#rpprice').val(price.toLocaleString('id-ID'));
+                            $('#rpprice').val(rprice.toLocaleString('id-ID'));
                         } else {
                             $('#rpprice').val('');
                         }
