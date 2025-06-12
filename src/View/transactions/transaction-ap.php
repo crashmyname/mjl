@@ -800,8 +800,8 @@
                         $('#project').empty();
                         $('#project').append('<option value="" disabled selected hidden>' + '-' + '</option>');
                         $.each(response.data, function(key, value) {
-                            $('#project_id').append('<option value="' + value.price_id + '">' + value.project + '|' + value.origin_city+'-'+ value.destination_city + '</option>');
-                            $('#project').val(value.project);
+                            $('#project').append('<option value="' + value.price_id + '">' + value.project + '|' + value.origin_city+'-'+ value.destination_city + '</option>');
+                            $('#project_id').val(value.project);
                         })
                     } else {
                         $('#project').empty();
