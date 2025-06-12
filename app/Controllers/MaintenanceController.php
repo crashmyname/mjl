@@ -88,6 +88,8 @@ class MaintenanceController extends BaseController
                     'sparepart' => $request->sparepart,
                     'harga' => $request->harga,
                     'jasa' => $request->jasa,
+                    'ppn' => $request->ppn,
+                    'pph' => $request->pph,
                     'bon' => $fileName,
                     'bukti' => $fileName1,
                     'buktipotong' => $fileName2,

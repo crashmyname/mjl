@@ -246,10 +246,10 @@
                             format: {
                                 body: function(data, row, column, node) {
                                     return String(data)
-                                        .replace(/<[^>]*>/g, '') // Hapus elemen HTML
-                                        .replace(/\./g, '') // Hapus tanda titik
+                                        .replace(/<[^>]*>/g, '') 
+                                        .replace(/\./g, '') 
                                         .replace(/,/g,
-                                            '.'); // Ganti koma menjadi titik (jika perlu)
+                                            '.'); 
                                 }
                             }
                         },
