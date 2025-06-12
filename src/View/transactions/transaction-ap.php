@@ -85,7 +85,7 @@
                                                 <select name="vehicle" id="vehicle" class="form-control">
                                                     <option value="" hidden selected disabled> Pilih </option>
                                                     <?php foreach($vehicle as $vhc): ?>
-                                                    <option value="<?= $vhc->plat_number.'-'.$vhc->truck_type?>"><?= $vhc->plat_number.'-'.$vhc->truck_type?></option>
+                                                    <option value="<?= $vhc->vehicle_id?>"><?= $vhc->plat_number.'-'.$vhc->truck_type?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
