@@ -263,7 +263,7 @@
                     data: 'subtotal',
                     name: 'subtotal',
                     render:function(data,type,row){
-                        return '<span class="badge bg-primary">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
+                        return '<span class="badge bg-primary">'+'Rp. '+parseFloat(data).toLocaleString('id-ID')+'</span>';
                     }
                 },
                 {
@@ -288,7 +288,7 @@
                     data: 'total_pembayaran',
                     name: 'total_pembayaran',
                     render:function(data,type,row){
-                        return '<span class="badge bg-success">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
+                        return '<span class="badge bg-success">'+'Rp. '+parseFloat(data).toLocaleString('id-ID')+'</span>';
                     }
                 },
                 {

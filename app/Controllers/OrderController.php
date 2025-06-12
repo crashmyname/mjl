@@ -317,7 +317,9 @@ class OrderController extends BaseController
     {
         if(Request::isAjax()){
             if($request->startdate && $request->enddate){
-            $orders = OrderAP::query()->where('deleted_at','=',null)
+            $orders = OrderAP::query()
+            // ->leftJoin('vehicles','vehicles.vehcile_id','=','orders_ap.vehcile')
+                        ->where('deleted_at','=',null)
                         ->whereBetween('tgl_pembuatan_po',$request->startdate,$request->enddate)->get();
             return DataTables::of($orders)
                                 ->make(true);

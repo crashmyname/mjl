@@ -506,7 +506,8 @@
                     name: 'ppn',
                     render:function(data,type,row){
                         var ppn = data ?? 0;
-                        return '<span class="badge bg-light-danger">'+'Rp. '+ppn.toLocaleString('id-ID')+'</span>';
+                        var rppn = (row.harga+row.jasa)*data;
+                        return '<span class="badge bg-light-danger">'+ppn+'- Rp. '+rppn.toLocaleString('id-ID')+'</span>';
                     }
                 },
                 {
@@ -514,7 +515,8 @@
                     name: 'pph',
                     render:function(data,type,row){
                         var pph = data ?? 0;
-                        return '<span class="badge bg-light-danger">'+'Rp. '+pph.toLocaleString('id-ID')+'</span>';
+                        var rpph = row.jasa*pph;
+                        return '<span class="badge bg-light-danger">'+pph+'- Rp. '+rpph.toLocaleString('id-ID')+'</span>';
                     }
                 },
                 {

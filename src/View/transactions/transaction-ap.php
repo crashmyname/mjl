@@ -85,7 +85,7 @@
                                                 <select name="vehicle" id="vehicle" class="form-control">
                                                     <option value="" hidden selected disabled> Pilih </option>
                                                     <?php foreach($vehicle as $vhc): ?>
-                                                    <option value="<?= $vhc->vehicle_id?>"><?= $vhc->plat_number.'-'.$vhc->truck_type?></option>
+                                                    <option value="<?= $vhc->plat_number.'-'.$vhc->truck_type?>"><?= $vhc->plat_number.'-'.$vhc->truck_type?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
@@ -799,7 +799,7 @@
                         $('#project').empty();
                         $('#project').append('<option value="" disabled selected hidden>' + '-' + '</option>');
                         $.each(response.data, function(key, value) {
-                            $('#project').append('<option value="' + value.price_id + '">' + value.project + '|' + value.origin_city+'-'+ value.destination_city + '</option>');
+                            $('#project').append('<option value="' + value.project + '">' + value.project + '|' + value.origin_city+'-'+ value.destination_city + '</option>');
                         })
                     } else {
                         $('#project').empty();
@@ -829,7 +829,7 @@
                         var rpprice = response.data.price;
                         let rprice = rpprice.toString().replace(/[^0-9]/g,'');
                         if(rprice){
-                            $('#rpprice').val(parseInt(rprice, 10).toLocaleString('id-ID'));
+                            $('#rpprice').val(price.toLocaleString('id-ID'));
                         } else {
                             $('#rpprice').val('');
                         }
