@@ -391,8 +391,11 @@
                     name: 'destination'
                 },
                 {
-                    data: 'vehicle',
-                    name: 'vehicle'
+                    data: null,
+                    name: 'vehicle',
+                    render:function(data,type,row){
+                        return row.plat_number+' - '+row.truck_type;
+                    }
                 },
                 {
                     data: 'driver',
@@ -829,9 +832,9 @@
                 success:function(response){
                     if(response.status === 200){
                         var rpprice = response.data.price;
-                        let rprice = rpprice.toString().replace(/[^0-9]/g,'');
+                        let rprice = rpprice.toString();
                         if(rprice){
-                            $('#rpprice').val(rprice.toLocaleString('id-ID'));
+                            $('#rpprice').val(parseFloat(rprice).toLocaleString('id-ID'));
                         } else {
                             $('#rpprice').val('');
                         }
