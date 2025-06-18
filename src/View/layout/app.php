@@ -43,13 +43,31 @@
             display: block;
             /* Menampilkan submenu jika aktif */
         }
+        #loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 10px;
+            background: linear-gradient(to right, #003366 0%, #0055aa 50%, #003366 100%);
+            background-size: 200% 100%;
+            z-index: 9999;
+            width: 100%;
+            animation: loadingAnim 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes loadingAnim {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
     </style>
 </head>
 
 <body>
-    <div id="loading-bar"
+    <!-- <div id="loading-bar"
         style="position: fixed; top: 0; left: 0; width: 0; height: 10px; background:rgb(0, 47, 100); z-index: 9999; transition: width 0.3s ease;">
-    </div>
+    </div> -->
+    <div id="loading-bar"></div>
     <div id="app">
         <div id="sidebar" class="active">
             <div class="sidebar-wrapper active">
@@ -333,13 +351,15 @@
     <script>
         $(document).ready(function() {
             function showLoading() {
-                $('#loading-bar').css('width', '0').show().animate({
-                    width: '100%'
-                }, 800);
+                // $('#loading-bar').css('width', '0').show().animate({
+                //     width: '100%'
+                // }, 800);
+                $('#loading-bar').show();
             }
 
             function hideLoading() {
-                $('#loading-bar').stop().css('width', '100%').fadeOut(300);
+                // $('#loading-bar').stop().css('width', '100%').fadeOut(300);
+                $('#loading-bar').hide();
             }
 
             function setActiveMenu() {
