@@ -223,7 +223,10 @@
                                                 <label>Vehicle</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="vehicle" id="uvehicle" class="form-control">
+                                                <!-- <input type="text" name="vehicle" id="uvehicle" class="form-control"> -->
+                                                <select name="vehicle" id="uvehicle" class="form-control">
+
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Project</label>
@@ -589,7 +592,41 @@
                 tgl_pembuatan_po.val(selectedData[0].tgl_pembuatan_po);
                 origin_city.val(selectedData[0].origin_city);
                 destination.val(selectedData[0].destination);
-                vehicle.val(selectedData[0].vehicle);
+                vehicle.empty();
+                $.ajax({
+                    url: '<?= base_url().'/getvehicledata'?>',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        var vehicles = response.data;
+                        var selectedVehicleId = selectedData[0].vehicle;
+                        var selectedVehicleText = selectedData[0].plat_number;
+                        var vehicleExists = false;
+
+                        vehicles.forEach(function(v) {
+                            var option = $('<option>')
+                                .val(v.vehicle_id)
+                                .text(v.plat_number);
+
+                            if (v.vehicle_id == selectedVehicleId) {
+                                option.prop('selected', true);
+                                vehicleExists = true;
+                            }
+
+                            vehicle.append(option);
+                        });
+                        if (!vehicleExists) {
+                            $('<option>')
+                                .val(selectedVehicleId)
+                                .text(selectedVehicleText + ' (tidak tersedia)')
+                                .appendTo(vehicle)
+                                .prop('selected', true);
+                        }
+                    },
+                    error: function(err) {
+                        console.error('Gagal memuat data kendaraan:', err);
+                    }
+                });
                 driver.val(selectedData[0].driver);
                 price.val(selectedData[0].price);
                 pajak.val(selectedData[0].pajak);

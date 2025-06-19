@@ -37,6 +37,12 @@ class VehicleController extends BaseController
         }
     }
 
+    public function getVehicleData()
+    {
+        $vehicle = Vehicle::query()->where('deleted_at','=',null)->where('status_vehicle','=','External')->get();
+        return Response::json(['status'=>200, 'data'=>$vehicle,'message'=>'success get data']);
+    }
+
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(),[

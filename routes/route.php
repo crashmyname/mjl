@@ -135,6 +135,7 @@ Route::group([AuthMiddleware::class],function(){
     Route::post('/importprice',[PriceController::class, 'import']);
     Route::put('/uprice/{id}', [PriceController::class, 'update']);
     Route::delete('/price/{id}', [PriceController::class, 'delete']);
+    Route::get('/getvehicledata',[VehicleController::class, 'getVehicleData']);
     
     // Payment
     Route::get('/payment',function(){
