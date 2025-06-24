@@ -389,6 +389,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Tanggal</th>
+                                <th>Tanggal Payment</th>
                                 <th>Plat Number</th>
                                 <th>Truck Type</th>
                                 <th>Description</th>
@@ -452,6 +453,10 @@
                 {
                     data: 'tanggal',
                     name: 'tanggal',
+                },
+                {
+                    data: 'tanggal_payment',
+                    name: 'tanggal_payment',
                 },
                 {
                     data: 'plat_number',

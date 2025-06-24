@@ -138,6 +138,7 @@
                                                             <th>Driver KSUID</th>
                                                             <th>Phone</th>
                                                             <th>Sim Type</th>
+                                                            <th>Status Driver</th>
                                                             <th>KTP</th>
                                                             <th>SIM</th>
                                                             <th>Created at</th>
@@ -405,6 +406,10 @@
                 {
                     data: 'sim_type',
                     name: 'sim_type'
+                },
+                {
+                    data: 'status_driver',
+                    name: 'status_driver'
                 },
                 {
                     data: 'ktp',

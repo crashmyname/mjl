@@ -611,7 +611,7 @@
             var status = $('#pstatus');
             var claim = $('#pclaim');
             if(selectedData.length > 0){
-                vehicle_id.val(selectedData[0].plat_number+' '+selectedData[0].truck_type);
+                vehicle_id.val(selectedData[0].plat_number);
                 claim.val(selectedData[0].claim_id);
                 tanggal.val(selectedData[0].tanggal);
                 biaya.val(selectedData[0].biaya);
@@ -752,6 +752,12 @@
         })
     }
     function flatPicker(){
+        flatpickr('#ptanggal',{
+            dateFormat: 'Y-m-d',
+            locale: 'id',
+            allowInput: false,
+            defaultDate: new Date(),
+        })
         flatpickr('#tgl_pembuatan_po',{
             dateFormat: 'Y-m-d',
             locale: 'id',

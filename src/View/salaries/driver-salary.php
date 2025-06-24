@@ -63,7 +63,8 @@
                                                 <label>Gaji Driver</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="number" name="salary" id="salary" class="form-control">
+                                                <input type="text" name="salary" id="rpsalary" class="form-control">
+                                                <input type="hidden" name="salary" id="salary" class="form-control">
                                             </div>
                                             <!-- <div class="col-md-4">
                                                 <label>PPN</label>
@@ -239,7 +240,8 @@
                                                 <label>Total</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="number" name="total" id="ptotal" class="form form-control">
+                                                <input type="text" name="" id="rpmtotal" class="form-control">
+                                                <input type="hidden" name="total" id="pmtotal" class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Description</label>
@@ -661,14 +663,20 @@
             }).data();
             var driver_id = $('#pdriver_id');
             var tanggal = $('#ptanggal');
-            var total = $('#ptotal');
+            var total = $('#pmtotal');
+            var rptotal = $('#rpmtotal');
             var status = $('#pstatus');
             var salary = $('#psalary');
             if(selectedData.length > 0){
+                var getppn =selectedData[0].salary*selectedData[0].ppn;
+                var getpph =selectedData[0].salary*selectedData[0].pph;
+                var gettotal =parseFloat(selectedData[0].salary)+getppn-getpph;
+                var getrptotal =gettotal.toLocaleString('id-ID');
                 driver_id.val(selectedData[0].driver_name);
                 salary.val(selectedData[0].salary_id);
                 tanggal.val(selectedData[0].tanggal);
-                total.val(selectedData[0].total);
+                total.val(gettotal);
+                rptotal.val(getrptotal);
                 status.val(selectedData[0].status);
                 $('#modalPayment').modal('show');
             } else {
@@ -805,6 +813,26 @@
             }
         })
     }
+    function getTotal(){
+        $('#rpsalary').on('input', function(){
+            let value = $(this).val().replace(/\D/g, '');
+                if (value) {
+                    $(this).val(parseInt(value, 10).toLocaleString('id-ID'))
+                } else {
+                    $(this).val('');
+                }
+            $('#salary').val(value)
+        })
+        $('#rpmtotal').on('input', function(){
+            let value = $(this).val().replace(/\D/g, '');
+                if (value) {
+                    $(this).val(parseInt(value, 10).toLocaleString('id-ID'))
+                } else {
+                    $(this).val('');
+                }
+            $('#pmtotal').val(value)
+        })
+    }
     function flatPicker(){
         flatpickr('#tanggal',{
             dateFormat: 'Y-m-d',
@@ -837,6 +865,7 @@
     $(document).ready(function(){
         initDataTable();
         crudSalary();
+        getTotal();
         flatPicker();
         validateNumberInput();
     })
