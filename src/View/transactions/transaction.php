@@ -754,7 +754,7 @@
                 success:function(response){
                     if(response.status === 200){
                         var rpprice = response.data.price;
-                        let value = rpprice.toString().replace(/\D/g, '');
+                        let value = rpprice.toString();
                             if (value) {
                                 $('#rpprice').val(parseInt(value, 10).toLocaleString('id-ID'))
                             } else {
