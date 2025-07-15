@@ -569,7 +569,8 @@
                     data: 'price',
                     name: 'price',
                     render:function(data,type,row){
-                        return '<span class="badge bg-light-success">Rp. '+data.toLocaleString('id-ID')+'</span>'
+                        const price = parseFloat(data);
+                        return '<span class="badge bg-light-success">Rp. '+price.toLocaleString('id-ID')+'</span>'
                     }
                 },
                 {

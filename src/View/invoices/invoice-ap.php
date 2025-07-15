@@ -272,7 +272,7 @@
                     render:function(data,type,row){
                         var pph23 = parseFloat(data/100);
                         var result = row.subtotal*pph23;
-                        return '<span class="badge bg-warning">'+'('+data+'%)'+' Rp. '+result.toLocaleString('id-ID')+'</span>';
+                        return '<span class="badge bg-warning">'+'('+parseFloat(data)+'%)'+' Rp. '+result.toLocaleString('id-ID')+'</span>';
                     }
                 },
                 {
@@ -281,7 +281,7 @@
                     render:function(data,type,row){
                         var ppn =parseFloat(data/100);
                         var result= row.subtotal*ppn;
-                        return '<span class="badge bg-danger">'+'('+data+'%)'+' Rp. '+result.toLocaleString('id-ID')+'</span>';
+                        return '<span class="badge bg-danger">'+'('+parseFloat(data)+'%)'+' Rp. '+result.toLocaleString('id-ID')+'</span>';
                     }
                 },
                 {

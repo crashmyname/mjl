@@ -476,11 +476,17 @@
                 },
                 {
                     data: 'harga',
-                    name: 'harga'
+                    name: 'harga',
+                    render:function(data,type,row){
+                        return parseFloat(data).toLocaleString('id-ID')
+                    }
                 },
                 {
                     data: 'jasa',
-                    name: 'jasa'
+                    name: 'jasa',
+                    render:function(data,type,row){
+                        return parseFloat(data).toLocaleString('id-ID')
+                    }
                 },
                 {
                     data: 'bon',
@@ -511,7 +517,9 @@
                     name: 'ppn',
                     render:function(data,type,row){
                         var ppn = data ?? 0;
-                        var rppn = (row.harga+row.jasa)*data;
+                        const jasa = parseFloat(row.jasa)
+                        const harga = parseFloat(row.harga)
+                        var rppn = (harga+jasa)*ppn;
                         return '<span class="badge bg-light-danger">'+ppn+'- Rp. '+rppn.toLocaleString('id-ID')+'</span>';
                     }
                 },

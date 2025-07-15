@@ -412,14 +412,14 @@
                     data: 'price',
                     name: 'price',
                     render:function(data,type,row){
-                        return '<span class="badge bg-light-success">'+'Rp. '+row.price.toLocaleString('id-ID')+'</span>';
+                        return '<span class="badge bg-light-success">'+'Rp. '+parseFloat(row.price).toLocaleString('id-ID')+'</span>';
                     }
                 },
                 {
                     data: 'total',
                     name: 'total',
                     render:function(data,type,row){
-                        return '<span class="badge bg-light-primary">'+'Rp. '+row.total.toLocaleString('id-ID')+'</span>';
+                        return '<span class="badge bg-light-primary">'+'Rp. '+parseFloat(row.total).toLocaleString('id-ID')+'</span>';
                     }
                 },
                 {
