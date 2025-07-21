@@ -139,6 +139,12 @@
                         </li>
                         <?php endif; ?>
                         <li class="sidebar-item  ">
+                            <a href="<?= base_url() ?>/employees" class='sidebar-link'>
+                                <i class="bi bi-people-fill"></i>
+                                <span>Employees</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item  ">
                             <a href="<?= base_url() ?>/transporters" class='sidebar-link'>
                                 <i class="bi bi-truck"></i>
                                 <span>Transporters</span>

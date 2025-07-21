@@ -63,7 +63,7 @@
                                                 <div class="form-group">
                                                     <label for="first-name-column">Plat Number</label>
                                                     <input type="text" name="vehicle"
-                                                        value="<?= $order->vehicle ?>"
+                                                        value="<?= $order->plat_number ?>"
                                                         class="form form-control" id="vehicle" disabled>
                                                 </div>
                                             </div>

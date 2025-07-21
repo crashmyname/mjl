@@ -2,6 +2,7 @@
 use App\Controllers\AuthController;
 use App\Controllers\ClaimController;
 use App\Controllers\DriverController;
+use App\Controllers\EmployeeController;
 use App\Controllers\HomeController;
 use App\Controllers\InvoiceController;
 use App\Controllers\MaintenanceController;
@@ -34,6 +35,12 @@ Route::group([AuthMiddleware::class],function(){
     Route::post('/users', [UserController::class, 'create']);
     Route::put('/uusers/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'delete']);
+    
+    Route::get('/employees', [EmployeeController::class, 'index']);
+    Route::get('/getemployees', [EmployeeController::class, 'getEmployee']);
+    Route::post('/employees', [EmployeeController::class, 'create']);
+    Route::put('/uemployees/{id}', [EmployeeController::class, 'update']);
+    Route::delete('/employees/{id}', [EmployeeController::class, 'delete']);
 
     // Profile
     Route::get('/profile/{id}',[UserController::class, 'profile']);

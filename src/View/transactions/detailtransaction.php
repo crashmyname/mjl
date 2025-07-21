@@ -91,7 +91,7 @@
                                             <div class="col-md-8 form-group">
                                                 <textarea name="description" id="description" class="form-control"></textarea>
                                             </div>
-                                            <div class="col-md-4">
+                                            <!-- <div class="col-md-4">
                                                 <label>Status</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -99,7 +99,7 @@
                                                     <option value="Paid">Paid</option>
                                                     <option value="Partial">Partial</option>
                                                 </select>
-                                            </div>
+                                            </div> -->
                                             <div class="col-sm-12 d-flex justify-content-end">
                                                 <button type="reset"
                                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>
@@ -187,14 +187,23 @@
                 {
                     data: 'jumlah',
                     name: 'jumlah',
+                    render:function(data,type,row){
+                        return parseFloat(data.toString()).toLocaleString('id-ID');
+                    }
                 },
                 {
                     data: 'sisa_bayar',
                     name: 'sisa_bayar',
+                    render:function(data,type,row){
+                        return parseFloat(data.toString()).toLocaleString('id-ID');
+                    }
                 },
                 {
                     data: 'total_bayar',
-                    name: 'total_bayar'
+                    name: 'total_bayar',
+                    render:function(data,type,row){
+                        return parseFloat(data.toString()).toLocaleString('id-ID');
+                    }
                 },
                 {
                     data: 'bukti_data',

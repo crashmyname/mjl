@@ -204,6 +204,7 @@ class OrderController extends BaseController
                                 ->where('invoices.no_invoice','=',$noinv)
                                 ->where('status_pembayaran.deleted_at','=',null)
                                 ->get();
+                                
             return DataTables::of($detailTransaksi)->make(true);
         }
     }
@@ -235,7 +236,13 @@ class OrderController extends BaseController
             $fileName = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('bukti_bayar'));
             $tempPath = $request->getPath('bukti_bayar');
             $destination = $path.'/'.$fileName;
-
+            if($request->jumlah <= $request->total_bayar){
+                $status = 'Partial';
+            } else if($request->jumlah == $request->total_bayar){
+                $status = 'Paid';
+            } else {
+                $status = 'Partial';
+            }
             if(move_uploaded_file($tempPath,$destination)){
                 $pembayaran = StatusPembayaran::create([
                     'uuid' => UUID::generateUuid(),
@@ -245,7 +252,7 @@ class OrderController extends BaseController
                     'jumlah' => $request->jumlah,
                     'sisa_bayar' => $request->total_bayar-($bayarSebelumnya+$request->jumlah),
                     'total_bayar' => $request->total_bayar,
-                    'status' => $request->status
+                    'status' => $status
                 ]);
             }
         }
@@ -256,8 +263,12 @@ class OrderController extends BaseController
                             ->first();
         $cekavailable = SaldoAwal::query()->count();
         if(!$cektransaksi){
-            if($ceksaldoawal){
-                    
+            if(!$ceksaldoawal){
+               $lastsaldo = SaldoAwal::query()->orderBy('tanggal_saldo_awal','desc')->first();
+               SaldoAwal::create([
+                'saldo_awal' => $lastsaldo->saldo_awal ?? 0,
+                'tanggal_saldo_awal' => Date::Now(),
+               ]);
             } else if($cekavailable == 0){
                 SaldoAwal::create([
                     'saldo_awal' => 0,
@@ -395,7 +406,9 @@ class OrderController extends BaseController
 
     public function detailOrdersAP($nopo)
     {
-        $order = OrderAP::query()->where('no_po','=',$nopo)->first();
+        $order = OrderAP::query()
+        ->leftJoin('vehicles','vehicles.vehicle_id','=','orders_ap.vehicle')
+        ->where('no_po','=',$nopo)->first();
         return view('transactions/detailorders-ap',['order'=>$order],'layout/app');
     }
 
@@ -484,7 +497,13 @@ class OrderController extends BaseController
             $fileName = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('bukti_bayar'));
             $tempPath = $request->getPath('bukti_bayar');
             $destination = $path.'/'.$fileName;
-
+            if($request->jumlah <= $request->total_bayar){
+                $status = 'Partial';
+            } else if($request->jumlah == $request->total_bayar){
+                $status = 'Paid';
+            } else {
+                $status = 'Partial';
+            }
             if(move_uploaded_file($tempPath,$destination)){
                 $pembayaran = StatusPembayaranAP::create([
                     'uuid' => UUID::generateUuid(),
@@ -494,7 +513,7 @@ class OrderController extends BaseController
                     'jumlah' => $request->jumlah,
                     'sisa_bayar' => $request->total_bayar-($bayarSebelumnya+$request->jumlah),
                     'total_bayar' => $request->total_bayar,
-                    'status' => $request->status
+                    'status' => $status
                 ]);
             }
         }
@@ -505,8 +524,12 @@ class OrderController extends BaseController
                             ->first();
         $cekavailable = SaldoAwal::query()->count();
         if(!$cektransaksi){
-            if($ceksaldoawal){
-                    
+            if(!$ceksaldoawal){
+                $lastsaldo = SaldoAwal::query()->orderBy('tanggal_saldo_awal','desc')->first();
+               SaldoAwal::create([
+                'saldo_awal' => $lastsaldo->saldo_awal ?? 0,
+                'tanggal_saldo_awal' => Date::Now(),
+               ]);
             } else if($cekavailable == 0){
                 SaldoAwal::create([
                     'saldo_awal' => 0,

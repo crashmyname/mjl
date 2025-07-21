@@ -135,7 +135,7 @@
                                                         <tr>
                                                             <th>No</th>
                                                             <th>Driver Name</th>
-                                                            <th>Driver KSUID</th>
+                                                            <th>SIM ID</th>
                                                             <th>Phone</th>
                                                             <th>Sim Type</th>
                                                             <th>Status Driver</th>

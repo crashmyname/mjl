@@ -309,7 +309,7 @@
                                 <th>PPN</th>
                                 <th>Total Pembayaran</th>
                                 <th>Description</th>
-                                <th>Created at</th>
+                                <th>Updated at</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -416,7 +416,7 @@
                 },
                 {
                     data: 'created_at',
-                    name: 'created_at'
+                    name: 'updated_at'
                 },
             ],
             lengthMenu: [10,25,50,100],
