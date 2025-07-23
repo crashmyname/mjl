@@ -71,19 +71,22 @@
                                                 <label>Jumlah</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="jumlah" id="jumlah" class="form form-control">
+                                                <input type="text" name="vjumlah" id="vjumlah" class="form form-control">
+                                                <input type="hidden" name="jumlah" id="jumlah" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Sisa Bayar</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="sisa_bayar" id="sisa_bayar" class="form form-control" value="<?= $payment ? $payment[0]->sisa_bayar : $inv->total_pembayaran?>" readonly>
+                                                <input type="text" name="vsisa_bayar" id="vsisa_bayar" class="form-control" value="<?= $payment ? number_format($payment[0]->sisa_bayar,2,',','.') : number_format($inv->total_pembayaran,2,',','.')?>" readonly>
+                                                <input type="hidden" name="sisa_bayar" id="sisa_bayar" class="form form-control" value="<?= $payment ? $payment[0]->sisa_bayar : $inv->total_pembayaran?>" readonly>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Total Bayar</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="total_bayar" id="total_bayar" class="form form-control" value="<?= $inv->total_pembayaran?>" readonly>
+                                                <input type="text" name="vtotal_bayar" id="vtotal_bayar" class="form form-control" value="<?= number_format($inv->total_pembayaran,2,',','.')?>" readonly>
+                                                <input type="hidden" name="total_bayar" id="total_bayar" class="form form-control" value="<?= $inv->total_pembayaran?>" readonly>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Description</label>
@@ -225,6 +228,15 @@
                     buttons: ['copy', 'excel', 'pdf', 'colvis']
                 }
             }
+        })
+        $('#vjumlah').on('input', function(){
+            let value = $(this).val().replace(/\D/g, '');
+                if (value) {
+                    $(this).val(parseInt(value, 10).toLocaleString('id-ID'))
+                } else {
+                    $(this).val('');
+                }
+            $('#jumlah').val(value)
         })
     }
     // function crud user

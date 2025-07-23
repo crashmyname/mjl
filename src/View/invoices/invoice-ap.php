@@ -191,6 +191,7 @@
                                 <th>Total Pembayaran</th>
                                 <th>Description</th>
                                 <th>Created at</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -305,8 +306,10 @@
                     render:function(data,type,row){
                         if(data === 'Partial'){
                             return '<span class="badge bg-primary">'+data+'</span>';
-                        } else {
+                        } else if(data === 'Paid'){
                             return '<span class="badge bg-success">'+data+'</span>';
+                        } else {
+                            return '<span class="badge bg-secondary">'+'-'+'</span>';
                         }
                     }
                 }

@@ -283,7 +283,7 @@ class OrderController extends BaseController
                 ]);
             } else {
                 $cal = new TransactionController();
-                $cal->Calculate($request->tanggal);
+                $cal->Calculate($request->tanggal_pembayaran);
             }
             $transaction = Transactions::create([
                 'uuid' => UUID::generateUuid(),
@@ -552,7 +552,7 @@ class OrderController extends BaseController
         $cekavailable = SaldoAwal::query()->count();
         if(!$cektransaksi){
             if(!$ceksaldoawal){
-                $lastsaldo = SaldoAwal::query()->orderBy('tanggal_saldo_awal','desc')->first();
+               $lastsaldo = SaldoAwal::query()->orderBy('tanggal_saldo_awal','desc')->first();
                SaldoAwal::create([
                 'saldo_awal' => $lastsaldo->saldo_awal ?? 0,
                 'tanggal_saldo_awal' => Date::Now(),
@@ -564,7 +564,7 @@ class OrderController extends BaseController
                 ]);
             } else {
                 $cal = new TransactionController();
-                $cal->Calculate($request->tanggal);
+                $cal->Calculate($request->tanggal_pembayaran);
             }
             $transaction = Transactions::create([
                 'uuid' => UUID::generateUuid(),
@@ -577,10 +577,10 @@ class OrderController extends BaseController
                 'transaction_date' => $request->tanggal_pembayaran,
                 'amount' => $request->jumlah,
                 'description' => ucfirst($request->description),
-                'status' => $request->status,
+                'status' => $status,
                 'created_at' => Date::Now(),
                 'updated_at' => Date::Now(),
-            ]);
+            ]); 
         }
         return Response::json(['status'=>201,'message'=>'Pembayaran sukses']);
     }
@@ -595,7 +595,7 @@ class OrderController extends BaseController
                 ->orderBy('created_at','desc')
                 ->get();
             foreach($invoice as $inv){
-                $inv = new Invoice($inv);
+                $inv = new InvoiceAP($inv);
                 $inv->update([
                     'status' => $pembayaran->status,
                     'updated_at' => Date::Now()
