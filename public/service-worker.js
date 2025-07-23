@@ -1,10 +1,11 @@
 const CACHE_NAME = "app-cache-v1";
+const baseURL = self.location.origin;
 const urlsToCache = [
-  "/",
-  "/public/css/style.css",
-  "/public/js/script.js",
-  "/public/documents/logomjl192.png",
-  "/public/documents/logomjl512.png"
+  `${baseURL}/`,
+  `${baseURL}/public/css/style.css`,
+  `${baseURL}/public/js/script.js`,
+  `${baseURL}/public/documents/logomjl192.png`,
+  `${baseURL}/public/documents/logomjl512.png`
 ];
 
 self.addEventListener("install", (event) => {
