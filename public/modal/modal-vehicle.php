@@ -25,13 +25,27 @@
                                                 <label>Truck Type</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="truck_type" id="truck_type" class="form form-control">
+                                                <select name="truck_type" id="truck_type" class="form-control">
+                                                    <option value="" hidden disabled selected>Pilih</option>
+                                                    <option value="CDE">CDE</option>
+                                                    <option value="CDD">CDD</option>
+                                                    <option value="CDD LONG">CDD LONG</option>
+                                                    <option value="FUSO">FUSO</option>
+                                                    <option value="FUSO LONG">FUSO LONG</option>
+                                                    <option value="TRONTON">TRONTON</option>
+                                                    <option value="TRAILER">TRAILER</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Truck Sub Type</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="truck_sub_type" id="truck_sub_type" class="form form-control">
+                                                <select name="truck_sub_type" id="truck_sub_type" class="form-control">
+                                                    <option value="" hidden disabled selected>Pilih</option>
+                                                    <option value="BOX">BOX</option>
+                                                    <option value="BAK">BAK</option>
+                                                    <option value="WINGBOX">WINGBOX</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Plat Color</label>
@@ -111,13 +125,25 @@
                                                 <label>Truck Type</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="truck_type" id="utruck_type" class="form form-control">
+                                                <select name="truck_type" id="utruck_type" class="form-control">
+                                                    <option value="CDE">CDE</option>
+                                                    <option value="CDD">CDD</option>
+                                                    <option value="CDD LONG">CDD LONG</option>
+                                                    <option value="FUSO">FUSO</option>
+                                                    <option value="FUSO LONG">FUSO LONG</option>
+                                                    <option value="TRONTON">TRONTON</option>
+                                                    <option value="TRAILER">TRAILER</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Truck Sub Type</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="truck_sub_type" id="utruck_sub_type" class="form form-control">
+                                                <select name="truck_sub_type" id="utruck_sub_type" class="form-control">
+                                                    <option value="BOX">BOX</option>
+                                                    <option value="BAK">BAK</option>
+                                                    <option value="WINGBOX">WINGBOX</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Plat Color</label>

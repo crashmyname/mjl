@@ -22,7 +22,7 @@
                                                 <input type="text" name="driver_name" id="driver_name" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Driver KSUID</label>
+                                                <label>SIM ID</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="text" name="driver_ksuid" id="driver_ksuid" class="form form-control">
@@ -37,7 +37,14 @@
                                                 <label>Sim Type</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="sim_type" id="sim_type" class="form form-control">
+                                                <select name="sim_type" id="sim_type" class="form-control">
+                                                    <option value="" hidden selected disabled>Pilih</option>
+                                                    <option value="A">SIM A</option>
+                                                    <option value="B1">SIM B1</option>
+                                                    <option value="B1 UMUM">SIM B1 UMUM</option>
+                                                    <option value="B2">SIM B2</option>
+                                                    <option value="B2 UMUM">SIM B2 UMUM</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status Driver</label>
@@ -107,7 +114,7 @@
                                                 <input type="text" name="driver_name" id="udriver_name" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Driver KSUID</label>
+                                                <label>SIM ID</label>
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="text" name="driver_ksuid" id="udriver_ksuid" class="form form-control">
@@ -122,7 +129,13 @@
                                                 <label>Sim Type</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="text" name="sim_type" id="usim_type" class="form form-control">
+                                                <select name="sim_type" id="usim_type" class="form-control">
+                                                    <option value="A">SIM A</option>
+                                                    <option value="B1">SIM B1</option>
+                                                    <option value="B1 UMUM">SIM B1 UMUM</option>
+                                                    <option value="B2">SIM B2</option>
+                                                    <option value="B2 UMUM">SIM B2 UMUM</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Status Driver</label>

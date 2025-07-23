@@ -218,6 +218,9 @@ class OrderController extends BaseController
         if($validate){
             return Response::json(['status'=>500,'message'=>$validate]);
         }
+        if($request->file('bukti_bayar')['name'] == null || $request->file('bukti_bayar')['name'] == ''){
+            return Response::json(['status' => 400, 'message' => 'bukti potong harus diisi']);
+        }
         $invoiceID = Invoice::query()->where('no_invoice','=',$request->no_invoice)->first();
         $pembayaranSebelumnya  = StatusPembayaran::query()->where('invoice_id','=',$invoiceID->invoice_id)->where('deleted_at','=',null)->get();
         $bayarSebelumnya = 0;
@@ -236,12 +239,10 @@ class OrderController extends BaseController
             $fileName = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('bukti_bayar'));
             $tempPath = $request->getPath('bukti_bayar');
             $destination = $path.'/'.$fileName;
-            if($request->jumlah <= $request->total_bayar){
+            if($request->jumlah != $request->sisa_bayar){
                 $status = 'Partial';
-            } else if($request->jumlah == $request->total_bayar){
+            } else if($request->jumlah == $request->sisa_bayar){
                 $status = 'Paid';
-            } else {
-                $status = 'Partial';
             }
             if(move_uploaded_file($tempPath,$destination)){
                 $pembayaran = StatusPembayaran::create([
@@ -254,6 +255,12 @@ class OrderController extends BaseController
                     'total_bayar' => $request->total_bayar,
                     'status' => $status
                 ]);
+                if($pembayaran){
+                    $invoiceID->update([
+                        'status' => $status,
+                        'updated_at' => Date::Now(),
+                    ]);
+                }
             }
         }
         $cektransaksi = Transactions::query()->where('reference_table','=','status_pembayaran')->where('reference_id','=',$invoiceID->invoice_id)->first();
@@ -302,6 +309,19 @@ class OrderController extends BaseController
         $pembayaran = StatusPembayaran::query()->where('uuid','=',$id)->first();
         $pembayaran->deleted_at = Date::Now();
         $pembayaran->save();
+        if($pembayaran){
+            $invoice = Invoice::query()
+                ->where('invoice_id','=',$pembayaran->invoice_id)
+                ->orderBy('created_at','desc')
+                ->get();
+            foreach($invoice as $inv){
+                $inv = new Invoice($inv);
+                $inv->update([
+                    'status' => $pembayaran->status,
+                    'updated_at' => Date::Now()
+                ]);
+            }
+        }
         return Response::json(['status'=>200,'message'=>'Pembayaran deleted']);
     }
 
@@ -418,7 +438,7 @@ class OrderController extends BaseController
         $validateType = $request->getClientMimeType('quotation');
         $allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
         if($request->file('quotation') && !in_array($validateType,$allowedTypes)){
-            $errors = ['stnk' => ['File must be a valid image']];
+            $errors = ['quotation' => ['File must be a valid image']];
         }
         if(!empty($errors)){
             return Response::json(['status'=>500,'message'=>$errors]);
@@ -479,6 +499,9 @@ class OrderController extends BaseController
         if($validate){
             return Response::json(['status'=>500,'message'=>$validate]);
         }
+        if($request->file('bukti_bayar')['name'] == null || $request->file('bukti_bayar')['name'] == ''){
+            return Response::json(['status' => 400, 'message' => 'bukti potong harus diisi']);
+        }
         $invoiceID = InvoiceAP::query()->where('no_invoice','=',$request->no_invoice)->first();
         $pembayaranSebelumnya  = StatusPembayaranAP::query()->where('invoice_ap_id','=',$invoiceID->invoice_ap_id)->where('deleted_at','=',null)->get();
         $bayarSebelumnya = 0;
@@ -497,12 +520,10 @@ class OrderController extends BaseController
             $fileName = time() . '-' . preg_replace('/[^A-Za-z0-9.\-]/', '-', $request->getClientOriginalName('bukti_bayar'));
             $tempPath = $request->getPath('bukti_bayar');
             $destination = $path.'/'.$fileName;
-            if($request->jumlah <= $request->total_bayar){
+            if($request->jumlah != $request->sisa_bayar){
                 $status = 'Partial';
-            } else if($request->jumlah == $request->total_bayar){
+            } else if($request->jumlah == $request->sisa_bayar){
                 $status = 'Paid';
-            } else {
-                $status = 'Partial';
             }
             if(move_uploaded_file($tempPath,$destination)){
                 $pembayaran = StatusPembayaranAP::create([
@@ -515,6 +536,12 @@ class OrderController extends BaseController
                     'total_bayar' => $request->total_bayar,
                     'status' => $status
                 ]);
+                if($pembayaran){
+                    $invoiceID->update([
+                        'status' => $status,
+                        'updated_at' => Date::Now(),
+                    ]);
+                }
             }
         }
         $cektransaksi = Transactions::query()->where('reference_table','=','status_pembayaran_ap')->where('reference_id','=',$invoiceID->invoice_ap_id)->first();
@@ -563,6 +590,17 @@ class OrderController extends BaseController
         $pembayaran = StatusPembayaranAP::query()->where('uuid','=',$id)->first();
         $pembayaran->deleted_at = Date::Now();
         $pembayaran->save();
+        $invoice = InvoiceAP::query()
+                ->where('invoice_ap_id','=',$pembayaran->invoice_ap_id)
+                ->orderBy('created_at','desc')
+                ->get();
+            foreach($invoice as $inv){
+                $inv = new Invoice($inv);
+                $inv->update([
+                    'status' => $pembayaran->status,
+                    'updated_at' => Date::Now()
+                ]);
+            }
         return Response::json(['status'=>200,'message'=>'Pembayaran deleted']);
     }
 }

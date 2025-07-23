@@ -309,7 +309,8 @@
                                 <th>PPN</th>
                                 <th>Total Pembayaran</th>
                                 <th>Description</th>
-                                <th>Updated at</th>
+                                <th>Created at</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -416,8 +417,12 @@
                 },
                 {
                     data: 'created_at',
-                    name: 'updated_at'
+                    name: 'created_at'
                 },
+                {
+                    data: 'status',
+                    name: 'status',
+                }
             ],
             lengthMenu: [10,25,50,100],
             dom: 'Blftrip',

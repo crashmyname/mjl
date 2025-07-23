@@ -296,8 +296,8 @@
                     name: 'description'
                 },
                 {
-                    data: 'updated_at',
-                    name: 'updated_at'
+                    data: 'created_at',
+                    name: 'created_at'
                 },
             ],
             lengthMenu: [10,25,50,100],

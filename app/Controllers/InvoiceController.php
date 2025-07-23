@@ -130,6 +130,9 @@ class InvoiceController extends BaseController
             'ppn' => $request->ppn ?? 0,
             'total_pembayaran' => $request->total_pembayaran,
             'description' => ucfirst($request->description),
+            'status' => 'Unpaid',
+            'created_at' => Date::Now(),
+            'updated_at' => Date::Now(),
         ]);
         if ($invoice) {
             $orderIds = $request->get('order_id');
@@ -298,6 +301,9 @@ class InvoiceController extends BaseController
             'ppn' => $request->ppn ?? 0,
             'total_pembayaran' => $request->total_pembayaran,
             'description' => ucfirst($request->description),
+            'status' => 'Unpaid',
+            'created_at' => Date::Now(),
+            'updated_at' => Date::Now(),
         ]);
         if ($invoice) {
             $orderIds = $request->get('order_ap_id');
