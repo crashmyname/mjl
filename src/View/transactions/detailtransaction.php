@@ -215,7 +215,7 @@
                 },
                 {
                     data: 'status',
-                    name: 'status'
+                    name: 'status',
                 },
             ],
             lengthMenu: [10,25,50,100],

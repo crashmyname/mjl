@@ -299,6 +299,17 @@
                     data: 'created_at',
                     name: 'created_at'
                 },
+                {
+                    data: 'status',
+                    name: 'status',
+                    render:function(data,type,row){
+                        if(data === 'Partial'){
+                            return '<span class="badge bg-primary">'+data+'</span>';
+                        } else {
+                            return '<span class="badge bg-success">'+data+'</span>';
+                        }
+                    }
+                }
             ],
             lengthMenu: [10,25,50,100],
             dom: 'Blftrip',
