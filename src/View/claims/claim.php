@@ -426,7 +426,10 @@
                 },
                 {
                     data: 'biaya',
-                    name: 'biaya'
+                    name: 'biaya',
+                    render:function(data,type,row){
+                        return parseFloat(data).toLocaleString('id-ID');
+                    }
                 },
                 {
                     data: 'remark',
