@@ -383,7 +383,7 @@
                     data: 'subtotal',
                     name: 'subtotal',
                     render:function(data,type,row){
-                        return '<span class="badge bg-primary">'+'Rp. '+data.toLocaleString('id-ID')+'</span>';
+                        return '<span class="badge bg-primary">'+'Rp. '+parseFloat(data).toLocaleString('id-ID')+'</span>';
                     }
                 },
                 {
