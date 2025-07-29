@@ -24,7 +24,7 @@ class ClaimController extends BaseController
         if(Request::isAjax()){
             if($request->startdate && $request->enddate){
             $claim = Claim::query()
-                                ->select('claim_id','claims.uuid','vehicles.plat_number','drivers.driver_name','vendors.company_name','jenis_claim','biaya','remark','sj','claims.status','claims.tanggal_claim')
+                                ->select('claim_id','claims.uuid','vehicles.plat_number','drivers.driver_name','vendors.company_name','jenis_claim','biaya','remark','sj','claims.status','claims.tanggal_claim','sisa_bayar')
                                 ->leftJoin('drivers','drivers.driver_id','=','claims.driver_id')
                                 ->leftJoin('vehicles','vehicles.vehicle_id','=','claims.vehicle_id')
                                 ->leftJoin('vendors','vendors.vendor_id','=','claims.vendor_id')
@@ -84,6 +84,7 @@ class ClaimController extends BaseController
                     'tanggal_claim' => $request->tanggal_claim,
                     'jenis_claim' => $request->jenis_claim,
                     'biaya' => $request->biaya,
+                    'sisa_bayar' => $request->biaya,
                     'remark' => ucfirst($request->remark),
                     'sj' => $fileName,
                     'status' => 'unpaid',

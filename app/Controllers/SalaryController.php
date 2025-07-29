@@ -22,12 +22,12 @@ class SalaryController extends BaseController
         if(Request::isAjax()){
             if($request->startdate && $request->enddate){
             $salary = Salary::query()
-                                ->select('salary_id','salaries.uuid','drivers.driver_name','salary','tanggal','bukti','salaries.status','salaries.ppn','salaries.pph','salaries.buktipotong','salaries.tanggal_payment')
+                                ->select('salary_id','salaries.uuid','drivers.driver_name','salary','tanggal','bukti','salaries.status','salaries.ppn','salaries.pph','salaries.buktipotong','salaries.tanggal_payment','sisa_bayar')
                                 ->leftJoin('drivers','drivers.driver_id','=','salaries.driver_id')
                                 ->where('salaries.deleted_at','=',null)
                                 ->whereBetween('tanggal',$request->startdate,$request->enddate)
                                 ->get();
-            return DataTables::of($salary)->make(true);
+                return DataTables::of($salary)->make(true);
             } else {
                 return DataTables::of([])->make(true);
             }
@@ -75,6 +75,7 @@ class SalaryController extends BaseController
                     'driver_id' => $request->driver_id,
                     'tanggal' => $request->tanggal,
                     'salary' => $request->salary,
+                    'sisa_bayar' => $request->salary-($request->salary*$request->pph),
                     'ppn' => $request->ppn,
                     'pph' => $request->pph,
                     'bukti' => $fileName,

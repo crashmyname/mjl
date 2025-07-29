@@ -282,10 +282,17 @@
                                                 <input type="date" name="tanggal" id="ptanggal" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
+                                                <label>Sisa Bayar</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" readonly name="sisa_bayar" id="psisa_bayar" class="form form-control">
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>Total</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="number" name="biaya" id="pbiaya" class="form form-control">
+                                                <input type="text" name="" id="vpbiaya" class="form form-control">
+                                                <input type="hidden" name="biaya" id="pbiaya" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Description</label>
@@ -293,7 +300,7 @@
                                             <div class="col-md-8 form-group">
                                                 <textarea name="description" id="description" class="form-control"></textarea>
                                             </div>
-                                            <div class="col-md-4">
+                                            <!-- <div class="col-md-4">
                                                 <label>Status</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -302,11 +309,29 @@
                                                     <option value="Paid">Paid</option>
                                                     <option value="Partial">Partial</option>
                                                 </select>
-                                            </div>
+                                            </div> -->
                                             <div class="col-sm-12 d-flex justify-content-end">
                                                 <button type="reset"
                                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <table class="table table-striped" id="table-claim-detail">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Reference</th>
+                                                        <th>Jenis</th>
+                                                        <th>Amount</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -610,15 +635,25 @@
             }).data();
             var vehicle_id = $('#pvehicle_id');
             var tanggal = $('#ptanggal');
-            var biaya = $('#pbiaya');
-            var status = $('#pstatus');
+            var sisa_bayar = $('#psisa_bayar');
+            // var status = $('#pstatus');
             var claim = $('#pclaim');
             if(selectedData.length > 0){
                 vehicle_id.val(selectedData[0].plat_number);
                 claim.val(selectedData[0].claim_id);
                 tanggal.val(selectedData[0].tanggal);
-                biaya.val(selectedData[0].biaya);
-                status.val(selectedData[0].status);
+                flatpickr('#ptanggal',{
+                    dateFormat: 'Y-m-d',
+                    locale: 'id',
+                    allowInput: false,
+                    defaultDate: new Date(),
+                    onChange:function(selectedDates, dateStr, instance){
+                        var formatedDate = instance.formatDate(selectedDates[0].tanggal,'Y-m-d');
+                        tanggal.val(formatedDate);
+                    }
+                })
+                sisa_bayar.val(parseFloat(selectedData[0].sisa_bayar).toLocaleString('id-ID'));
+                // status.val(selectedData[0].status);
                 $('#modalPayment').modal('show');
             } else {
                 $('#modalPayment').modal('hide');
@@ -628,6 +663,35 @@
                     text: 'No Data Selected',
                 });
             }
+            $.ajax({
+                type: 'POST',
+                data: {
+                    id: selectedData[0].claim_id
+                },
+                url: '<?= base_url().'/getclaimid'?>',
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': '<?= csrfHeader()?>'
+                },
+                success: function(response){
+                    if(response.status === 200){
+                        const tbody = $('#table-claim-detail tbody');
+                        tbody.empty();
+
+                        let i = 1;
+                        response.data.forEach(row => {
+                            const html = `
+                                <tr>
+                                    <td>${row.reference_table}</td>
+                                    <td>${row.jenis_transaction}</td>
+                                    <td>Rp. ${parseFloat(row.amount).toLocaleString('id-ID')}</td>
+                                    <td>${row.status}</td>
+                                </tr>`;
+                            tbody.append(html);
+                        });
+                    }
+                }
+            })
         })
         $('#addpayment').on('click', function(e){
             e.preventDefault();
@@ -755,12 +819,6 @@
         })
     }
     function flatPicker(){
-        flatpickr('#ptanggal',{
-            dateFormat: 'Y-m-d',
-            locale: 'id',
-            allowInput: false,
-            defaultDate: new Date(),
-        })
         flatpickr('#tgl_pembuatan_po',{
             dateFormat: 'Y-m-d',
             locale: 'id',
@@ -796,6 +854,15 @@
         input.value = input.value.replace(/[^0-9].,/g,'');
     }
     function getRupiah(){
+        $('#vpbiaya').on('input', function(){
+            let value = $(this).val().replace(/\D/g, '');
+                if (value) {
+                    $(this).val(parseInt(value, 10).toLocaleString('id-ID'))
+                } else {
+                    $(this).val('');
+                }
+            $('#pbiaya').val(value)
+        })
         $('#rpbiaya').on('input', function(){
             let value = $(this).val().replace(/\D/g, '');
                 if (value) {

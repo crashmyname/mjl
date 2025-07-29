@@ -23,7 +23,7 @@ class MaintenanceController extends BaseController
         if(Request::isAjax()){
             if($request->startdate && $request->enddate){
             $mtc = Maintenance::query()
-                                ->select('maintenance_id','maintenances.uuid','tanggal','vehicles.plat_number','vehicles.truck_type','maintenances.description','sparepart','harga','jasa','bon','bukti','maintenances.total','maintenances.status','maintenances.ppn','maintenances.pph','maintenances.buktipotong','tanggal_payment')
+                                ->select('maintenance_id','maintenances.uuid','tanggal','vehicles.plat_number','vehicles.truck_type','maintenances.description','sparepart','harga','jasa','bon','bukti','maintenances.total','maintenances.status','maintenances.ppn','maintenances.pph','maintenances.buktipotong','tanggal_payment','sisa_bayar')
                                 ->leftJoin('vehicles','vehicles.vehicle_id','=','maintenances.vehicle_id')
                                 ->where('maintenances.deleted_at','=',null)
                                 ->whereBetween('tanggal',$request->startdate,$request->enddate)
@@ -94,6 +94,7 @@ class MaintenanceController extends BaseController
                     'bukti' => $fileName1,
                     'buktipotong' => $fileName2,
                     'total' => $request->total,
+                    'sisa_bayar' => $request->total,
                     'status' => 'unpaid',
                     'created_at' => Date::Now(),
                     'updated_at' => Date::Now(),

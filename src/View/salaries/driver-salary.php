@@ -237,6 +237,12 @@
                                                 <input type="date" name="tanggal" id="ptanggal" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
+                                                <label>Sisa Bayar</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" readonly name="sisa_bayar" id="psisa_bayar" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>Total</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -249,7 +255,7 @@
                                             <div class="col-md-8 form-group">
                                                 <textarea name="description" id="description" class="form-control"></textarea>
                                             </div>
-                                            <div class="col-md-4">
+                                            <!-- <div class="col-md-4">
                                                 <label>Status</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -258,11 +264,29 @@
                                                     <option value="Paid">Paid</option>
                                                     <option value="Partial">Partial</option>
                                                 </select>
-                                            </div>
+                                            </div> -->
                                             <div class="col-sm-12 d-flex justify-content-end">
                                                 <button type="reset"
                                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <table class="table table-striped" id="table-salaries-detail">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Reference</th>
+                                                        <th>Jenis</th>
+                                                        <th>Amount</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -664,19 +688,21 @@
             var driver_id = $('#pdriver_id');
             var tanggal = $('#ptanggal');
             var total = $('#pmtotal');
+            var sisa_bayar = $('#psisa_bayar');
             var rptotal = $('#rpmtotal');
             var status = $('#pstatus');
             var salary = $('#psalary');
             if(selectedData.length > 0){
                 var getppn =selectedData[0].salary*selectedData[0].ppn;
                 var getpph =selectedData[0].salary*selectedData[0].pph;
-                var gettotal =parseFloat(selectedData[0].salary)+getppn-getpph;
-                var getrptotal =gettotal.toLocaleString('id-ID');
+                // var gettotal =parseFloat(selectedData[0].salary)+getppn-getpph;
+                // var getrptotal =gettotal.toLocaleString('id-ID');
                 driver_id.val(selectedData[0].driver_name);
                 salary.val(selectedData[0].salary_id);
                 tanggal.val(selectedData[0].tanggal);
-                total.val(gettotal);
-                rptotal.val(getrptotal);
+                // total.val(gettotal);
+                // rptotal.val(getrptotal);
+                sisa_bayar.val(parseFloat(selectedData[0].sisa_bayar).toLocaleString('id-ID'))
                 status.val(selectedData[0].status);
                 $('#modalPayment').modal('show');
             } else {
@@ -687,6 +713,35 @@
                     text: 'No Data Selected',
                 });
             }
+            $.ajax({
+                type: 'POST',
+                data: {
+                    id: selectedData[0].salary_id
+                },
+                url: '<?= base_url().'/getsalaryid'?>',
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': '<?= csrfHeader()?>'
+                },
+                success: function(response){
+                    if(response.status === 200){
+                        const tbody = $('#table-salaries-detail tbody');
+                        tbody.empty();
+
+                        let i = 1;
+                        response.data.forEach(row => {
+                            const html = `
+                                <tr>
+                                    <td>${row.reference_table}</td>
+                                    <td>${row.jenis_transaction}</td>
+                                    <td>Rp. ${parseFloat(row.amount).toLocaleString('id-ID')}</td>
+                                    <td>${row.status}</td>
+                                </tr>`;
+                            tbody.append(html);
+                        });
+                    }
+                }
+            })
         })
         $('#addpayment').on('click', function(e){
             e.preventDefault();

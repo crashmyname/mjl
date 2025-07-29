@@ -98,41 +98,69 @@ class TransactionController extends BaseController
                             ->whereYear('tanggal_saldo_awal',Date::parse($request->tanggal)->format('Y'))
                             ->first();
         $cekavailable = SaldoAwal::query()->count();
-        if(!$cektransaksi){
-            if($cekdata){
-                if($ceksaldoawal){
-                    
-                } else if($cekavailable == 0){
-                    SaldoAwal::create([
-                        'saldo_awal' => 0,
-                        'tanggal_saldo_awal' => Date::Now(),
-                    ]);
-                } else {
-                    $this->Calculate($request->tanggal);
-                }
-                    $transaction = Transactions::create([
-                        'uuid' => UUID::generateUuid(),
-                        'payment_id' => 1,
-                        'reference_table' => 'maintenance',
-                        'reference_id' => $cekdata->maintenance_id,
-                        'jenis_transaction' => 'Repair',
-                        'type_transaction' => 'outcome',
-                        'transaction_date' => $request->tanggal,
-                        'amount' => $request->total,
-                        'description' => ucfirst($request->description),
-                        'status' => $request->status,
-                        'created_at' => Date::Now(),
-                        'updated_at' => Date::Now(),
-                    ]);
-                    $cekdata->update([
-                        'status' => $request->status,
-                        'tanggal_payment' => $request->tanggal,
-                        'updated_at' => Date::Now(),
-                    ]);
+        if($cekdata){
+            if(!$ceksaldoawal){
+                $lastsaldo = SaldoAwal::query()->orderBy('tanggal_saldo_awal','desc')->first();
+                SaldoAwal::create([
+                    'saldo_awal' => $lastsaldo->saldo_awal ?? 0,
+                    'tanggal_saldo_awal' => Date::Now(),
+                ]); 
+            } else if($cekavailable == 0){
+                SaldoAwal::create([
+                    'saldo_awal' => 0,
+                    'tanggal_saldo_awal' => Date::Now(),
+                ]);
+            } else {
+                $this->Calculate($request->tanggal);
             }
-            return Response::json(['status'=>201,'message'=>'Payment berhasil dibuat']);
+            if($request->total < $cekdata->sisa_bayar){
+                $status = 'Partial';
+            } else if($request->total > $cekdata->sisa_bayar){
+                $status = 'Over Payment';
+            } else if($request->total == $cekdata->sisa_bayar){
+                $status = 'Paid';
+            }
+                $transaction = Transactions::create([
+                    'uuid' => UUID::generateUuid(),
+                    'payment_id' => 1,
+                    'reference_table' => 'maintenance',
+                    'reference_id' => $cekdata->maintenance_id,
+                    'jenis_transaction' => 'Repair',
+                    'type_transaction' => 'outcome',
+                    'transaction_date' => $request->tanggal,
+                    'amount' => $request->total,
+                    'description' => ucfirst($request->description),
+                    'status' => $status,
+                    'created_at' => Date::Now(),
+                    'updated_at' => Date::Now(),
+                ]);
+                $cekdata->update([
+                    'sisa_bayar' => $cekdata->sisa_bayar - $request->total,
+                    'status' => $status,
+                    'tanggal_payment' => $request->tanggal,
+                    'updated_at' => Date::Now(),
+                ]);
+        }
+        return Response::json(['status'=>201,'message'=>'Payment berhasil dibuat']);
+    }
+
+    public function getPaymentMaintenance(Request $request)
+    {
+        $cekpayment = Transactions::query()
+                                    ->where('reference_table','=','maintenance')
+                                    ->where('reference_id','=',$request->id)
+                                    ->get();
+        if($cekpayment){
+            return Response::json([
+                'status' => 200,
+                'message' => 'success get data',
+                'data' => $cekpayment
+            ]);
         } else {
-            return Response::json(['status'=>500,'message'=>'Sudah melakukan payment maintenance']);
+            return Response::json([
+                'status' => 500,
+                'message' => 'no data',
+            ]);
         }
     }
 
@@ -146,10 +174,13 @@ class TransactionController extends BaseController
                             ->whereYear('tanggal_saldo_awal',Date::parse($request->tanggal)->format('Y'))
                             ->first();
         $cekavailable = SaldoAwal::query()->count();
-        if(!$cektransaksi){
             if($cekdata){
-                if($ceksaldoawal){
-                    
+                if(!$ceksaldoawal){
+                  $lastsaldo = SaldoAwal::query()->orderBy('tanggal_saldo_awal','desc')->first();
+                    SaldoAwal::create([
+                        'saldo_awal' => $lastsaldo->saldo_awal ?? 0,
+                        'tanggal_saldo_awal' => Date::Now(),
+                    ]);  
                 } else if($cekavailable == 0){
                     SaldoAwal::create([
                         'saldo_awal' => 0,
@@ -157,6 +188,13 @@ class TransactionController extends BaseController
                     ]);
                 } else {
                     $this->Calculate($request->tanggal);
+                }
+                if($request->biaya < $cekdata->sisa_bayar){
+                    $status = 'Partial';
+                } else if($request->biaya > $cekdata->sisa_bayar){
+                    $status = 'Over Payment';
+                } else if($request->biaya == $cekdata->sisa_bayar){
+                    $status = 'Paid';
                 }
                 $transaction = Transactions::create([
                     'uuid' => UUID::generateUuid(),
@@ -167,19 +205,37 @@ class TransactionController extends BaseController
                     'type_transaction' => 'outcome',
                     'transaction_date' => $request->tanggal,
                     'amount' => $request->biaya,
-                    'status' => $request->status,
+                    'status' => $status,
                     'description' => ucfirst($request->description),
                     'created_at' => Date::Now(),
                     'updated_at' => Date::Now(),
                 ]);
                 $cekdata->update([
-                    'status' => $request->status,
+                    'sisa_bayar' => $cekdata->sisa_bayar - $request->biaya,
+                    'status' => $status,
                     'updated_at' => Date::Now(),
                 ]);
             }
             return Response::json(['status'=>201,'message'=>'Payment berhasil dibuat']);
+    }
+
+    public function getPaymentClaim(Request $request)
+    {
+        $cekpayment = Transactions::query()
+                                    ->where('reference_table','=','claim')
+                                    ->where('reference_id','=',$request->id)
+                                    ->get();
+        if($cekpayment){
+            return Response::json([
+                'status' => 200,
+                'message' => 'success get data',
+                'data' => $cekpayment
+            ]);
         } else {
-            return Response::json(['status'=>500,'message'=>'Sudah melakukan payment claim']);
+            return Response::json([
+                'status' => 500,
+                'message' => 'no data',
+            ]);
         }
     }
 
@@ -193,10 +249,13 @@ class TransactionController extends BaseController
                             ->whereYear('tanggal_saldo_awal',Date::parse($request->tanggal)->format('Y'))
                             ->first();
         $cekavailable = SaldoAwal::query()->count();
-        if(!$cektransaksi){
             if($cekdata){
-                if($ceksaldoawal){
-                    
+                if(!$ceksaldoawal){
+                   $lastsaldo = SaldoAwal::query()->orderBy('tanggal_saldo_awal','desc')->first();
+                    SaldoAwal::create([
+                        'saldo_awal' => $lastsaldo->saldo_awal ?? 0,
+                        'tanggal_saldo_awal' => Date::Now(),
+                    ]); 
                 } else if($cekavailable == 0){
                     SaldoAwal::create([
                         'saldo_awal' => 0,
@@ -204,6 +263,13 @@ class TransactionController extends BaseController
                     ]);
                 } else {
                     $this->Calculate($request->tanggal);
+                }
+                if($request->total < $cekdata->sisa_bayar){
+                    $status = 'Partial';
+                } else if($request->total > $cekdata->sisa_bayar){
+                    $status = 'Over Payment';
+                } else if($request->total == $cekdata->sisa_bayar){
+                    $status = 'Paid';
                 }
                 $transaction = Transactions::create([
                     'uuid' => UUID::generateUuid(),
@@ -215,19 +281,37 @@ class TransactionController extends BaseController
                     'transaction_date' => $request->tanggal,
                     'amount' => $request->total,
                     'description' => ucfirst($request->description),
-                    'status' => $request->status,
+                    'status' => $status,
                     'created_at' => Date::Now(),
                     'updated_at' => Date::Now(),
                 ]);
                 $cekdata->update([
                     'tanggal_payment' => $request->tanggal,
-                    'status' => $request->status,
+                    'sisa_bayar' => $cekdata->sisa_bayar - $request->total,
+                    'status' => $status,
                     'updated_at' => Date::Now(),
                 ]);
             }
             return Response::json(['status'=>201,'message'=>'Salary berhasil dibuat']);
+    }
+
+    public function getPaymentSalary(Request $request)
+    {
+        $cekpayment = Transactions::query()
+                                    ->where('reference_table','=','salaries')
+                                    ->where('reference_id','=',$request->id)
+                                    ->get();
+        if($cekpayment){
+            return Response::json([
+                'status' => 200,
+                'message' => 'success get data',
+                'data' => $cekpayment
+            ]);
         } else {
-            return Response::json(['status'=>500,'message'=>'Sudah melakukan payment salary']);
+            return Response::json([
+                'status' => 500,
+                'message' => 'no data',
+            ]);
         }
     }
 

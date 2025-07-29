@@ -108,8 +108,11 @@ Route::group([AuthMiddleware::class],function(){
     Route::get('/transaction',[TransactionController::class, 'index']);
     Route::get('/gettransaction', [TransactionController::class, 'getTransaction']);
     Route::post('/transaction',[TransactionController::class, 'createMaintenance']);
+    Route::post('/getmaintenanceid', [TransactionController::class, 'getPaymentMaintenance']);
     Route::post('/transactionclaim',[TransactionController::class, 'createClaim']);
+    Route::post('/getclaimid', [TransactionController::class, 'getPaymentClaim']);
     Route::post('/transactionsalary',[TransactionController::class, 'createSalary']);
+    Route::post('/getsalaryid', [TransactionController::class, 'getPaymentSalary']);
     Route::put('/utransaction/{id}', [TransactionController::class, 'update']);
     Route::delete('/transaction/{id}', [TransactionController::class, 'delete']);
     

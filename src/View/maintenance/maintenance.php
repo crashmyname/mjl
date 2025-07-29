@@ -322,10 +322,17 @@
                                                 <input type="date" name="tanggal" id="ptanggal" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
+                                                <label>Sisa Bayar</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input type="text" name="sisa_bayar" id="psisa_bayar" class="form form-control" readonly>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label>Total</label>
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <input type="number" name="total" id="ptotal" class="form form-control">
+                                                <input type="text" name="" id="vptotal" class="form form-control">
+                                                <input type="hidden" name="total" id="ptotal" class="form form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Description</label>
@@ -333,7 +340,7 @@
                                             <div class="col-md-8 form-group">
                                                 <textarea name="description" id="description" class="form-control"></textarea>
                                             </div>
-                                            <div class="col-md-4">
+                                            <!-- <div class="col-md-4">
                                                 <label>Status</label>
                                             </div>
                                             <div class="col-md-8 form-group">
@@ -342,11 +349,29 @@
                                                     <option value="Paid">Paid</option>
                                                     <option value="Partial">Partial</option>
                                                 </select>
-                                            </div>
+                                            </div> -->
                                             <div class="col-sm-12 d-flex justify-content-end">
                                                 <button type="reset"
                                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <table class="table table-striped" id="table-maintenance-detail">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Reference</th>
+                                                        <th>Jenis</th>
+                                                        <th>Amount</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -492,7 +517,7 @@
                     data: 'bon',
                     name: 'bon',
                     render: function(data,type,row){
-                        var urlAsset = "<?= asset('document/data/transactions')?>";
+                        var urlAsset = "<?= asset('document/data/maintenance')?>";
                         return '<img src="'+urlAsset+'/'+data+'" width="50%" alt="bon">';
                     }
                 },
@@ -500,7 +525,7 @@
                     data: 'bukti',
                     name: 'bukti',
                     render: function(data,type,row){
-                        var urlAsset = "<?= asset('document/data/transactions');?>";
+                        var urlAsset = "<?= asset('document/data/maintenance');?>";
                         return '<img src="'+urlAsset+'/'+data+'" width="50%" alt="bon">';
                     }
                 },
@@ -508,7 +533,7 @@
                     data: 'buktipotong',
                     name: 'buktipotong',
                     render: function(data,type,row){
-                        var urlAsset = "<?= asset('document/data/transactions');?>";
+                        var urlAsset = "<?= asset('document/data/maintenance');?>";
                         return '<img src="'+urlAsset+'/'+data+'" width="50%" alt="bon">';
                     }
                 },
@@ -691,13 +716,15 @@
             var vehicle_id = $('#pvehicle_id');
             var tanggal = $('#ptanggal');
             var total = $('#ptotal');
+            var sisa_bayar = $('#psisa_bayar');
             var status = $('#pstatus');
             var maintenance = $('#pmaintenance');
             if(selectedData.length > 0){
                 vehicle_id.val(selectedData[0].plat_number+' '+selectedData[0].truck_type);
                 maintenance.val(selectedData[0].maintenance_id);
                 tanggal.val(selectedData[0].tanggal);
-                total.val(selectedData[0].total);
+                // total.val(selectedData[0].total).text(parseFloat(selectedData[0].total).toLocaleString('id-ID'));
+                sisa_bayar.val(parseFloat(selectedData[0].sisa_bayar).toLocaleString('id-ID'));
                 status.val(selectedData[0].status);
                 $('#modalPayment').modal('show');
             } else {
@@ -708,6 +735,35 @@
                     text: 'No Data Selected',
                 });
             }
+            $.ajax({
+                type: 'POST',
+                data: {
+                    id: selectedData[0].maintenance_id
+                },
+                url: '<?= base_url().'/getmaintenanceid'?>',
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': '<?= csrfHeader()?>'
+                },
+                success: function(response){
+                    if(response.status === 200){
+                        const tbody = $('#table-maintenance-detail tbody');
+                        tbody.empty();
+
+                        let i = 1;
+                        response.data.forEach(row => {
+                            const html = `
+                                <tr>
+                                    <td>${row.reference_table}</td>
+                                    <td>${row.jenis_transaction}</td>
+                                    <td>Rp. ${parseFloat(row.amount).toLocaleString('id-ID')}</td>
+                                    <td>${row.status}</td>
+                                </tr>`;
+                            tbody.append(html);
+                        });
+                    }
+                }
+            })
         })
         $('#addpayment').on('click', function(e){
             e.preventDefault();
@@ -945,6 +1001,15 @@
                     $(this).val('');
                 }
             $('#harga').val(value)
+        })
+        $('#vptotal').on('input', function(){
+            let value = $(this).val().replace(/\D/g, '');
+                if (value) {
+                    $(this).val(parseInt(value, 10).toLocaleString('id-ID'))
+                } else {
+                    $(this).val('');
+                }
+            $('#ptotal').val(value)
         })
         $('#rpjasa').on('input', function(){
             let value = $(this).val().replace(/\D/g, '');
