@@ -26,7 +26,8 @@ class VendorController extends BaseController
     public function getShippers(Request $request)
     {
         if(Request::isAjax()){
-            $vendor = Vendors::query()->where('deleted_at','=',null)->get();
+            $vendor = Vendors::query()->select('uuid','company_name','address','sales','sales_support','email','phone','npwp','created_at')
+                                ->where('deleted_at','=',null)->get();
             return DataTables::of($vendor)->make(true);
         }
     }

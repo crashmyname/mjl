@@ -264,6 +264,7 @@
             ajax: '<?= base_url()?>/getshippers',
             processing:true,
             serverSide:true,
+            defer: 0,
             select:true,
             responsive:true,
             columns:[
