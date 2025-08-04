@@ -242,7 +242,7 @@
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>NPWP</th>
-                                <th>Created at</th>
+                                <!-- <th>Created at</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -264,8 +264,8 @@
             ajax: '<?= base_url()?>/getshippers',
             processing:true,
             serverSide:true,
-            responsive:false,
             select:true,
+            responsive:true,
             columns:[
                 {
                     data: 'uuid',
@@ -302,10 +302,10 @@
                     data: 'npwp',
                     name: 'npwp'
                 },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
+                // {
+                //     data: 'created_at',
+                //     name: 'created_at'
+                // },
             ],
             lengthMenu: [10,25,50,100],
             dom: 'Blftrip',
