@@ -261,14 +261,11 @@
             $('#dataTable').DataTable().clear().destroy();
         }
         table = $('#dataTable').DataTable({
-            ajax: {
-                url : '<?= base_url()?>/getshippers',
-                type: 'GET',
-            },
+            ajax: '<?= base_url()?>/getshippers',
             processing:true,
             serverSide:true,
+            responsive:false,
             select:true,
-            responsive:true,
             columns:[
                 {
                     data: 'uuid',
