@@ -264,8 +264,8 @@
             ajax: '<?= base_url()?>/getshippers',
             processing:true,
             serverSide:true,
+            responsive:true,
             select:true,
-            responsive:false,
             columns:[
                 {
                     data: 'uuid',
