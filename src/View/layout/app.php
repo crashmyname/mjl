@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="<?= asset('mazer/assets/css/main/app.css') ?>">
     <link rel="stylesheet" href="<?= asset('mazer/assets/css/main/app-dark.css') ?>">
 
-    <link rel="shortcut icon" href="<?= asset('documents/logomjl.png') ?>" type="image/x-icon">
-    <link rel="shortcut icon" href="<?= asset('documents/logomjl.png') ?>" type="image/png">
+    <link rel="shortcut icon" href="<?= asset('documents/newlogo.jpeg') ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= asset('documents/newlogo.jpeg') ?>" type="image/png">
     <link rel="manifest" href="<?= asset('manifest.json')?>">
     <meta name="theme-color" content="#007bff">
 
@@ -74,7 +74,7 @@
                 <div class="sidebar-header position-relative">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo">
-                            <a href="<?= base_url()?>"><img src="<?= asset('documents/logomjl.png') ?>"
+                            <a href="<?= base_url()?>"><img src="<?= asset('documents/newlogo.jpeg') ?>"
                                     alt="Logo" srcset="" width="155%" style="height:60px"></a>
                         </div>
                         <div class="theme-toggle d-flex gap-2  align-items-center mt-2">

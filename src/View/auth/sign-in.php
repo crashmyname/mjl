@@ -7,8 +7,8 @@
     <title>Login - MJL Admin System</title>
     <link rel="stylesheet" href="<?= asset('mazer/assets/css/main/app.css') ?>">
     <link rel="stylesheet" href="<?= asset('mazer/assets/css/pages/auth.css') ?>">
-    <link rel="shortcut icon" href="<?= asset('documents/logomjl.png') ?>" type="image/x-icon">
-    <link rel="shortcut icon" href="<?= asset('documents/logomjl.png') ?>" type="image/png">
+    <link rel="shortcut icon" href="<?= asset('documents/newlogo.jpeg') ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= asset('documents/newlogo.jpeg') ?>" type="image/png">
     <link rel="manifest" href="<?= asset('manifest.json')?>">
     <meta name="theme-color" content="#007bff">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -29,7 +29,7 @@
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
                     <div class="auth-logo mt-0">
-                        <a href="<?= base_url() ?>"><img src="<?= asset('documents/mjlwidth.png') ?>"
+                        <a href="<?= base_url() ?>"><img src="<?= asset('documents/newlogo.jpeg') ?>"
                                 alt="Logo" width="40%"></a>
                     </div>
                     <h1 class="">Log in.</h1>
